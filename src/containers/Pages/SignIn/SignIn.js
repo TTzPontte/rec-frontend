@@ -8,13 +8,13 @@ import {
   Logo,
   Form,
 } from "./SignIn.styles";
+import { logIn, logOut } from "@iso/lib/aws/amplify/index";
 import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
-
 import LogoGoogle from "@iso/assets/logo-google.svg";
 
 export default function SignIn() {
   const hasError = true;
-  const handleLogInFn = () => {};
+  const handleLogInFn = () => logIn(); // TODO: retirar
 
   return (
     <Container>
@@ -45,8 +45,7 @@ export default function SignIn() {
             <Message className="errorLogin">
               Parece que algo deu errado! Que tal tentarmos novamente?
             </Message>
-          ))()
-        }
+          ))()}
 
         <Message
           style={hasError ? { animation: "1s ease-out 0s 1 downMessage" } : {}}
