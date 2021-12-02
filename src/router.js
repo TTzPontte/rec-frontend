@@ -11,7 +11,6 @@ import ErrorBoundary from "./ErrorBoundary";
 import { PUBLIC_ROUTE } from "./route.constants";
 import { PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/utility/loader";
-import { store } from "./redux/store";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
 
@@ -32,19 +31,7 @@ const publicRoutes = [
   {
     path: PUBLIC_ROUTE.SIGN_IN,
     component: lazy(() => import("@iso/containers/Pages/SignIn/SignIn")),
-  },
-  {
-    path: PUBLIC_ROUTE.FORGET_PASSWORD,
-    component: lazy(() =>
-      import("@iso/containers/Pages/ForgotPassword/ForgotPassword")
-    ),
-  },
-  {
-    path: PUBLIC_ROUTE.RESET_PASSWORD,
-    component: lazy(() =>
-      import("@iso/containers/Pages/ResetPassword/ResetPassword")
-    ),
-  },
+  }
 ];
 function PrivateRoute({ children, ...rest }) {
   const isAuthenticated = !!useSelector(
