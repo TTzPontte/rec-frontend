@@ -7,7 +7,7 @@ import TopbarMessage from './TopbarMessage';
 import TopbarSearch from './TopbarSearch';
 import TopbarUser from './TopbarUser';
 import TopbarAddtoCart from './TopbarAddToCart';
-import TopbarWrapper from './Topbar.styles';
+
 
 import {
   Container,
@@ -50,33 +50,6 @@ export default function Topbar() {
     height: 70,
   };
   return (
-    <TopbarWrapper>
-      {/* <Header
-        style={styling}
-        className={
-          isCollapsed ? 'isomorphicTopbar collapsed' : 'isomorphicTopbar'
-        }
-      > */}
-        {/* <div className="isoLeft">
-          <button
-            className={
-              isCollapsed ? 'triggerBtn menuCollapsed' : 'triggerBtn menuOpen'
-            }
-            style={{ color: customizedTheme.textColor }}
-            onClick={handleToggle}
-          />
-        </div> */}
-
-        {/* <div className="isoCenter">
-            <h1>Portal</h1>
-        </div>
-
-        <ul className="isoRight">
-          <li onClick={() => setSelectedItem('user')} className="isoUser">
-            <TopbarUser />
-          </li>
-        </ul>
-      </Header> */}
       <Container>
       <Header>
         <Logo>
@@ -95,6 +68,5 @@ export default function Topbar() {
         </UserDiv>
       </Header> 
       </Container>     
-    </TopbarWrapper>
   );
 }

@@ -34,7 +34,7 @@ export const Form = styled.div`
   flex-direction: column;
   margin-bottom: 16px;
   width: 800px;
-  height: 70px;
+  // height: 70px;
 
   background-color: #ffffff;
   border-radius: 8px;
@@ -54,12 +54,12 @@ export const Form = styled.div`
     font: normal normal bold 16px/19px Lato;
   }
 
-  main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
+  // main {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   height: 100%;
+  // }
 `;
 
 export const BtnGoogle = styled.div`
