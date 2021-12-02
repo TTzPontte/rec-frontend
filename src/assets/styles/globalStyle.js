@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import { palette, font } from 'styled-theme';
+import { createGlobalStyle } from "styled-components";
+import { palette, font } from "styled-theme";
 // import 'antd/dist/antd.css';
 
 const GlobalStyles = createGlobalStyle`
@@ -146,7 +146,7 @@ const GlobalStyles = createGlobalStyle`
     background: #f8f8f8!important;
 }
 
-font-family: ${font('primary', 0)};
+font-family: ${font("primary", 0)};
 
 h1,
 h2,
@@ -164,14 +164,16 @@ div,
 img,
 svg {
   &::selection {
-    background: ${palette('primary', 0)};
+    background: ${palette("primary", 0)};
     color: #fff;
   }
 }
 
 .ant-row:not(.ant-form-item) {
-  ${'' /* margin-left: -8px;
-  margin-right: -8px; */};
+  ${
+    "" /* margin-left: -8px;
+  margin-right: -8px; */
+  };
   &:before,
   &:after {
     display: none;
@@ -438,7 +440,44 @@ html[dir='rtl'] .ant-notification-notice-with-icon {
 
 html[dir='rtl'] .dz-hidden-input {
   display: none;
+
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #FFFFFF;
+    color: #5C3B6B;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body, input, button {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  h1, h2, h3, h4 , h5, h6, strong {
+    font-weight: 500;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export default GlobalStyles;
