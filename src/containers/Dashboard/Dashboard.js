@@ -18,7 +18,7 @@ const { toggleAll } = appActions;
 const styles = {
   layout: { flexDirection: 'row', overflowX: 'hidden' },
   content: {
-    padding: '70px 0 0',
+    //padding: '70px 0 0',
     flexShrink: '0',
     background: '#f1f3f6',
     position: 'relative',
