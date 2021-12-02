@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Header,
@@ -12,15 +12,23 @@ import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 import LogoGoogle from "@iso/assets/logo-google.svg";
 import { logInAct } from "@iso/redux/auth/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export default function SignIn() {
-  const Auth = useSelector(({Auth}) => Auth);
-  console.log(Auth);
+  let history = useHistory();
+  const Auth = useSelector(({ Auth }) => Auth);
+
+  useEffect(() => {
+    if (!!Auth.credentials.userToken) {
+      history.push("/dashboard");
+    }
+  }, [Auth.credentials.userToken, history]);
+
   const hasError = Auth.hasError;
   const dispatch = useDispatch();
 
   const handlerLogIn = () => dispatch(logInAct());
-  
+
   return (
     <Container>
       <Header>

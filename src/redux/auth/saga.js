@@ -1,8 +1,5 @@
 import { all, call, takeEvery, put, fork, select } from "redux-saga/effects";
-import { createBrowserHistory } from "history";
-
-import { getToken, clearToken } from "@iso/lib/helpers/utility";
-import { ACTIONS as ACT, logOutAct } from "./actions"; // auth0 or express JWT
+import { ACTIONS as ACT } from "./actions"; // auth0 or express JWT
 
 import {
   getUserSession,
@@ -10,25 +7,25 @@ import {
   logOutGoogle,
 } from "@iso/lib/aws/amplify";
 
-const history = createBrowserHistory();
-
 export function* checkAuthorization() {
   yield takeEvery(ACT.CHECK_AUTHORIZATION, function* () {
     try {
       let { user, token } = yield call(getUserSession);
 
-      if (!token) yield put({ type: ACT.LOGIN_ERROR });
-
-      yield put({
-        type: ACT.LOGIN_SUCCESS,
-        payload: {
-          profile: user,
-          credentials: {
-            userToken: token,
+      if (token) {
+        yield put({
+          type: ACT.LOGIN_SUCCESS,
+          payload: {
+            profile: user,
+            credentials: {
+              userToken: token,
+            },
+            isLoading: false,
           },
-        },
-      });
-
+        });
+      } else {
+        yield put({ type: ACT.LOGIN_ERROR });
+      }
     } catch {
       yield;
     }
@@ -40,10 +37,7 @@ export function* loginRequest(teste) {
 }
 
 export function* loginSuccess() {
-  yield takeEvery(ACT.LOGIN_SUCCESS, function* ({ payload }) {
-    yield localStorage.setItem("id_token", JSON.stringify(payload));
-    yield localStorage.setItem("id_token", JSON.stringify(payload));
-  });
+  yield takeEvery(ACT.LOGIN_SUCCESS, () => {});
 }
 
 export function* logout() {
