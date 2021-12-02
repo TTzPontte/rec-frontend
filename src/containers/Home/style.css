@@ -65,10 +65,16 @@ body {
   width: 150px;
   height: 49px;
   margin: 12px;
-  background-color: #5c3b6b;
+  background: #5c3b6b;
   color: #ffffff;
   border: 0px;
   border-radius: 5px;
+}
+
+.home_botao-busca:hover, .home_botao-busca:focus {
+  color: #fff;
+  background: #5c3b6b;
+  border-color: #5c3b6b;
 }
 
 .home_input-busca {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout } from 'antd';
 import appActions from '@iso/redux/app/actions';
@@ -9,10 +9,32 @@ import TopbarUser from './TopbarUser';
 import TopbarAddtoCart from './TopbarAddToCart';
 import TopbarWrapper from './Topbar.styles';
 
-const { Header } = Layout;
+import {
+  Container,
+  Header,
+  Logo,
+  UserDiv,
+  UserImage,
+  UserInfoDiv,
+  UserImageDiv,
+  TextoUserName,
+  TextoUserEmail,
+} from './Topbar.styles';
+
+import { ReactComponent as SvgLogoPontte } from '../../assets/logo-pontte.svg';
+
+const styleLogoPontte = {
+  width: '160px',
+  height: '36px',
+  color: '#5C3B6B',
+};
+
+// const { Header } = Layout;
 const { toggleCollapsed } = appActions;
 
 export default function Topbar() {
+  const [user, setUser] = useState({name: "Fulano", email:"fulano@mail.com", picture:"ble"});
+
   const [selectedItem, setSelectedItem] = React.useState('');
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
@@ -29,12 +51,12 @@ export default function Topbar() {
   };
   return (
     <TopbarWrapper>
-      <Header
+      {/* <Header
         style={styling}
         className={
           isCollapsed ? 'isomorphicTopbar collapsed' : 'isomorphicTopbar'
         }
-      >
+      > */}
         {/* <div className="isoLeft">
           <button
             className={
@@ -45,7 +67,7 @@ export default function Topbar() {
           />
         </div> */}
 
-        <div className="isoCenter">
+        {/* <div className="isoCenter">
             <h1>Portal</h1>
         </div>
 
@@ -54,7 +76,25 @@ export default function Topbar() {
             <TopbarUser />
           </li>
         </ul>
-      </Header>
+      </Header> */}
+      <Container>
+      <Header>
+        <Logo>
+          <SvgLogoPontte style={styleLogoPontte} />
+        </Logo>
+        <UserDiv>
+          <UserInfoDiv>
+            <TextoUserName>{user.name}</TextoUserName>
+            <TextoUserEmail>{user.email}</TextoUserEmail>
+          </UserInfoDiv>
+          <UserImageDiv>
+            <section>
+              <UserImage src={user.picture} alt={user.name} />
+            </section>
+          </UserImageDiv>
+        </UserDiv>
+      </Header> 
+      </Container>     
     </TopbarWrapper>
   );
 }
