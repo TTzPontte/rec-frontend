@@ -33,10 +33,6 @@ const publicRoutes = [
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
   {
-    path: PUBLIC_ROUTE.SIGN_UP,
-    component: lazy(() => import('@iso/containers/Pages/SignUp/SignUp')),
-  },
-  {
     path: PUBLIC_ROUTE.FORGET_PASSWORD,
     component: lazy(() =>
       import('@iso/containers/Pages/ForgotPassword/ForgotPassword')
@@ -48,12 +44,6 @@ const publicRoutes = [
       import('@iso/containers/Pages/ResetPassword/ResetPassword')
     ),
   },
-  {
-    path: PUBLIC_ROUTE.AUTH0_CALLBACK,
-    component: lazy(() =>
-      import('@iso/containers/Authentication/Auth0/Auth0Callback')
-    ),
-  },
 ];
 function PrivateRoute({ children, ...rest }) {
   const isLoggedIn = useSelector((state) => state.Auth.idToken);
@@ -62,7 +52,7 @@ function PrivateRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        isLoggedIn ? (
+        true ? (
           children
         ) : (
           <Redirect

@@ -1,63 +1,57 @@
-import { all, takeEvery, put, fork } from 'redux-saga/effects';
-import { createBrowserHistory } from 'history';
+import { all, call, takeEvery, put, fork } from "redux-saga/effects";
+import { createBrowserHistory } from "history";
 
-import { getToken, clearToken } from '@iso/lib/helpers/utility';
-import actions from './actions';
+import { getToken, clearToken } from "@iso/lib/helpers/utility";
+import { ACTIONS as ACT } from "./actions"; // auth0 or express JWT
+
+import { getUserSession } from "@iso/lib/aws/amplify";
 
 const history = createBrowserHistory();
-const fakeApiCall = true; // auth0 or express JWT
 
-export function* loginRequest() {
-  yield takeEvery('LOGIN_REQUEST', function*({ payload }) {
-    const { token } = payload;
-    if (token) {
+export function* checkAuthorization() {
+  yield takeEvery(ACT.CHECK_AUTHORIZATION, function* () {
+    try {
+      let { user, token } = yield call(getUserSession);
+
+      if (!token) throw new Error("User not found");
+
       yield put({
-        type: actions.LOGIN_SUCCESS,
-        token: token,
-        profile: 'Profile',
+        type: ACT.LOGIN_SUCCESS,
+        payload: {
+          profile: user,
+          credentials: {
+            userToken: token,
+          },
+        },
       });
-    } else {
-      if (fakeApiCall) {
-        yield put({
-          type: actions.LOGIN_SUCCESS,
-          token: 'secret token',
-          profile: 'Profile',
-        });
-      } else {
-        yield put({ type: actions.LOGIN_ERROR });
-      }
+    } catch {
+      yield put({ type: ACT.LOGIN_ERROR });
     }
   });
 }
 
+export function* loginRequest(teste) {
+  yield takeEvery(ACT.LOGIN_REQUEST, function* () {});
+}
+
 export function* loginSuccess() {
-  yield takeEvery(actions.LOGIN_SUCCESS, function*(payload) {
-    yield localStorage.setItem('id_token', payload.token);
+  yield takeEvery(ACT.LOGIN_SUCCESS, function* ({ payload }) {
+    yield localStorage.setItem("id_token", JSON.stringify(payload));
+    yield localStorage.setItem("id_token", JSON.stringify(payload));
   });
 }
 
 export function* loginError() {
-  yield takeEvery(actions.LOGIN_ERROR, function*() {});
+  yield takeEvery(ACT.LOGIN_ERROR, function* () {});
 }
 
 export function* logout() {
-  yield takeEvery(actions.LOGOUT, function*() {
+  yield takeEvery(ACT.LOGOUT, function* () {
     yield clearToken();
-    history.push('/');
+    history.push("/");
   });
 }
-export function* checkAuthorization() {
-  yield takeEvery(actions.CHECK_AUTHORIZATION, function*() {
-    const token = getToken().get('idToken');
-    if (token) {
-      yield put({
-        type: actions.LOGIN_SUCCESS,
-        token,
-        profile: 'Profile',
-      });
-    }
-  });
-}
+
 export default function* rootSaga() {
   yield all([
     fork(checkAuthorization),

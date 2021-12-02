@@ -1,6 +1,6 @@
-import { Auth } from '@aws-amplify/auth';
+import { Auth } from "@aws-amplify/auth";
 
-export const logIn = () => {
+export const logInGoogle = () => {
   const config = Auth.configure();
   const { domain, redirectSignIn, responseType } = config.oauth;
   const clientId = config.userPoolWebClientId;
@@ -9,29 +9,25 @@ export const logIn = () => {
   window.location.assign(urlToGoogle);
 };
 
-export const logOut = async () => {
+export const logOutGoogle = async () => {
   await Auth.signOut();
 };
 
 export const getUserSession = async () => {
-  try {
-    const cognito = await Auth.currentSession();
+  const cognito = await Auth.currentSession();
 
-    const idToken = cognito.getIdToken();
+  const idToken = cognito.getIdToken();
 
-    const awsToken = idToken.getJwtToken();
+  const awsToken = idToken.getJwtToken();
 
-    const { name, email, picture } = idToken.payload;
+  const { name, email, picture } = idToken.payload;
 
-    return {
-      user: {
-        name,
-        email,
-        picture,
-      },
-      token: awsToken,
-    };
-  } catch (e) {
-    throw new Error('Não foi possível localizar a sessão do usuário');
-  }
+  return {
+    user: {
+      name,
+      email,
+      picture,
+    },
+    token: awsToken,
+  };
 };
