@@ -27,7 +27,7 @@ export default function Home({ handleOperacao }) {
             dataIndex: 'uuid',
             rowKey: 'uuid',
             width: '5%',
-            className: 'home_tabela-cabecalho-left',
+            //className: 'home_tabela-cabecalho-left',
             render: (text) => <span>{text}</span>,
         },
         {
@@ -63,7 +63,7 @@ export default function Home({ handleOperacao }) {
             dataIndex: 'nome',
             rowKey: 'nome',
             width: '5%',
-            className: 'home_tabela-cabecalho-right',
+            //className: 'home_tabela-cabecalho-right',
             render: (text, operacao) => (
                 <Button
                     type="primary"
