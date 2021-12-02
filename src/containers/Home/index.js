@@ -195,8 +195,8 @@ export default function Home({ handleOperacao }) {
                 </Form>
 
                 <Row style={rowStyle} gutter={gutter} justify="start">
-                    <Col span={6}></Col>
-                    <Col span={12} style={colStyle}>
+                    <Col span={2}></Col>
+                    <Col span={20} style={colStyle}>
                         <TableWrapper
                             dataSource={processos}
                             columns={tableColumns}
@@ -208,7 +208,7 @@ export default function Home({ handleOperacao }) {
                             onChange={handleTableChange}
                         />
                     </Col>
-                    <Col span={6}></Col>
+                    <Col span={2}></Col>
                 </Row>
             </Main>
         </Container>        
