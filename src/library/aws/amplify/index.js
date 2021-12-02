@@ -9,9 +9,7 @@ export const logInGoogle = () => {
   window.location.assign(urlToGoogle);
 };
 
-export const logOutGoogle = async () => {
-  await Auth.signOut();
-};
+export const logOutGoogle = async () => Auth.signOut();
 
 export const getUserSession = async () => {
   const cognito = await Auth.currentSession();

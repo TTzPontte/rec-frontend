@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     picture: "",
   },
   hasError: false,
+  isLogOut: false,
 };
 
 export default function authReducer(state = INITIAL_STATE, action = {}) {
@@ -22,7 +23,10 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
     case ACT.LOGIN_REQUEST:
       return state;
     case ACT.LOGOUT:
-      return INITIAL_STATE;
+      return {
+        ...INITIAL_STATE,
+        isLogOut: true,
+      };
     case ACT.LOGIN_SUCCESS:
       return {
         ...state,
@@ -33,7 +37,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         hasError: true,
-      };;
+      };
     default:
       return state;
   }

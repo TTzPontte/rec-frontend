@@ -26,3 +26,11 @@ export const logOutAct = () => ({
 export const checkAuthorizationAct = () => ({
   type: ACTIONS.CHECK_AUTHORIZATION,
 });
+
+
+/**
+ * Ação que dispara quando há  erro no login
+ */
+ export const logInErrorAct = () => ({
+  type: ACTIONS.LOGIN_ERROR,
+});

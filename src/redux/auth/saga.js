@@ -1,10 +1,14 @@
-import { all, call, takeEvery, put, fork } from "redux-saga/effects";
+import { all, call, takeEvery, put, fork, select } from "redux-saga/effects";
 import { createBrowserHistory } from "history";
 
 import { getToken, clearToken } from "@iso/lib/helpers/utility";
-import { ACTIONS as ACT } from "./actions"; // auth0 or express JWT
+import { ACTIONS as ACT, logOutAct } from "./actions"; // auth0 or express JWT
 
-import { getUserSession } from "@iso/lib/aws/amplify";
+import {
+  getUserSession,
+  logInGoogle,
+  logOutGoogle,
+} from "@iso/lib/aws/amplify";
 
 const history = createBrowserHistory();
 
@@ -13,7 +17,7 @@ export function* checkAuthorization() {
     try {
       let { user, token } = yield call(getUserSession);
 
-      if (!token) throw new Error("User not found");
+      if (!token) yield put({ type: ACT.LOGIN_ERROR });
 
       yield put({
         type: ACT.LOGIN_SUCCESS,
@@ -24,14 +28,15 @@ export function* checkAuthorization() {
           },
         },
       });
+
     } catch {
-      yield put({ type: ACT.LOGIN_ERROR });
+      yield;
     }
   });
 }
 
 export function* loginRequest(teste) {
-  yield takeEvery(ACT.LOGIN_REQUEST, function* () {});
+  yield takeEvery(ACT.LOGIN_REQUEST, () => logInGoogle());
 }
 
 export function* loginSuccess() {
@@ -41,14 +46,10 @@ export function* loginSuccess() {
   });
 }
 
-export function* loginError() {
-  yield takeEvery(ACT.LOGIN_ERROR, function* () {});
-}
-
 export function* logout() {
   yield takeEvery(ACT.LOGOUT, function* () {
-    yield clearToken();
-    history.push("/");
+    yield put({ type: ACT.LOGOUT });
+    logOutGoogle();
   });
 }
 
@@ -57,7 +58,6 @@ export default function* rootSaga() {
     fork(checkAuthorization),
     fork(loginRequest),
     fork(loginSuccess),
-    fork(loginError),
     fork(logout),
   ]);
 }
