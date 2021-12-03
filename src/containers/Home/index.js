@@ -40,6 +40,7 @@ export default function Home({ handleOperacao }) {
         payload: {
             content: [
                 {
+                    id: 8124678,
                     nomeEmpresa: 'Fulano',
                     emailParceiro: 'email@fulano.com',
                     nomeParceiro: 'Parceiro Fulano',
@@ -57,6 +58,7 @@ export default function Home({ handleOperacao }) {
                     prazoPagamento: '360',
                 },
                 {
+                    id: 987523,
                     nomeEmpresa: 'Ciclado',
                     emailParceiro: 'email@fulano.com',
                     nomeParceiro: 'Parceiro Fulano',
@@ -74,6 +76,7 @@ export default function Home({ handleOperacao }) {
                     prazoPagamento: '360',
                 },
                 {
+                    id: 786124768,
                     nomeEmpresa: 'Beltrano',
                     emailParceiro: 'email@fulano.com',
                     nomeParceiro: 'Parceiro Fulano',

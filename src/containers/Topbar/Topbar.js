@@ -1,18 +1,13 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Layout } from 'antd';
 import appActions from '@iso/redux/app/actions';
-import TopbarNotification from './TopbarNotification';
-import TopbarMessage from './TopbarMessage';
-import TopbarSearch from './TopbarSearch';
-import TopbarUser from './TopbarUser';
-import TopbarAddtoCart from './TopbarAddToCart';
+import { Layout } from 'antd';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TopbarWrapper from './Topbar.styles';
 
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
 
-export default function Topbar() {
+export default function Topbar({operacao}) {
   const [selectedItem, setSelectedItem] = React.useState('');
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
@@ -46,14 +41,8 @@ export default function Topbar() {
         </div> */}
 
         <div className="isoCenter">
-            <h1>Portal</h1>
+            <h1>#{operacao.id}</h1>
         </div>
-
-        <ul className="isoRight">
-          <li onClick={() => setSelectedItem('user')} className="isoUser">
-            <TopbarUser />
-          </li>
-        </ul>
       </Header>
     </TopbarWrapper>
   );

@@ -13,10 +13,15 @@ h2 {
   margin-bottom: 20px !important;
   color: purple;
 }
+
 .fundoRoxo{
   background: purple;
+  color: white !important;
+  
 }
-
+  .ant-collapse-header{
+    color: white !important;
+  }
 
 .nome {
   margin-left: 10px;
@@ -39,7 +44,9 @@ h2 {
 }
 
 .pontilhado {
-  border: solid 1px black;
+  border: solid 1px purple;
+  border-left: solid 5px purple;
+  border-radius: 5px;
 }
 .conteudo {
   margin: 15px;

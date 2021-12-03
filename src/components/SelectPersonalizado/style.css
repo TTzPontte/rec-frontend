@@ -1,0 +1,44 @@
+.selectdDsabilitado {
+  font-size: 10px;
+  
+  border: solid 1px;
+  
+  border-color: transparent;
+  
+  font-weight: normal;
+  
+  color: darkblue;
+  
+  background: #FFFFFF;
+
+  box-shadow: 0 0 0 0;
+    outline: 0;
+
+    outline-width: 0 px;
+   outline-style: dashed;
+   outline-color: red;
+
+} 
+
+  
+.divInput { 
+  width: 80%; 
+  float: left;
+}
+  
+.hoverAzul:hover{
+  color: blue !important;
+}
+.hidden { display: none; }
+
+.iconeVerde{
+  margin-top: 6px;
+  padding-left: 15px;
+  color: green !important;
+  font-size: 20px;
+}
+.iconeCinza{
+  margin-top: 6px;
+  color: gray !important;
+  font-size: 20px;
+}

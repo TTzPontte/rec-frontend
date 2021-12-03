@@ -1,0 +1,28 @@
+.desabilitado {
+    box-shadow: 0 0 0 0 !important;
+    border: 0 none !important;
+    outline: 0 !important;
+  } 
+  
+  .divInput { 
+    width: 80%; 
+    float: left;
+  }
+  
+.hoverAzul:hover{
+    color: blue !important;
+}
+  .hidden { display: none; }
+
+  .iconeVerde{
+    margin-top: 6px;
+    padding-left: 15px;
+    color: green !important;
+    font-size: 20px;
+  }
+  .iconeCinza{
+    margin-top: 6px;
+    
+    color: gray !important;
+    font-size: 20px;
+  }

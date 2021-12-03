@@ -52,25 +52,27 @@ export default function Dashboard() {
   return (
     <DashboardContainer>
       <DashboardGlobalStyles />
-      <Layout style={{ height: height }}>
-        <Topbar />
+      {/* <Layout style={{ height: height }}>
+        <Topbar operacao={operacao}/> */}
 
-        {!operacao && (
-          <Layout
-            className="isoContentMainLayout"
-            style={{
-              height: appHeight,
-            }}
-          >
-            <Content className="isomorphicContent" style={styles.content}>
-              <Home handleOperacao={handleOperacao}/>
-              {/* <Button onClick={handleOperacao} >teste</Button> */}
-            </Content>
+      {!operacao && (
+        <Layout
+          className="isoContentMainLayout"
+          style={{
+            height: appHeight,
+          }}
+        >
+          <Content className="isomorphicContent" style={styles.content}>
+            <Home handleOperacao={handleOperacao} />
+            {/* <Button onClick={handleOperacao} >teste</Button> */}
+          </Content>
 
-          </Layout>
-        )}
+        </Layout>
+      )}
 
-        {operacao && (
+      {operacao && (
+        <Layout style={{ height: height }}>
+          <Topbar operacao={operacao} />
           <Layout style={styles.layout}>
             <Sidebar />
             <Layout
@@ -86,10 +88,10 @@ export default function Dashboard() {
             </Layout>
           </Layout>
 
-        )}
+          <ThemeSwitcher />
+        </Layout>
+      )}
 
-        <ThemeSwitcher />
-      </Layout>
     </DashboardContainer>
   );
 }
