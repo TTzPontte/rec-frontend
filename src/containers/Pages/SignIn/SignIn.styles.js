@@ -1,215 +1,129 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import bgImage from '@iso/assets/images/sign.jpg';
-import WithDirection from '@iso/lib/helpers/rtl';
+import styled from "styled-components";
 
-const SignInStyleWrapper = styled.div`
+export const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 86px 1fr;
+
   width: 100%;
-  min-height: 100vh;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
+`;
+
+export const Header = styled.header`
+  grid-column: 1/2;
+  grid-row: 1/2;
+
   position: relative;
-  background-size: cover;
-  //background: url(${bgImage}) no-repeat center center;
+  box-shadow: 0px 3px 6px #0000000d;
+`;
 
-  &:before {
-    content: '';
+export const Main = styled.main`
+  grid-column: 1/2;
+  grid-row: 2/3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: #f0f0f7;
+`;
+
+export const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 15vh;
+  margin-bottom: 16px;
+  width: 424px;
+  height: 204px;
+
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px #00000029;
+
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 61px;
     width: 100%;
+    padding: 15px;
+
+    border-radius: 8px 8px 0px 0px;
+    background-color: #9d89a6;
+    color: #ffffff;
+    font: normal normal bold 16px/19px "Lato", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    display: flex;
-    background-color: #ffffff;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: ${(props) => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
-    right: ${(props) => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
-    background: url(${bgImage}) no-repeat center center;
-  }
-
-  .isoLoginContentWrapper {
-    width: 500px;
-    overflow-y: auto;
-    z-index: 10;
-    position: relative;
-  }
-
-  .isoLoginContent {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 30px 20px;
-    position: relative;
-    background-color: #ffffff;
-    border-radius: 10px;
-
-    @media only screen and (max-width: 767px) {
-      width: 100%;
-      padding: 70px 20px;
-    }
-
-    .isoLogoWrapper {
-      width: 100%;
-      display: flex;
-      margin-bottom: 50px;
-      justify-content: center;
-      flex-shrink: 0;
-
-      a {
-        font-size: 24px;
-        font-weight: 300;
-        line-height: 1;
-        text-transform: uppercase;
-        color: ${palette('secondary', 2)};
-      }
-    }
-
-    .isoSignInForm {
-      width: 100%;
-      display: flex;
-      flex-shrink: 0;
-      flex-direction: column;
-
-      .isoInputWrapper {
-        margin-bottom: 15px;
-
-        &:last-of-type {
-          margin-bottom: 0;
-        }
-
-        input {
-          &::-webkit-input-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-
-          &:-moz-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-
-          &::-moz-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-          &:-ms-input-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-        }
-      }
-
-      .isoHelperText {
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 1.2;
-        color: ${palette('grayscale', 1)};
-        padding-left: ${(props) =>
-          props['data-rtl'] === 'rtl' ? 'inherit' : '13px'};
-        padding-right: ${(props) =>
-          props['data-rtl'] === 'rtl' ? '13px' : 'inherit'};
-        margin: 15px 0;
-        position: relative;
-        display: flex;
-        align-items: center;
-
-        &:before {
-          content: '*';
-          color: ${palette('error', 0)};
-          padding-right: 3px;
-          font-size: 14px;
-          line-height: 1;
-          position: absolute;
-          top: 2px;
-          left: ${(props) => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
-          right: ${(props) => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
-        }
-      }
-
-      .isoHelperWrapper {
-        margin-top: 35px;
-        flex-direction: column;
-      }
-
-      .isoOtherLogin {
-        padding-top: 40px;
-        margin-top: 35px;
-        border-top: 1px dashed ${palette('grayscale', 2)};
-
-        > a {
-          display: flex;
-          margin-bottom: 10px;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-
-        button {
-          width: 100%;
-          height: 42px;
-          border: 0;
-          font-weight: 500;
-
-          &.btnFacebook {
-            background-color: #3b5998;
-
-            &:hover {
-              background-color: darken(#3b5998, 5%);
-            }
-          }
-
-          &.btnGooglePlus {
-            background-color: #dd4b39;
-            margin-top: 15px;
-
-            &:hover {
-              background-color: darken(#dd4b39, 5%);
-            }
-          }
-
-          &.btnAuthZero {
-            background-color: #e14615;
-            margin-top: 15px;
-
-            &:hover {
-              background-color: darken(#e14615, 5%);
-            }
-          }
-
-          &.btnFirebase {
-            background-color: ${palette('color', 5)};
-            margin-top: 15px;
-
-            &:hover {
-              background-color: ${palette('color', 6)};
-            }
-          }
-
-          &.btnAccountKit {
-            ${'' /* background-color: rgb(150, 189, 235); */}
-            margin-top: 15px;
-
-            &:hover {
-              ${'' /* background-color: ${palette('color', 6)}; */}
-            }
-          }
-        }
-      }
-
-      .isoForgotPass {
-        font-size: 12px;
-        color: ${palette('text', 3)};
-        margin-bottom: 10px;
-        text-decoration: none;
-
-        &:hover {
-          color: ${palette('primary', 0)};
-        }
-      }
-
-      button {
-        font-weight: 500;
-      }
-    }
   }
 `;
 
-export default WithDirection(SignInStyleWrapper);
+export const BtnGoogle = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 5px;
+
+  padding: 20px;
+  width: 248px;
+  height: 49px;
+
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #f0f0f7;
+  letter-spacing: 0.1px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #3b3349;
+`;
+
+export const Logo = styled.div`
+  top: 25%;
+  left: 60px;
+  position: absolute;
+`;
+
+export const Message = styled.p`
+  text-align: center;
+  font: medium 16px/20px Lato;
+  letter-spacing: 0.1px;
+  color: #3b3349;
+
+  &.errorLogin {
+    margin-bottom: 5px;
+    letter-spacing: 0.1px;
+    color: red;
+    animation-name: appearText;
+    animation-duration: 3s;
+  }
+
+  span {
+    font-size: 20px;
+  }
+
+  @keyframes appearText {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes downMessage {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+`;

@@ -1,13 +1,40 @@
-import appActions from '@iso/redux/app/actions';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Layout } from 'antd';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import TopbarWrapper from './Topbar.styles';
+import appActions from '@iso/redux/app/actions';
+import TopbarNotification from './TopbarNotification';
+import TopbarMessage from './TopbarMessage';
+import TopbarSearch from './TopbarSearch';
+import TopbarUser from './TopbarUser';
+import TopbarAddtoCart from './TopbarAddToCart';
 
-const { Header } = Layout;
+
+import {
+  Container,
+  Header,
+  Logo,
+  UserDiv,
+  UserImage,
+  UserInfoDiv,
+  UserImageDiv,
+  TextoUserName,
+  TextoUserEmail,
+} from './Topbar.styles';
+
+import { ReactComponent as SvgLogoPontte } from '../../assets/logo-pontte.svg';
+
+const styleLogoPontte = {
+  width: '160px',
+  height: '36px',
+  color: '#5C3B6B',
+};
+
+// const { Header } = Layout;
 const { toggleCollapsed } = appActions;
 
-export default function Topbar({operacao}) {
+export default function Topbar() {
+  const [user, setUser] = useState({name: "Fulano", email:"fulano@mail.com", picture:"ble"});
+
   const [selectedItem, setSelectedItem] = React.useState('');
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
@@ -23,27 +50,23 @@ export default function Topbar({operacao}) {
     height: 70,
   };
   return (
-    <TopbarWrapper>
-      <Header
-        style={styling}
-        className={
-          isCollapsed ? 'isomorphicTopbar collapsed' : 'isomorphicTopbar'
-        }
-      >
-        {/* <div className="isoLeft">
-          <button
-            className={
-              isCollapsed ? 'triggerBtn menuCollapsed' : 'triggerBtn menuOpen'
-            }
-            style={{ color: customizedTheme.textColor }}
-            onClick={handleToggle}
-          />
-        </div> */}
-
-        <div className="isoCenter">
-            <h1>#{operacao.id}</h1>
-        </div>
-      </Header>
-    </TopbarWrapper>
+      <Container>
+      <Header>
+        <Logo>
+          <SvgLogoPontte style={styleLogoPontte} />
+        </Logo>
+        <UserDiv>
+          <UserInfoDiv>
+            <TextoUserName>{user.name}</TextoUserName>
+            <TextoUserEmail>{user.email}</TextoUserEmail>
+          </UserInfoDiv>
+          <UserImageDiv>
+            <section>
+              <UserImage src={user.picture} alt={user.name} />
+            </section>
+          </UserImageDiv>
+        </UserDiv>
+      </Header> 
+      </Container>     
   );
 }

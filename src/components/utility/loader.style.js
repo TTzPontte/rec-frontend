@@ -11,6 +11,7 @@ const LoaderComponent = styled.div`
   z-index: 10000000000;
   top: 0;
   right: 0;
+  background-color: #f1f3f6;
 
   @media only screen and (min-width: 768px) and (max-width: 1220px) {
     width: calc(100% - 80px);

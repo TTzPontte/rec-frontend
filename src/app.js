@@ -1,10 +1,16 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import GlobalStyles from '@iso/assets/styles/globalStyle';
-import { store } from './redux/store';
-import Boot from './redux/boot';
-import Routes from './router';
-import AppProvider from './AppProvider';
+import React, { useEffect } from "react";
+import { Provider } from "react-redux";
+import GlobalStyles from "@iso/assets/styles/globalStyle";
+import { store } from "./redux/store";
+import Routes from "./router";
+import AppProvider from "./AppProvider";
+import Amplify from "@aws-amplify/auth";
+import awsConfig from "./config/amplify.config";
+import initBootAuthenticated from "./redux/auth/boot";
+
+Amplify.configure(awsConfig);
+
+initBootAuthenticated();
 
 const App = () => (
   <Provider store={store}>
@@ -14,8 +20,5 @@ const App = () => (
     </AppProvider>
   </Provider>
 );
-Boot()
-  .then(() => App())
-  .catch(error => console.error(error));
 
 export default App;
