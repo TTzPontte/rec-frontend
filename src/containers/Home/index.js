@@ -177,6 +177,7 @@ export default function Home({ handleOperacao }) {
                     <Col span={2}></Col>
                     <Col span={20} style={colStyle}>
                         <TableWrapper
+                            rowKey='uuid'
                             dataSource={processosSearch.processos}
                             columns={tableColumns}
                             pagination={{
@@ -185,7 +186,7 @@ export default function Home({ handleOperacao }) {
                                 // pageSize: processosSearch.take,
                             }}
                             style={{ marginTop: '20px', width: '100%' }}
-                            onChange={handleTableChange}
+                            onChange={handleTableChange}                            
                         />
                     </Col>
                     <Col span={2}></Col>
