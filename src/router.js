@@ -9,8 +9,9 @@ import { useSelector } from "react-redux";
 
 import ErrorBoundary from "./ErrorBoundary";
 import { PUBLIC_ROUTE } from "./route.constants";
-import { PRIVATE_ROUTE } from "./route.constants";
+ import { PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/utility/loader";
+import SignIn from "./containers/Pages/SignIn/SignIn";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
 
@@ -18,7 +19,7 @@ const publicRoutes = [
   {
     path: PRIVATE_ROUTE.DASHBOARD,
     exact: true,
-    component: lazy(() => import("@iso/containers/Pages/SignIn/SignIn")),
+    component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
   {
     path: PUBLIC_ROUTE.PAGE_404,
@@ -31,11 +32,11 @@ const publicRoutes = [
   {
     path: PUBLIC_ROUTE.SIGN_IN,
     component: lazy(() => import("@iso/containers/Pages/SignIn/SignIn")),
-  }
+  },
 ];
 function PrivateRoute({ children, ...rest }) {
   const isAuthenticated = !!useSelector(
-    (state) => state.Auth.credentials.userToken
+    ({ Auth }) => Auth.credentials.userToken
   );
 
   return (
@@ -60,8 +61,6 @@ function PrivateRoute({ children, ...rest }) {
 export default function Routes() {
   const { Auth } = useSelector((state) => state);
 
-  console.log("route", Auth.isLoading);
-
   return !Auth.isLoading ? (
     <ErrorBoundary>
       <Suspense fallback={<Loader />}>
@@ -79,5 +78,7 @@ export default function Routes() {
         </Router>
       </Suspense>
     </ErrorBoundary>
-  ) : null;
+  ) : (
+    <Loader />
+  );
 }

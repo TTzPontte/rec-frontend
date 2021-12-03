@@ -1,4 +1,4 @@
-import { all, call, takeEvery, put, fork, select } from "redux-saga/effects";
+import { all, call, takeEvery, put, fork } from "redux-saga/effects";
 import { ACTIONS as ACT } from "./actions"; // auth0 or express JWT
 
 import {
@@ -6,28 +6,28 @@ import {
   logInGoogle,
   logOutGoogle,
 } from "@iso/lib/aws/amplify";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 export function* checkAuthorization() {
   yield takeEvery(ACT.CHECK_AUTHORIZATION, function* () {
     try {
       let { user, token } = yield call(getUserSession);
 
-      if (token) {
-        yield put({
-          type: ACT.LOGIN_SUCCESS,
-          payload: {
-            profile: user,
-            credentials: {
-              userToken: token,
-            },
-            isLoading: false,
+      if (!token) throw new Error("User not Found");
+
+      yield put({
+        type: ACT.LOGIN_SUCCESS,
+        payload: {
+          profile: user,
+          credentials: {
+            userToken: token,
           },
-        });
-      } else {
-        yield put({ type: ACT.LOGIN_ERROR });
-      }
-    } catch {
-      yield;
+        },
+      });
+    } catch (e) {
+      yield put({ type: ACT.RESET });
     }
   });
 }
@@ -41,8 +41,8 @@ export function* loginSuccess() {
 }
 
 export function* logout() {
-  yield takeEvery(ACT.LOGOUT, function* () {
-    yield put({ type: ACT.LOGOUT });
+  yield takeEvery(ACT.LOGOUT, () => {
+    history.push("/");
     logOutGoogle();
   });
 }

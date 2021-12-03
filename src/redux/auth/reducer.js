@@ -11,12 +11,11 @@ const INITIAL_STATE = {
     picture: "",
   },
   hasError: false,
-  isLogOut: false,
   isLoading: true,
 };
 
+
 export default function authReducer(state = INITIAL_STATE, action = {}) {
-  console.log("reducer", action.type, { state }, { action });
 
   switch (action.type) {
     case ACT.CHECK_AUTHORIZATION:
@@ -24,21 +23,24 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
     case ACT.LOGIN_REQUEST:
       return state;
     case ACT.LOGOUT:
-      return {
-        ...INITIAL_STATE,
-        isLogOut: true,
-      };
+      return INITIAL_STATE
     case ACT.LOGIN_SUCCESS:
       return {
         ...state,
         profile: action.payload.profile,
         credentials: action.payload.credentials,
-        isLoading: action.payload.isLoading
+        isLoading: false,
       };
     case ACT.LOGIN_ERROR:
       return {
         ...state,
         hasError: true,
+        isLoading: false,
+      };
+    case ACT.RESET:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

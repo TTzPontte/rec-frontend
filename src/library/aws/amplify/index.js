@@ -12,20 +12,24 @@ export const logInGoogle = () => {
 export const logOutGoogle = async () => Auth.signOut();
 
 export const getUserSession = async () => {
-  const cognito = await Auth.currentSession();
+  try {
+    const cognito = await Auth.currentSession();
 
-  const idToken = cognito.getIdToken();
+    const idToken = cognito.getIdToken();
 
-  const awsToken = idToken.getJwtToken();
+    const awsToken = idToken.getJwtToken();
 
-  const { name, email, picture } = idToken.payload;
+    const { name, email, picture } = idToken.payload;
 
-  return {
-    user: {
-      name,
-      email,
-      picture,
-    },
-    token: awsToken,
-  };
+    return {
+      user: {
+        name,
+        email,
+        picture,
+      },
+      token: awsToken,
+    };
+  } catch {
+    return {};
+  }
 };

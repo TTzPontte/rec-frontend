@@ -1,8 +1,10 @@
 import { store } from "../store";
-import { checkAuthorizationAct, logInErrorAct } from "@iso/redux/auth/actions";
+import { logInErrorAct } from "@iso/redux/auth/actions";
 import { Hub } from "aws-amplify";
+import { checkAuthorizationAct } from "@iso/redux/auth/actions";
 
 export default function initBootAuthenticated(){
+  
   store.dispatch(checkAuthorizationAct());
 
   Hub.listen("auth", (data) => {
