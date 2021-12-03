@@ -27,6 +27,7 @@ export const Main = styled.main`
   align-items: center;
 
   background-color: #f0f0f7;
+  margin-top: 50px;
 `;
 
 export const Form = styled.div`

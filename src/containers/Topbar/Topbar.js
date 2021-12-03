@@ -33,7 +33,10 @@ const styleLogoPontte = {
 const { toggleCollapsed } = appActions;
 
 export default function Topbar() {
-  const [user, setUser] = useState({name: "Fulano", email:"fulano@mail.com", picture:"ble"});
+
+  const Auth = useSelector((state) => state.Auth)
+
+  const [user, setUser] = useState(Auth.profile);
 
   const [selectedItem, setSelectedItem] = React.useState('');
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);

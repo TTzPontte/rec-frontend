@@ -18,6 +18,7 @@ import {
 import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';  
 
 import Api from '../../api';
+import Topbar from "../Topbar/Topbar";
 
 export default function Home({ handleOperacao }) {
 
@@ -193,9 +194,14 @@ export default function Home({ handleOperacao }) {
         marginBottom: '5px',
     };
 
+    const divForm = {
+        marginTop: '50px',
+    }
+
     const gutter = 16;
     return (
         <Container>
+            <Topbar/>
             <Main>
                 <Form>
                     <div>
