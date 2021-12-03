@@ -27,50 +27,73 @@ export default function Home({ handleOperacao }) {
             dataIndex: 'uuid',
             rowKey: 'uuid',
             width: '5%',
-            //className: 'home_tabela-cabecalho-left',
-            render: (text) => <span>{text}</span>,
+            render: (text, processo) => (
+                <Button
+                    type="text"
+                    onClick={() => handleOperacao(processo)}
+                    title={processo.uuid}
+                >
+                    {processo.uuid}
+                </Button>
+            ),
         },
         {
             title: 'Origem',
             dataIndex: 'origem',
             rowKey: 'origem',
             width: '5%',
-            render: (text) => <span>{text}</span>,
+            render: (text, processo) => (
+                <Button
+                    type="text"
+                    onClick={() => handleOperacao(processo)}
+                    title={processo.origem}
+                >
+                    {processo.origem}
+                </Button>
+            ),
         },        
         {
             title: 'Valor da Operação',
             dataIndex: 'valorSolicitado',
             rowKey: 'valorSolicitado',
             width: '5%',
-            render: (text) => <span>{text}</span>,
+            render: (text, processo) => (
+                <Button
+                    type="text"
+                    onClick={() => handleOperacao(processo)}
+                    title={processo.valorSolicitado}
+                >
+                    {processo.valorSolicitado}
+                </Button>
+            ),
         },                
         {
             title: 'Tomador de Empréstimo',
             dataIndex: 'tomador',
             rowKey: 'tomador',
             width: '5%',
-            render: (text) => <span>{text}</span>,
+            render: (text, processo) => (
+                <Button
+                    type="text"
+                    onClick={() => handleOperacao(processo)}
+                    title={processo.tomador}
+                >
+                    {processo.tomador}
+                </Button>
+            ),
         },                        
         {
             title: 'CPF Tomador',
             dataIndex: 'cpfTomador',
             rowKey: 'cpfTomador',
             width: '5%',
-            render: (text) => <span>{text}</span>,
-        },                                
-        {
-            title: 'Ação',
-            dataIndex: 'nome',
-            rowKey: 'nome',
-            width: '5%',
-            //className: 'home_tabela-cabecalho-right',
-            render: (text, operacao) => (
+            render: (text, processo) => (
                 <Button
-                    type="primary"
-                    onClick={() => handleOperacao(operacao)}
-                    title="Detalhe"
+                    type="text"
+                    onClick={() => handleOperacao(processo)}
+                    title={processo.cpfTomador}
                 >
-                    <i className="ion-android-search" />
+                    {processo.cpfTomador}
                 </Button>
             ),
         },
