@@ -98,7 +98,7 @@ export const Message = styled.p`
   color: #3b3349;
 
   &.errorLogin {
-    margin-bottom: 16px;
+    margin-bottom: 5px;
     letter-spacing: 0.1px;
     color: red;
     animation-name: appearText;
