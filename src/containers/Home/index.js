@@ -195,7 +195,7 @@ export default function Home({ handleOperacao }) {
     };
 
     const divForm = {
-        marginTop: '50px',
+        height: '75px',
     }
 
     const gutter = 16;
@@ -204,7 +204,7 @@ export default function Home({ handleOperacao }) {
             <Topbar/>
             <Main>
                 <Form>
-                    <div>
+                    <div style={divForm}>
                         <IconBuscaDiv>
                             <IconCheck32x32 />
                         </IconBuscaDiv>
