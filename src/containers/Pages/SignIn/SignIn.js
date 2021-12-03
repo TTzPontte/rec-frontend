@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Container,
   Header,
@@ -8,13 +8,26 @@ import {
   Logo,
   Form,
 } from "./SignIn.styles";
-import { logIn, logOut } from "@iso/lib/aws/amplify/index";
 import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 import LogoGoogle from "@iso/assets/logo-google.svg";
+import { logInAct } from "@iso/redux/auth/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 export default function SignIn() {
-  const hasError = true;
-  const handleLogInFn = () => logIn(); // TODO: retirar
+  const history = useHistory();
+  const Auth = useSelector(({ Auth }) => Auth);
+
+  const hasError = Auth.hasError;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!!Auth.credentials.userToken) {
+      history.push("/dashboard");
+    }
+  }, []);
+
+  const handlerLogIn = () => dispatch(logInAct());
 
   return (
     <Container>
@@ -33,7 +46,7 @@ export default function SignIn() {
         <Form>
           <header>LOGIN - BASE CADASTRAL</header>
           <main>
-            <BtnGoogle onClick={handleLogInFn}>
+            <BtnGoogle onClick={handlerLogIn}>
               <img src={LogoGoogle} alt="Logo Google" />
               <span> Login com o Google </span>
             </BtnGoogle>

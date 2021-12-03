@@ -1,18 +1,19 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from "react";
 import {
   Route,
   Redirect,
   BrowserRouter as Router,
   Switch,
-} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+} from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import ErrorBoundary from './ErrorBoundary';
-import { PUBLIC_ROUTE } from './route.constants';
-import { PRIVATE_ROUTE } from './route.constants';
-import Loader from '@iso/components/utility/loader';
+import ErrorBoundary from "./ErrorBoundary";
+import { PUBLIC_ROUTE } from "./route.constants";
+ import { PRIVATE_ROUTE } from "./route.constants";
+import Loader from "@iso/components/utility/loader";
+import SignIn from "./containers/Pages/SignIn/SignIn";
 
-const Dashboard = lazy(() => import('./containers/Dashboard/Dashboard'));
+const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
 
 const publicRoutes = [
   {
@@ -22,52 +23,32 @@ const publicRoutes = [
   },
   {
     path: PUBLIC_ROUTE.PAGE_404,
-    component: lazy(() => import('@iso/containers/Pages/404/404')),
+    component: lazy(() => import("@iso/containers/Pages/404/404")),
   },
   {
     path: PUBLIC_ROUTE.PAGE_500,
-    component: lazy(() => import('@iso/containers/Pages/500/500')),
+    component: lazy(() => import("@iso/containers/Pages/500/500")),
   },
   {
     path: PUBLIC_ROUTE.SIGN_IN,
-    component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
-  },
-  {
-    path: PUBLIC_ROUTE.SIGN_UP,
-    component: lazy(() => import('@iso/containers/Pages/SignUp/SignUp')),
-  },
-  {
-    path: PUBLIC_ROUTE.FORGET_PASSWORD,
-    component: lazy(() =>
-      import('@iso/containers/Pages/ForgotPassword/ForgotPassword')
-    ),
-  },
-  {
-    path: PUBLIC_ROUTE.RESET_PASSWORD,
-    component: lazy(() =>
-      import('@iso/containers/Pages/ResetPassword/ResetPassword')
-    ),
-  },
-  {
-    path: PUBLIC_ROUTE.AUTH0_CALLBACK,
-    component: lazy(() =>
-      import('@iso/containers/Authentication/Auth0/Auth0Callback')
-    ),
+    component: lazy(() => import("@iso/containers/Pages/SignIn/SignIn")),
   },
 ];
 function PrivateRoute({ children, ...rest }) {
-  const isLoggedIn = useSelector((state) => state.Auth.idToken);
+  const isAuthenticated = !!useSelector(
+    ({ Auth }) => Auth.credentials.userToken
+  );
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        isLoggedIn ? (
+        isAuthenticated ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: '/',
+              pathname: "/",
               state: { from: location },
             }}
           />
@@ -78,7 +59,9 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 export default function Routes() {
-  return (
+  const { Auth } = useSelector((state) => state);
+
+  return !Auth.isLoading ? (
     <ErrorBoundary>
       <Suspense fallback={<Loader />}>
         <Router>
@@ -88,12 +71,14 @@ export default function Routes() {
                 <route.component />
               </Route>
             ))}
-            <PrivateRoute path="/dashboard">
-              <Dashboard />
+            <PrivateRoute path="/">
+              <Dashboard path="/dashboard" />
             </PrivateRoute>
           </Switch>
         </Router>
       </Suspense>
     </ErrorBoundary>
+  ) : (
+    <Loader />
   );
 }
