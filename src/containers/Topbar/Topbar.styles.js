@@ -580,7 +580,6 @@ export const UserImage = styled.img`
 export const UserInfoDiv = styled.div`
   float: left;
   text-align: right;
-  margin-top: 3px;
 `;
 
 export const UserImageDiv = styled.div`
@@ -599,7 +598,7 @@ export const TextoUserName = styled.section`
 
 export const TextoUserEmail = styled.section`
   text-align: right;
-  font: normal normal normal 12px/17px Lato;
+  font-size: 12px;
   letter-spacing: 0px;
   color: #979797;
   opacity: 1;
