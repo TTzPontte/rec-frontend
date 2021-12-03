@@ -1,11 +1,11 @@
 import { all, call, takeEvery, put, fork } from "redux-saga/effects";
 import { ACTIONS as ACT } from "./actions"; // auth0 or express JWT
-
 import {
   getUserSession,
   logInGoogle,
   logOutGoogle,
-} from "@iso/lib/aws/amplify";
+} from "@iso/lib/aws/aws.amplify";
+import { getAppToken } from "@iso/lib/aws/aws.authentication";
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
@@ -13,16 +13,19 @@ const history = createBrowserHistory();
 export function* checkAuthorization() {
   yield takeEvery(ACT.CHECK_AUTHORIZATION, function* () {
     try {
-      let { user, token } = yield call(getUserSession);
+      let { user: profile, token: userToken } = yield call(getUserSession);
 
-      if (!token) throw new Error("User not Found");
+      if (!userToken) throw new Error("User not Found");
+
+      const { access_token: appToken } = yield call(getAppToken);
 
       yield put({
         type: ACT.LOGIN_SUCCESS,
         payload: {
-          profile: user,
+          profile,
           credentials: {
-            userToken: token,
+            userToken,
+            appToken,
           },
         },
       });
@@ -32,16 +35,20 @@ export function* checkAuthorization() {
   });
 }
 
-export function* loginRequest(teste) {
+export function* loginRequest() {
   yield takeEvery(ACT.LOGIN_REQUEST, () => logInGoogle());
 }
 
 export function* loginSuccess() {
-  yield takeEvery(ACT.LOGIN_SUCCESS, () => {});
+  yield takeEvery(ACT.LOGIN_SUCCESS, function ({ payload }) {
+    const { credentials } = payload;
+    localStorage.setItem('token', credentials.appToken)
+  });
 }
 
 export function* logout() {
   yield takeEvery(ACT.LOGOUT, () => {
+    localStorage.removeItem('token')
     history.push("/");
     logOutGoogle();
   });
