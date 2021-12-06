@@ -12,6 +12,7 @@ import Button from '@iso/components/uielements/button';
 import Home from '../Home';
 
 import { DashboardContainer, DashboardGlobalStyles } from './Dashboard.styles';
+import TopbarPesquisar from '../TopbarPesquisar/Topbar';
 
 const { Content, Footer } = Layout;
 const { toggleAll } = appActions;
@@ -51,11 +52,13 @@ export default function Dashboard() {
 
   return (
     <DashboardContainer>
+
       <DashboardGlobalStyles />
       {/* <Layout style={{ height: height }}>
         <Topbar operacao={operacao}/> */}
 
       {!operacao && (
+        
         <Layout
           className="isoContentMainLayout"
           style={{
@@ -72,7 +75,7 @@ export default function Dashboard() {
 
       {operacao && (
         <Layout style={{ height: height }}>
-          <Topbar operacao={operacao} />
+          {/* <Topbar operacao={operacao} /> */}
           <Layout style={styles.layout}>
             <Sidebar />
             <Layout
@@ -81,6 +84,7 @@ export default function Dashboard() {
                 height: appHeight,
               }}
             >
+              <TopbarPesquisar uiid={operacao.uuid}/>
               <Content className="isomorphicContent" style={styles.content}>
                 <DashboardRoutes operacao={operacao} />
               </Content>

@@ -14,6 +14,7 @@ import Loader from "@iso/components/utility/loader";
 import SignIn from "./containers/Pages/SignIn/SignIn";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
+const Originacao = lazy(() => import("./containers/Originacao"));
 
 const publicRoutes = [
   {
@@ -67,12 +68,13 @@ export default function Routes() {
         <Router>
           <Switch>
             {publicRoutes.map((route, index) => (
-              <Route key={index} path={route.path} exact={route.exact}>
-                <route.component />
+              
+              <Route key={index} path={route.path} exact={route.exact}>teste
+                <route.component />{console.log(route.path)}
               </Route>
             ))}
-            <PrivateRoute path="/">
-              <Dashboard path="/dashboard" />
+            <PrivateRoute path="/dashboard">
+              <Dashboard  />
             </PrivateRoute>
           </Switch>
         </Router>

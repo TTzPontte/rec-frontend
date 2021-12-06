@@ -105,7 +105,7 @@ export default function Home({ handleOperacao }) {
             content: [
                 {
                     id: 8124678,
-                    nomeEmpresa: 'Fulano',
+                    nomeEmpresa: 'Fulano2',
                     emailParceiro: 'email@fulano.com',
                     nomeParceiro: 'Parceiro Fulano',
                     telefone: '11 98989898',

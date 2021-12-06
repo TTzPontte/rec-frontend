@@ -81,6 +81,7 @@
     "react-speech-recognition": "^2.0.4",
     "react-tag-input": "^6.4.3",
     "react-text-mask": "^5.4.3",
+    "react-input-mask": "^2.0.4",
     "react-throttle": "^0.3.0",
     "react-trend": "^1.2.5",
     "react-vis": "^1.11.7",

@@ -2,10 +2,10 @@ import { CheckCircleFilled, CloseCircleFilled, EditOutlined, UpSquareOutlined } 
 import Input from '@iso/components/uielements/input';
 import React, { useState } from 'react';
 import './style.css';
-import MaskedInput from 'react-text-mask';
+import InputMask from 'react-input-mask';
 
-export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSave, handleChange, idCampo }) {
-    const [estiloInput, setEstiloInput] = useState("desabilitado");
+export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSave, handleChange, idCampo, mask }) {
+    const [estiloInput, setEstiloInput] = useState("desabilitado inputMaskClass");
     const [desabilitarCampo, setDesabilitarCampo] = useState(true);
     const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
     const [estiloIconeNOk, setEstiloIconeNOk] = useState("hidden");
@@ -15,10 +15,10 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
 
         setDesabilitarCampo(!desabilitarCampo);
 
-        if (estiloInput) {
-            setEstiloInput(null);
+        if (estiloInput == "desabilitado inputMaskClass") {
+            setEstiloInput("inputMaskClass");
         } else {
-            setEstiloInput("desabilitado");
+            setEstiloInput("desabilitado inputMaskClass");
         }
 
         if (estiloIconeNOk === 'hidden') {
@@ -54,12 +54,18 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
         habilitarDesabilitar();
     }
 
+   
 
     return (
         <div>
             <div className="hoverAzul" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
-            <div className="divInput"> <Input defaultValue={valorCampo} className={estiloInput} disabled={desabilitarCampo} onChange={handleChange} id={idCampo}/></div>
+            <div className="divInput"> <InputMask onChange={handleChange}
+                                    className={estiloInput}
+                                    disabled={desabilitarCampo} 
+                                    id={idCampo} value={valorCampo} mask={mask}/></div>
             <CheckCircleFilled className={estiloIconeOk} onClick={handleOk} /> <CloseCircleFilled className={estiloIconeNOk} onClick={handleCancel} />
+        
+            
         </div>
     );
 }
