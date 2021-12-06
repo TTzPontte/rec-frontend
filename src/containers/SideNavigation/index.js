@@ -41,27 +41,27 @@ const SideNavigation = () => {
         <ul>
           <li>
             <img src={iconOrigination} alt="Originação" />
-            <Link to="dashboard/originacao">Originação</Link>
+            <Link to="/dashboard/originacao">Originação</Link>
           </li>
 
           <li>
             <img src={iconPeople} alt="Pessoas" />
-            <Link to="dashboard/pessoas">Pessoas</Link>
+            <Link to="/dashboard/pessoas">Pessoas</Link>
           </li>
 
           <li>
             <img src={iconImmobile} alt="Imovél" />
-            <Link to="dashboard/imovel">Imóvel</Link>
+            <Link to="/dashboard/imovel">Imóvel</Link>
           </li>
 
           <li>
             <img src={iconProposal} alt="Proposta" />
-            <Link to="dashboard/proposta">Proposta</Link>
+            <Link to="/dashboard/proposta">Proposta</Link>
           </li>
 
           <li>
             <img src={iconContract} alt="Contrato" />
-            <Link to="dashboard/contrato">Contrato</Link>
+            <Link to="/dashboard/contrato">Contrato</Link>
           </li>
         </ul>
       </Nav>
