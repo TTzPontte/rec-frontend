@@ -74,7 +74,7 @@ export default function Dashboard() {
         <Layout style={{ height: height }}>
           {/* <Topbar operacao={operacao} /> */}
           <Layout style={styles.layout}>
-            <SideNavigation />
+            <SideNavigation handleOperacao={handleOperacao} />
             <Layout
               className="isoContentMainLayout"
               style={{

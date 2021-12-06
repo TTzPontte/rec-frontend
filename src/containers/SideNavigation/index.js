@@ -12,7 +12,7 @@ import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 
 import { Container, Header, UserInfo, Nav, Footer } from "./styled-components";
 
-const SideNavigation = () => {
+const SideNavigation = ({ handleOperacao }) => {
   const { profile } = useSelector((state) => state.Auth);
   console.log(profile);
   return (
@@ -69,7 +69,7 @@ const SideNavigation = () => {
       <Footer>
         <div>
           <img src={iconHome} alt="Home" />
-          <span>Homepage</span>
+          <span onClick={() => handleOperacao(null)}>Homepage</span>
         </div>
       </Footer>
     </Container>
