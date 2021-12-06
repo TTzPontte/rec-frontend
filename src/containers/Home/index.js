@@ -187,7 +187,7 @@ export default function Home({ handleOperacao }) {
                             dataSource={processosSearch.processos}
                             columns={tableColumns}
                             pagination={{
-                                defaultCurrent: processosSearch.take + 1,
+                                defaultCurrent: processosSearch.skip + 1,
                                 total: processosSearch.total,
                                 // pageSize: processosSearch.take,
                             }}
