@@ -1,6 +1,5 @@
-// import Button from '@iso/components/uielements/button';
+
 import { Button } from "antd";
-// import Input from '@iso/components/uielements/input';
 import { Input } from 'antd';
 import TableWrapper from '@iso/containers/Tables/AntTables/AntTables.styles';
 import { Col, Row } from 'antd';
@@ -100,88 +99,34 @@ export default function Home({ handleOperacao }) {
         },
     ];
 
-    const operacoes = {
-        payload: {
-            content: [
-                {
-                    id: 8124678,
-                    nomeEmpresa: 'Fulano2',
-                    emailParceiro: 'email@fulano.com',
-                    nomeParceiro: 'Parceiro Fulano',
-                    telefone: '11 98989898',
-                    tipoOperacao: 'Vendas',
-                    formulaAmortizacao: 'SAC',
-                    valorOperacao: '9999',
-                    mesSemPagar: '1',
-                    valorInformadoImovel: '999',
-                    carencia: '5',
-                    rendaComposta: '999',
-                    motivoEmprestimo: 'Motivo qualquer',
-                    cepImovel: '0601111',
-                    informacoesAdicionais: 'Não há',
-                    prazoPagamento: '360',
-                },
-                {
-                    id: 987523,
-                    nomeEmpresa: 'Ciclado',
-                    emailParceiro: 'email@fulano.com',
-                    nomeParceiro: 'Parceiro Fulano',
-                    telefone: '11 98989898',
-                    tipoOperacao: 'Vendas',
-                    formulaAmortizacao: 'SAC',
-                    valorOperacao: '9999',
-                    mesSemPagar: '1',
-                    valorInformadoImovel: '999',
-                    carencia: '5',
-                    rendaComposta: '999',
-                    motivoEmprestimo: 'Motivo qualquer',
-                    cepImovel: '0601111',
-                    informacoesAdicionais: 'Não há',
-                    prazoPagamento: '360',
-                },
-                {
-                    id: 786124768,
-                    nomeEmpresa: 'Beltrano',
-                    emailParceiro: 'email@fulano.com',
-                    nomeParceiro: 'Parceiro Fulano',
-                    telefone: '11 98989898',
-                    tipoOperacao: 'Vendas',
-                    formulaAmortizacao: 'SAC',
-                    valorOperacao: '9999',
-                    mesSemPagar: '1',
-                    valorInformadoImovel: '999',
-                    carencia: '5',
-                    rendaComposta: '999',
-                    motivoEmprestimo: 'Motivo qualquer',
-                    cepImovel: '0601111',
-                    informacoesAdicionais: 'Não há',
-                    prazoPagamento: '360',
-                },
-            ],
-            totalElements: 10,
-            size: 10
-        }
-    };
-
     const api = new Api();
     const [textoBusca, setTextoBusca] = useState('');
     const [processos, setProcessos] = useState([]);
+    const [processosSearch, setProcessosSearch] = useState({skip: 0, take: 10, total: 0, processos: 0});
+
+    async function search() {
+        await api.busca('/processo/search?term='
+        .concat(textoBusca)
+        .concat('&page=')
+        .concat(processosSearch.skip)
+        .concat('&size=')
+        .concat(processosSearch.take), setProcessosSearch);
+    }
 
     function handleTextBuscaFn(evento: any) {
         setTextoBusca(evento.target.value);
-      }
-      const handleTextBusca = useCallback(handleTextBuscaFn, []);
+    }
+    const handleTextBusca = useCallback(handleTextBuscaFn, []);
     
-      async function handleSubmitFn(evento: any) {
+    async function handleSubmitFn(evento: any) {
         evento.preventDefault();
-        await api.busca(
-          '/processo/search?term='.concat(textoBusca).concat('&page=0&size=100'),
-          setProcessos
-        );
-      }
-      const handleSubmit = useCallback(handleSubmitFn, [textoBusca]);    
+        search();
+    }
+    const handleSubmit = useCallback(handleSubmitFn, [textoBusca]);    
 
-    const handleTableChange = (e) => {
+    function handleTableChange(page: any) {
+        processosSearch.skip = processosSearch.take * (page.current - 1);
+        search();
     };
 
     const rowStyle = {
@@ -232,14 +177,16 @@ export default function Home({ handleOperacao }) {
                     <Col span={2}></Col>
                     <Col span={20} style={colStyle}>
                         <TableWrapper
-                            dataSource={processos}
+                            rowKey='uuid'
+                            dataSource={processosSearch.processos}
                             columns={tableColumns}
                             pagination={{
-                                total: operacoes.payload.totalElements,
-                                pageSize: operacoes.payload.size,
+                                defaultCurrent: processosSearch.take + 1,
+                                total: processosSearch.total,
+                                // pageSize: processosSearch.take,
                             }}
                             style={{ marginTop: '20px', width: '100%' }}
-                            onChange={handleTableChange}
+                            onChange={handleTableChange}                            
                         />
                     </Col>
                     <Col span={2}></Col>
