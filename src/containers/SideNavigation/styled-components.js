@@ -34,15 +34,18 @@ export const Header = styled.header`
 `;
 
 export const UserInfo = styled.div`
-  padding: 32px 0px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 10px;
+
+  padding: 32px 0px;
 
   img {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    margin-left: 10px;
   }
 
   div {
@@ -51,12 +54,19 @@ export const UserInfo = styled.div`
     flex-direction: column;
 
     strong {
-      font-weight: 700;
+      font-weight: 400;
+      font: normal normal medium 16px/19px "Lato", sans-serif;;
       color: ${colors.textSecondary};
     }
 
     span {
+      font-size: 12px;
+      overflow: auto;
       color: ${colors.textTertiary};
+      min-height: 20px;
+      max-height: 40px;
+      width: 180px;
+      word-wrap: break-word;
     }
   }
 `;
@@ -75,8 +85,11 @@ export const Nav = styled.nav`
       justify-content: start;
 
       margin-bottom: 10px;
+      margin-left: 10px;
 
       cursor: pointer;
+      letter-spacing: 0.1px;
+      font: normal normal normal 16px/19px Lato;
 
       img {
         margin: 0px 16px;
@@ -85,6 +98,7 @@ export const Nav = styled.nav`
       }
 
       a {
+        margin-left: 10px;
         color: ${colors.textSecondary};
       }
     }
