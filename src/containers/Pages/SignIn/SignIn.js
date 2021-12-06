@@ -25,7 +25,7 @@ export default function SignIn() {
     if (!!Auth.credentials.userToken) {
       history.push("/dashboard");
     }
-  }, []);
+  }, [Auth.credentials.userToken, history]);
 
   const handlerLogIn = () => dispatch(logInAct());
 
