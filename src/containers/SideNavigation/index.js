@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import iconOrigination from "../../assets/icon-originacao.svg";
 import iconPeople from "../../assets/icon-pessoas.svg";
@@ -12,6 +13,8 @@ import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 import { Container, Header, UserInfo, Nav, Footer } from "./styled-components";
 
 const SideNavigation = () => {
+  const { profile } = useSelector((state) => state.Auth);
+  console.log(profile);
   return (
     <Container>
       <Header>
@@ -26,11 +29,11 @@ const SideNavigation = () => {
       </Header>
 
       <UserInfo>
-        <img src="https://blocly.com/uploads/viptormx.jpg" alt="" />
+        <img src={profile.picture} alt="" />
 
         <div>
-          <strong>John Doe</strong>
-          <span>johndoe@email.com</span>
+          <strong>{profile.name}</strong>
+          <span>{profile.email}</span>
         </div>
       </UserInfo>
 
