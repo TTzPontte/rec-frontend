@@ -133,7 +133,7 @@ export default function Home({ handleOperacao }) {
     async function onChangePagination(pageNumber) {
         processosSearch.skip = processosSearch.take * (pageNumber - 1);
         await search();
-    }
+    }   
 
     const rowStyle = {
         width: '100%',
