@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout } from 'antd';
 import appActions from '@iso/redux/app/actions';
-import TopbarNotification from './TopbarNotification';
-import TopbarMessage from './TopbarMessage';
-import TopbarSearch from './TopbarSearch';
-import TopbarUser from './TopbarUser';
-import TopbarAddtoCart from './TopbarAddToCart';
 import { Modal, Button } from 'antd';
 import { logOutAct } from "@iso/redux/auth/actions";
-
-
-
 import {
   Container,
   Header,
@@ -24,7 +15,6 @@ import {
   TextoUserEmail,
   SairStyle,
 } from './Topbar.styles';
-
 import { ReactComponent as SvgLogoPontte } from '../../assets/logo-pontte.svg';
 
 const styleLogoPontte = {
@@ -33,7 +23,6 @@ const styleLogoPontte = {
   color: '#5C3B6B',
 };
 
-// const { Header } = Layout;
 const { toggleCollapsed } = appActions;
 
 export default function Topbar() {
@@ -46,9 +35,6 @@ export default function Topbar() {
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
   const dispatch = useDispatch();
-  const handleToggle = React.useCallback(() => dispatch(toggleCollapsed()), [
-    dispatch,
-  ]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
