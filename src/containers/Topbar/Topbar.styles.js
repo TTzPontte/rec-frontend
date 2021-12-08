@@ -605,3 +605,11 @@ export const TextoUserEmail = styled.section`
 `;
 
 
+export const SairStyle = styled.a`
+  color: var(--unnamed-color-3b3349);
+  text-align: left;
+  letter-spacing: 0.1px;
+  color: #3B3349;
+  opacity: 1;    
+`;
+

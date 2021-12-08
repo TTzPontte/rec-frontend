@@ -83,3 +83,21 @@ body {
   margin: 12px;
   border: 0px;
 }
+
+.home_item-lista{
+  border-radius: 4px;
+  color: #3b3349;
+  background: #ffffff;
+  border-color: #5c3b6b;
+  margin: 10px;
+  height: 60px;
+}
+
+.home_table-list-header {
+  table-layout: auto;
+}
+
+.home_table-list-header-col {
+  width: 5%; 
+  min-width: 5%;
+}

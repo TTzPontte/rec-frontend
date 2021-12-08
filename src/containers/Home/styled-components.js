@@ -34,7 +34,7 @@ export const Form = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
-  width: 800px;
+  width: 1000px;
 
   background-color: #ffffff;
   border-radius: 8px;
