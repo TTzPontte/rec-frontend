@@ -12,16 +12,17 @@ const history = createBrowserHistory();
 export function* checkAuthorization() {
   yield takeEvery(ACT.CHECK_AUTHORIZATION, function* () {
     try {
-      let { user: profile, token: userToken } = yield call(getUserSession);
+      let { user: profile, tokenId, accessToken } = yield call(getUserSession);
 
-      if (!userToken) throw new Error("User not Found");
+      if (!tokenId) throw new Error("User not Found");
 
       yield put({
         type: ACT.LOGIN_SUCCESS,
         payload: {
           profile,
           credentials: {
-            userToken,
+            tokenId,
+            accessToken,
           },
         },
       });
@@ -38,13 +39,13 @@ export function* loginRequest() {
 export function* loginSuccess() {
   yield takeEvery(ACT.LOGIN_SUCCESS, function ({ payload }) {
     const { credentials } = payload;
-    localStorage.setItem('token', credentials.appToken)
+    localStorage.setItem("token", credentials.appToken);
   });
 }
 
 export function* logout() {
   yield takeEvery(ACT.LOGOUT, () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token");
     history.push("/");
     logOutGoogle();
   });
