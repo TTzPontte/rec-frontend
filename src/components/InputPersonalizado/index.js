@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import './style.css';
 import MaskedInput from 'react-text-mask';
 
-export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSave, handleChange, idCampo }) {
+export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSave, handleChange, idCampo, editavel = true, tipoInput = "text" }) {
     const [estiloInput, setEstiloInput] = useState("desabilitado");
     const [desabilitarCampo, setDesabilitarCampo] = useState(true);
     const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
@@ -12,25 +12,26 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
     const [estiloIconeEditar, setEstiloIconeEditar] = useState("hidden");
 
     const habilitarDesabilitar = () => {
-
-        setDesabilitarCampo(!desabilitarCampo);
-
-        if (estiloInput) {
-            setEstiloInput(null);
-        } else {
-            setEstiloInput("desabilitado");
-        }
-
-        if (estiloIconeNOk === 'hidden') {
-            setEstiloIconeNOk('iconeCinza');
-        } else {
-            setEstiloIconeNOk("hidden");
-        }
-
-        if (estiloIconeOk === 'hidden') {
-            setEstiloIconeOk('iconeVerde');
-        } else {
-            setEstiloIconeOk("hidden");
+        if(editavel){
+            setDesabilitarCampo(!desabilitarCampo);
+            
+            if (estiloInput) {
+                setEstiloInput(null);
+            } else {
+                setEstiloInput("desabilitado");
+            }
+            
+            if (estiloIconeNOk === 'hidden') {
+                setEstiloIconeNOk('iconeCinza');
+            } else {
+                setEstiloIconeNOk("hidden");
+            }
+            
+            if (estiloIconeOk === 'hidden') {
+                setEstiloIconeOk('iconeVerde');
+            } else {
+                setEstiloIconeOk("hidden");
+            }
         }
     }
 
@@ -58,7 +59,7 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
     return (
         <div>
             <div className="hoverAzul" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
-            <div className="divInput"> <Input defaultValue={valorCampo} className={estiloInput} disabled={desabilitarCampo} onChange={handleChange} id={idCampo}/></div>
+            <div className="divInput"> <Input type={tipoInput} defaultValue={valorCampo} className={estiloInput} disabled={desabilitarCampo} onChange={handleChange} id={idCampo}/></div>
             <CheckCircleFilled className={estiloIconeOk} onClick={handleOk} /> <CloseCircleFilled className={estiloIconeNOk} onClick={handleCancel} />
         </div>
     );

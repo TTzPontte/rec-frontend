@@ -1,32 +1,17 @@
 import appActions from '@iso/redux/app/actions';
-import React, { useState } from 'react';
+import { Layout } from 'antd';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactComponent as SvgLogoPontte } from '../../assets/logo-pontte.svg';
-import {
-  Container,
-  Header,
-  Logo, TextoUserEmail, TextoUserName, UserDiv,
-  UserImage, UserImageDiv, UserInfoDiv
-} from './Topbar.styles';
+import TopbarWrapper from './Topbar.styles';
+import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';
+import Input from '@iso/components/uielements/input';
+import { Col, Row } from 'antd';
+import '../style.css';
 
-
-
-
-const styleLogoPontte = {
-  width: '160px',
-  height: '36px',
-  color: '#5C3B6B',
-};
-
-// const { Header } = Layout;
+const { Header } = Layout;
 const { toggleCollapsed } = appActions;
 
-export default function TopbarPesquisar({uiid}) {
-
-  const Auth = useSelector((state) => state.Auth)
-
-  const [user, setUser] = useState(Auth.profile);
-
+export default function Topbar({ uiid }) {
   const [selectedItem, setSelectedItem] = React.useState('');
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
@@ -41,11 +26,74 @@ export default function TopbarPesquisar({uiid}) {
     width: '100%',
     height: 70,
   };
+
+  const rowStyle = {
+    width: '100%',
+    display: 'flex',
+    flexFlow: 'row wrap',
+  };
+
+  const colStyle = {
+    display: 'flex',
+    marginBottom: '5px',
+    alignItems: 'center',
+  };
+  const colStyle2 = {
+    display: 'flex',
+    marginBottom: '5px',
+    alignItems: 'center',
+    borderLeft: '1px solid #000',
+  };
+
+  const inputStyled = {
+    boxShadow: '0 0 0 0 !important',
+    border: '0 none !important',
+    outline: ' 0 !important',
+    width: '500px',
+    height: '49px',
+    margin: '12px',
+    border: '0px',
+  }
+  const iconeStyle = {
+    width: '49px',
+    height: '49px',
+    margin: '12px',
+    border: '0px',
+  }
+
+  const gutter = 16;
   return (
-      <Container>
-      <Header>
-      <h2>#{uiid}</h2>
-      </Header> 
-      </Container>     
+    <TopbarWrapper>
+      <Header
+        style={styling}
+        className={
+          isCollapsed ? 'isomorphicTopbar collapsed' : 'isomorphicTopbar'
+        }
+      >
+
+        <Row style={rowStyle} gutter={gutter} justify="start">
+          <Col sm={15} md={15} xs={15} style={colStyle}>
+            <h1>ID#{uiid}</h1>
+          </Col>
+
+          <Col sm={5} md={5} xs={5} style={colStyle2}>
+            <IconCheck32x32 style={iconeStyle}/>
+            <Input style={inputStyled} bordered={'true'} />
+          </Col>
+        </Row>
+        {/* <div className="isoLeft">
+          <h1>#{uiid}</h1>
+        </div>
+
+        <div className="isoCenter">
+
+        </div>
+
+        <div className="isoCenter">
+
+          <Input addonBefore={<IconCheck32x32 />} />
+        </div> */}
+      </Header>
+    </TopbarWrapper>
   );
 }

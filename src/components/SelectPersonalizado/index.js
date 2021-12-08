@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import './style.css';
 
 export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lista, onSave, handleChange, idCampo }) {
-    const [estiloInput, setEstiloInput] = useState("selectdDsabilitado");
+    const [estiloInput, setEstiloInput] = useState("selectdDesabilitado");
     const [desabilitarCampo, setDesabilitarCampo] = useState(true);
     const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
     const [estiloIconeNOk, setEstiloIconeNOk] = useState("hidden");
@@ -54,18 +54,20 @@ export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lis
 
     return (
         <div>
-            <div className="hoverAzul" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <EditOutlined className={estiloIconeEditar} /></div>
+            <div className="hoverVermelho" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <EditOutlined className={estiloIconeEditar} /></div>
             <div className="divInput">
                 <Select
+                bordered={!desabilitarCampo}
                     defaultValue={valorCampo}
                     style={{ width: '100%' }}
                     className={estiloInput}
                     disabled={desabilitarCampo}
+                    showArrow={!desabilitarCampo}
                     onChange={(value) =>
                         handleChange({ target: { id: idCampo, value } })
                     }>
                     {lista.map((arg) => (
-                        <SelectOption value={arg} >
+                        <SelectOption value={arg}>
                             {arg}
                         </SelectOption>
                     ))}

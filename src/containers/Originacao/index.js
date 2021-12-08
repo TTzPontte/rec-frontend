@@ -2,22 +2,23 @@ import { DownSquareOutlined, MailOutlined, UpSquareOutlined, WhatsAppOutlined } 
 import Collapse from '@iso/components/uielements/collapse';
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
+import Api from '../../api';
+import InputMaskPersonalizado from '../../components/InputMaskPersonalizado';
+import InputMonetarioPersonalizado from '../../components/InputMonetarioPersonalizado';
 import InputPersonalizado from '../../components/InputPersonalizado';
 import SelectPersonalizado from '../../components/SelectPersonalizado';
 import TextAreaPersonalizado from '../../components/TextAreaPersonalizado';
-import InputMaskPersonalizado from '../../components/InputMaskPersonalizado';
 import { Container } from '../style';
-import '../style.css';
-import InputMask from 'react-input-mask';
+import './style.css';
 
-import Api from '../../api';
 export default function Originacao({ uuid }) {
-    const [tiposOperacao, setTiposOperacao] = useState(['SAC', 'PRICE']);
+    const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
     const [formulaAmortizacao, setFormulaAmortizacao] = useState(['SAC', 'PRICE']);
     const [values, setValues] = React.useState(null);
     const [valuesSimulacao, setValuesSimulacao] = React.useState(null);
     const [valuesConsultorParceiro, setValuesConsultorParceiro] = React.useState(null);
     const [valuesConsultor, setValuesConsultor] = React.useState(null);
+    const [valuesProcessoAnexo, setValuesProcessoAnexo] = React.useState(null);
     const api = new Api();
 
     useEffect(() => {
@@ -28,11 +29,11 @@ export default function Originacao({ uuid }) {
             if (response.patrimonios) {
                 {
                     response.patrimonios.map((arg) => (
-                        valorInformadoImovel = arg.patrimonio.valorInformado +valorInformadoImovel
+                        valorInformadoImovel = arg.patrimonio.valorInformado + valorInformadoImovel
                     ))
                 }
 
-            }else {
+            } else {
                 response.patrimonios = {};
             }
 
@@ -41,22 +42,22 @@ export default function Originacao({ uuid }) {
             }
 
             if (!response.processoAnexo) {
+
                 response.processoAnexo = {};
+                response.processoAnexo.texto = "O incentivo ao avanço tecnológico, assim como a execução dos pontos do programa agrega valor ao estabelecimento das direções preferenciais no sentido do progresso. Percebemos, cada vez mais, que a determinação clara de objetivos cumpre um papel essencial na formulação do processo de comunicação como um todo. Assim mesmo, a necessidade de renovação processual faz parte de um processo de gerenciamento da gestão inovadora da qual fazemos parte. Todas estas questões, devidamente ponderadas, levantam dúvidas sobre se a contínua expansão de nossa atividade representa uma abertura para a melhoria das posturas dos órgãos dirigentes com relação às suas atribuições. Desta maneira, a estrutura atual da organização causa impacto indireto na reavaliação de todos os recursos funcionais envolvidos.";
+                setValuesProcessoAnexo(response.processoAnexo);
+            } else {
+                response.processoAnexo.map((p) => (
+                    setValuesProcessoAnexo(p.tipo == "info_adicional" ? p : null)
+                ))
             }
 
-            response.cpf = "40205783899";
-            response.consultor.parceiro.telefoneRepresentanteLegal = "17991618479";
             response.valorInformadoImovel = valorInformadoImovel;
             setValues(response);
             setValuesSimulacao(response.simulacao);
             setValuesConsultorParceiro(response.consultor.parceiro);
+            setValuesProcessoAnexo(response.processoAnexo);
             setValuesConsultor(response.consultor);
-            console.log('response.simulacao');
-            console.log(response.simulacao);
-            console.log('response.consultor');
-            console.log(response.consultor);
-            console.log('response.consultor.parceiro');
-            console.log(response.consultor.parceiro);
         }
         findByUuid();
 
@@ -74,19 +75,22 @@ export default function Originacao({ uuid }) {
         marginBottom: '5px',
     };
 
-    const divStyle = {
-        border: '1px',
-        solid: '#000',
-    };
-
     const gutter = 16;
 
     const onSave = (e) => {
         // e.preventDefault();
+        const auxValues = { ...values };
+        const auxValuesSimulacao = { ...valuesSimulacao };
 
-        const consultor = {...valuesConsultor, parceiro: valuesConsultorParceiro}
+        if (auxValues.valorSolicitado)
+        auxValues['valorSolicitado'] = Number(auxValues.valorSolicitado.toString().replace(',', '.'));
+        
+        if (auxValuesSimulacao.rendaMensal)
+        auxValuesSimulacao['rendaMensal'] = Number(auxValuesSimulacao.rendaMensal.toString().replace(',', '.'));
 
-        const formValues = { ...values, simulacao: valuesSimulacao, consultor: consultor};
+        const consultor = { ...valuesConsultor, parceiro: valuesConsultorParceiro }
+
+        const formValues = { ...auxValues, simulacao: auxValuesSimulacao, consultor: consultor };
 
         console.log(formValues);
         async function submit() {
@@ -110,33 +114,23 @@ export default function Originacao({ uuid }) {
         }
 
         // if (validateForm()) {
-            submit();
+        submit();
         // }
     };
 
-    const operacao = {
-        id: 8124678,
-        nomeEmpresa: 'Fulano',
-        emailParceiro: 'email@fulano.com',
-        nomeParceiro: 'Parceiro Fulano',
-        telefone: '11 98989898',
-        tipoOperacao: 'Vendas',
-        formulaAmortizacao: 'SAC',
-        valorOperacao: '9999',
-        mesSemPagar: '1',
-        valorInformadoImovel: '999',
-        carencia: '5',
-        rendaComposta: '999',
-        motivoEmprestimo: 'Motivo qualquer',
-        cepImovel: '0601111',
-        informacoesAdicionais: 'Não há',
-        prazoPagamento: '360',
-    }
 
     const handleInputChange = (e) => {
         console.log(e);
         const auxValues = { ...values };
         auxValues[e.target.id] = e.target.value;
+        setValues(auxValues);
+        console.log(values);
+    };
+
+    const handleInputChangeNumber = (e) => {
+        console.log(e);
+        const auxValues = { ...values };
+        auxValues[e.target.id] = e.target.valueAsNumber;
         setValues(auxValues);
         console.log(values);
     };
@@ -166,118 +160,143 @@ export default function Originacao({ uuid }) {
     };
 
     const handleInputMaskChange = (e) => {
-        // console.log(e);
-        const auxValues = { ...values };
-
+        console.log(e.target.value);
+        const auxValues = { ...valuesSimulacao };
         let str = e.target.value;
-        auxValues[e.target.id] = onlyNumbers(str);
-        setValues(auxValues);
-        console.log(values);
+        auxValues[e.target.id] = str;
+        setValuesSimulacao(auxValues);
+        console.log(valuesSimulacao);
 
     };
 
+    const handleInputMonetarioChange = (e) => {
+        let str = e.target.value;
+        const auxValues = { ...values };
+        let valor = onlyMonetario(str);
+        auxValues[e.target.id] = valor;
+        setValues(auxValues);
+        console.log(auxValues);
+        console.log(valor);
+
+    };
+
+    const handleInputMonetarioChangeSimulacao = (e) => {
+        let str = e.target.value;
+        const auxValues = { ...valuesSimulacao };
+        let valor = onlyMonetario(str);
+        auxValues[e.target.id] = valor;
+        setValuesSimulacao(auxValues);
+        console.log(auxValues);
+        console.log(valor);
+
+    };
+
+    var onlyMonetario = (str) => str.replace(/[\R$.]/g, '');
+
     const onlyNumbers = (str) => str.replace(/[^0-9]/g, '');
 
-
     return (
-
-        (values && valuesSimulacao && valuesConsultor && valuesConsultorParceiro &&
+        (values &&
             <Container>
 
-                {/* <Topbar operacao={operacao} /> */}
-                <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
-                    <Panel
-                        header="PARCEIRO | CRÉDITO BOM DEMAIS"
-                        key="1" >
+                {(values && valuesConsultor && valuesConsultorParceiro &&
 
-                        <div className="pontilhado">
-                            <div className="conteudo">
-                                <h2>INFORMAÇÕES PESSOAIS</h2>
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Nome da empresa parceira" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Email do parceiro" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<MailOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" />
-                                    </Col>
-                                </Row>
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Nome do parceiro" valorCampo={valuesConsultor.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputMaskPersonalizado texto="Telefone" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<WhatsAppOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" mask="(99) 99999-9999"/>
-                                    </Col>
-                                </Row>
+                    <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
+                        <Panel
+                            header="PARCEIRO | CRÉDITO BOM DEMAIS"
+                            key="1" >
+
+                            <div className="pontilhado">
+                                <div className="conteudo">
+                                    <h2>INFORMAÇÕES PESSOAIS</h2>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Nome da empresa parceira" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Email do parceiro" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<MailOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Nome do parceiro" valorCampo={valuesConsultor.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputMaskPersonalizado texto="Telefone" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<WhatsAppOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" mask="(99) 99999-9999" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                </div>
                             </div>
-                        </div>
 
-                    </Panel>
+                        </Panel>
 
 
-                </Collapse>
+                    </Collapse>
+                )}
                 <br />
-                <Collapse expandIconPosition="right" background="purple" defaultActiveKey={["1"]} className="fundoRoxo">
-                    <Panel
-                        background='purple'
-                        header="OPERAÇÃO | HOME EQUITY"
-                        key="1" >
+                {(valuesSimulacao &&
+                    <Collapse expandIconPosition="right" background="purple" defaultActiveKey={["1"]} className="fundoRoxo">
+                        <Panel
+                            background='purple'
+                            header="OPERAÇÃO | HOME EQUITY"
+                            key="1" >
 
-                        <div className="pontilhado">
-                            <div className="conteudo">
-                                <h2>INFORMAÇÕES DA OPERAÇÃO</h2>
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <SelectPersonalizado texto="Tipo de operação" valorCampo={operacao.tipoOperacao} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChange} idCampo="tipoOperacao" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <SelectPersonalizado texto="Formula de amortização" valorCampo={values.amortizacao} iconeLabel={<DownSquareOutlined />} lista={formulaAmortizacao} onSave={onSave} handleChange={handleInputChange} idCampo="formulaAmortizacao" />
-                                    </Col>
-                                </Row>
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Valor da operação" valorCampo={values.valorSolicitado} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChange} idCampo="valorOperacao" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Mês do ano sem pagar" valorCampo={valuesSimulacao.mesAnoSemPagar} iconeLabel={<DownSquareOutlined />} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="mesSemPagar" />
-                                    </Col>
-                                </Row>
+                            <div className="pontilhado">
+                                <div className="conteudo">
+                                    <h2>INFORMAÇÕES DA OPERAÇÃO</h2>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <SelectPersonalizado texto="Tipo de operação" valorCampo={values.processoTipo} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChange} idCampo="processoTipo" />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <SelectPersonalizado texto="Formula de amortização" valorCampo={values.amortizacao} iconeLabel={<DownSquareOutlined />} lista={formulaAmortizacao} onSave={onSave} handleChange={handleInputChange} idCampo="amortizacao" />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputMonetarioPersonalizado texto="Valor da operação" valorCampo={values.valorSolicitado} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorSolicitado" />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <SelectPersonalizado texto="Mês do ano sem pagar" valorCampo={valuesSimulacao.mesAnoSemPagar} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="mesAnoSemPagar" />
+                                        </Col>
+                                    </Row>
 
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Valor informado do imóvel" valorCampo={values.valorInformadoImovel} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChange} idCampo="valorInformadoImovel" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Carência" valorCampo={valuesSimulacao.carencia} iconeLabel={<DownSquareOutlined />} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="carencia" />
-                                    </Col>
-                                </Row>
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Renda composta" valorCampo={valuesSimulacao.rendaMensal} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="rendaComposta" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="Motivo do empréstimo" valorCampo={valuesSimulacao.motivacao} iconeLabel={<DownSquareOutlined />} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="motivoEmprestimo" />
-                                    </Col>
-                                </Row>
-                                <Row style={rowStyle} gutter={gutter} justify="start">
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <InputPersonalizado texto="CEP do imóvel" valorCampo={values.patrimonios.cep} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChange} idCampo="cepImovel" />
-                                    </Col>
-                                    <br />
-                                    <Col sm={11} md={11} xs={11} style={colStyle}>
-                                        <InputPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<DownSquareOutlined />} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazoPagamento" />
-                                    </Col>
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        <TextAreaPersonalizado texto="Informações adicionais" valorCampo={values.processoAnexo.texto} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChange} idCampo="informacoesAdicionais" />
-                                    </Col>
-                                </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputMonetarioPersonalizado texto="Valor informado do imóvel" valorCampo={values.valorInformadoImovel} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorInformadoImovel" />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <SelectPersonalizado texto="Carência" valorCampo={valuesSimulacao.carencia} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="carencia" />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputMonetarioPersonalizado texto="Renda composta" valorCampo={valuesSimulacao.rendaMensal} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMonetarioChangeSimulacao} idCampo="rendaMensal" />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <SelectPersonalizado texto="Motivo do empréstimo" valorCampo={valuesSimulacao.motivacao} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="motivacao" />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={16} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputMaskPersonalizado texto="CEP do imóvel" valorCampo={valuesSimulacao.cep} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMaskChange} idCampo="cep" mask="99999-999" />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <TextAreaPersonalizado texto="Informações adicionais" valorCampo={valuesProcessoAnexo.texto} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChange} idCampo="texto" />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={16} justify="start">
+                                        <Col sm={11} md={11} xs={11} style={colStyle}>
+                                            <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
+                                        </Col>
+                                    </Row>
+                                </div>
                             </div>
-                        </div>
 
-                    </Panel>
-                </Collapse>
+                        </Panel>
+                    </Collapse>
+                )}
             </Container>
         )
-
     );
 }

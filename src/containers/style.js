@@ -12,5 +12,6 @@ export const Label = styled.label`
 export const Container = styled.div`
   padding: 10px 10px;
   margin: 10px;
-  background: #fff;
+  background: transparent;
+  margin-top: 70px
 `;
