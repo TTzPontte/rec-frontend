@@ -6,6 +6,7 @@ import {
   logOutGoogle,
 } from "@iso/lib/aws/aws.amplify";
 import { createBrowserHistory } from "history";
+import { AxiosCustom } from "@iso/api/axios.custom";
 
 const history = createBrowserHistory();
 
@@ -39,7 +40,7 @@ export function* loginRequest() {
 export function* loginSuccess() {
   yield takeEvery(ACT.LOGIN_SUCCESS, function ({ payload }) {
     const { credentials } = payload;
-    localStorage.setItem("token", credentials.appToken);
+    AxiosCustom.setAuthorization(credentials.accessToken);
   });
 }
 
