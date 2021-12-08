@@ -5,7 +5,6 @@ import {
   logInGoogle,
   logOutGoogle,
 } from "@iso/lib/aws/aws.amplify";
-import { getAppToken } from "@iso/lib/aws/aws.authentication";
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
@@ -17,15 +16,12 @@ export function* checkAuthorization() {
 
       if (!userToken) throw new Error("User not Found");
 
-      const { access_token: appToken } = yield call(getAppToken);
-
       yield put({
         type: ACT.LOGIN_SUCCESS,
         payload: {
           profile,
           credentials: {
             userToken,
-            appToken,
           },
         },
       });
