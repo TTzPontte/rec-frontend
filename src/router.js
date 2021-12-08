@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 import {
   Route,
   Redirect,
@@ -9,9 +9,8 @@ import { useSelector } from "react-redux";
 
 import ErrorBoundary from "./ErrorBoundary";
 import { PUBLIC_ROUTE } from "./route.constants";
- import { PRIVATE_ROUTE } from "./route.constants";
+import { PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/utility/loader";
-import SignIn from "./containers/Pages/SignIn/SignIn";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
 const Originacao = lazy(() => import("./containers/Originacao"));
@@ -20,7 +19,7 @@ const publicRoutes = [
   {
     path: PRIVATE_ROUTE.DASHBOARD,
     exact: true,
-    component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
+    component: lazy(() => import("@iso/containers/Pages/SignIn/SignIn")),
   },
   {
     path: PUBLIC_ROUTE.PAGE_404,
@@ -36,9 +35,7 @@ const publicRoutes = [
   },
 ];
 function PrivateRoute({ children, ...rest }) {
-  const isAuthenticated = !!useSelector(
-    ({ Auth }) => Auth.credentials.userToken
-  );
+  const isAuthenticated = !!useSelector(({ Auth }) => Auth.credentials.tokenId);
 
   return (
     <Route
@@ -68,13 +65,13 @@ export default function Routes() {
         <Router>
           <Switch>
             {publicRoutes.map((route, index) => (
-              
-              <Route key={index} path={route.path} exact={route.exact}>teste
-                <route.component />{console.log(route.path)}
+              <Route key={index} path={route.path} exact={route.exact}>
+                <route.component />
+                {console.log(route.path)}
               </Route>
             ))}
             <PrivateRoute path="/dashboard">
-              <Dashboard  />
+              <Dashboard />
             </PrivateRoute>
           </Switch>
         </Router>

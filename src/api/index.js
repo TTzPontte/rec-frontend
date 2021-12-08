@@ -1,8 +1,7 @@
-import axios from 'axios';
-
+import { AxiosCustom } from "./axios.custom";
 class Api {
   constructor() {
-    this.service = axios.create({ baseURL: 'http://localhost:5000' });
+    this.service = AxiosCustom.getService();
   }
 
   async busca(url, setDado) {
@@ -10,11 +9,10 @@ class Api {
     setDado(resposta.data);
   }
 
-
   async buscarProcessoByUuid(url) {
     const resposta = await this.service.get(url);
-    console.log('resposta')
-    console.log(resposta.data[0])
+    console.log("resposta");
+    console.log(resposta.data[0]);
     return resposta.data[0];
   }
 

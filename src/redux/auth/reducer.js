@@ -2,8 +2,8 @@ import { ACTIONS as ACT } from "./actions";
 
 const INITIAL_STATE = {
   credentials: {
-    appToken: null,
-    userToken: null,
+    tokenId: null,
+    accessToken: null,
   },
   profile: {
     name: "",
@@ -14,16 +14,14 @@ const INITIAL_STATE = {
   isLoading: true,
 };
 
-
 export default function authReducer(state = INITIAL_STATE, action = {}) {
-
   switch (action.type) {
     case ACT.CHECK_AUTHORIZATION:
       return state;
     case ACT.LOGIN_REQUEST:
       return state;
     case ACT.LOGOUT:
-      return INITIAL_STATE
+      return INITIAL_STATE;
     case ACT.LOGIN_SUCCESS:
       return {
         ...state,
