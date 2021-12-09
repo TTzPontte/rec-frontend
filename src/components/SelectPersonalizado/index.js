@@ -54,7 +54,7 @@ export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lis
 
     return (
         <div>
-            <div className="hoverVermelho" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <EditOutlined className={estiloIconeEditar} /></div>
+            <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <EditOutlined className={estiloIconeEditar} /></div>
             <div className="divInput">
                 <Select
                 bordered={!desabilitarCampo}

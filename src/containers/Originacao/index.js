@@ -10,6 +10,12 @@ import SelectPersonalizado from '../../components/SelectPersonalizado';
 import TextAreaPersonalizado from '../../components/TextAreaPersonalizado';
 import { Container } from '../style';
 import './style.css';
+import {
+    MatchText,
+    SearchProvider,
+    SearchContext,
+    SearchEventContext,
+} from 'react-ctrl-f';
 
 export default function Originacao({ uuid }) {
     const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
@@ -44,7 +50,6 @@ export default function Originacao({ uuid }) {
             if (!response.processoAnexo) {
 
                 response.processoAnexo = {};
-                response.processoAnexo.texto = "O incentivo ao avanço tecnológico, assim como a execução dos pontos do programa agrega valor ao estabelecimento das direções preferenciais no sentido do progresso. Percebemos, cada vez mais, que a determinação clara de objetivos cumpre um papel essencial na formulação do processo de comunicação como um todo. Assim mesmo, a necessidade de renovação processual faz parte de um processo de gerenciamento da gestão inovadora da qual fazemos parte. Todas estas questões, devidamente ponderadas, levantam dúvidas sobre se a contínua expansão de nossa atividade representa uma abertura para a melhoria das posturas dos órgãos dirigentes com relação às suas atribuições. Desta maneira, a estrutura atual da organização causa impacto indireto na reavaliação de todos os recursos funcionais envolvidos.";
                 setValuesProcessoAnexo(response.processoAnexo);
             } else {
                 response.processoAnexo.map((p) => (
@@ -83,10 +88,10 @@ export default function Originacao({ uuid }) {
         const auxValuesSimulacao = { ...valuesSimulacao };
 
         if (auxValues.valorSolicitado)
-        auxValues['valorSolicitado'] = Number(auxValues.valorSolicitado.toString().replace(',', '.'));
-        
+            auxValues['valorSolicitado'] = Number(auxValues.valorSolicitado.toString().replace(',', '.'));
+
         if (auxValuesSimulacao.rendaMensal)
-        auxValuesSimulacao['rendaMensal'] = Number(auxValuesSimulacao.rendaMensal.toString().replace(',', '.'));
+            auxValuesSimulacao['rendaMensal'] = Number(auxValuesSimulacao.rendaMensal.toString().replace(',', '.'));
 
         const consultor = { ...valuesConsultor, parceiro: valuesConsultorParceiro }
 
@@ -202,6 +207,7 @@ export default function Originacao({ uuid }) {
                 {(values && valuesConsultor && valuesConsultorParceiro &&
 
                     <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
+
                         <Panel
                             header="PARCEIRO | CRÉDITO BOM DEMAIS"
                             key="1" >
@@ -209,6 +215,10 @@ export default function Originacao({ uuid }) {
                             <div className="pontilhado">
                                 <div className="conteudo">
                                     <h2>INFORMAÇÕES PESSOAIS</h2>
+                                        <MatchText id='match-text-id-1'>
+                                        <h2>INFORMAÇÕES PESSOAIS</h2>
+                                        </MatchText>
+
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
                                             <InputPersonalizado texto="Nome da empresa parceira" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
@@ -230,12 +240,11 @@ export default function Originacao({ uuid }) {
 
                         </Panel>
 
-
                     </Collapse>
                 )}
                 <br />
                 {(valuesSimulacao &&
-                    <Collapse expandIconPosition="right" background="purple" defaultActiveKey={["1"]} className="fundoRoxo">
+                    <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
                         <Panel
                             background='purple'
                             header="OPERAÇÃO | HOME EQUITY"

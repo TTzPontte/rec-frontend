@@ -10,13 +10,16 @@
 
 h1 {
   padding-left: 100px;
-  color: purple;
+  color: #5C3B6B;
 }
 
 .fundoRoxo{
-  background: purple;
+  background: #9D89A6;
   color: white !important;
   
+}
+.labelInput{
+  color: #3B3349 !important;
 }
   .ant-collapse-header{
     color: white !important;
@@ -43,8 +46,8 @@ h1 {
 }
 
 .pontilhado {
-  border: solid 1px purple;
-  border-left: solid 5px purple;
+  border: solid 0,2px black;
+  border-left: solid 5px #5C3B6B;
   border-radius: 5px;
 }
 .conteudo {

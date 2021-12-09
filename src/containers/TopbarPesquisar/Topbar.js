@@ -1,12 +1,20 @@
 import appActions from '@iso/redux/app/actions';
 import { Layout } from 'antd';
-import React from 'react';
+import React, {useContext} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TopbarWrapper from './Topbar.styles';
 import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';
 import Input from '@iso/components/uielements/input';
 import { Col, Row } from 'antd';
 import '../style.css';
+import {
+  MatchText,
+  SearchProvider,
+  SearchContext,
+  SearchEventContext,
+} from 'react-ctrl-f';
+
+
 
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
@@ -16,6 +24,7 @@ export default function Topbar({ uiid }) {
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
   const dispatch = useDispatch();
+  const { onSearchChange, onPrev, onNext } = useContext(SearchEventContext);
   const handleToggle = React.useCallback(() => dispatch(toggleCollapsed()), [
     dispatch,
   ]);
@@ -42,17 +51,18 @@ export default function Topbar({ uiid }) {
     display: 'flex',
     marginBottom: '5px',
     alignItems: 'center',
-    borderLeft: '1px solid #000',
+    borderLeft: '1px solid #E1DFDF',
   };
 
   const inputStyled = {
     boxShadow: '0 0 0 0 !important',
-    border: '0 none !important',
     outline: ' 0 !important',
     width: '500px',
     height: '49px',
     margin: '12px',
     border: '0px',
+    fontSize: '19px',
+
   }
   const iconeStyle = {
     width: '49px',
@@ -78,7 +88,7 @@ export default function Topbar({ uiid }) {
 
           <Col sm={5} md={5} xs={5} style={colStyle2}>
             <IconCheck32x32 style={iconeStyle}/>
-            <Input style={inputStyled} bordered={'true'} />
+            <Input style={inputStyled} bordered={false} onChange={onSearchChange}/>
           </Col>
         </Row>
         {/* <div className="isoLeft">
