@@ -64,7 +64,7 @@ body {
 .home_botao-busca {
   width: 150px;
   height: 49px;
-  margin: 12px;
+  margin: 8px;
   background: #5c3b6b;
   color: #ffffff;
   border: 0px;
@@ -79,8 +79,7 @@ body {
 
 .home_input-busca {
   width: 500px;
-  height: 49px;
-  margin: 12px;
+  height: 64px;
   border: 0px;
 }
 
