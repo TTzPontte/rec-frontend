@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import backgroundLogin from "@iso/assets/background-login.svg";
 
 export const Container = styled.div`
   display: grid;
@@ -26,7 +27,8 @@ export const Main = styled.main`
   justify-content: flex-start;
   align-items: center;
 
-  background-color: #f0f0f7;
+  background: url(${backgroundLogin}) no-repeat right #f0f0f7;
+  background-size: auto 100%;
 `;
 
 export const Form = styled.div`
@@ -43,6 +45,7 @@ export const Form = styled.div`
   box-shadow: 0px 3px 6px #00000029;
 
   header {
+    user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;

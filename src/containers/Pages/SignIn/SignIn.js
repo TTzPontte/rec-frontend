@@ -9,6 +9,7 @@ import {
   Form,
 } from "./SignIn.styles";
 import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
+import { ReactComponent as IconHeart } from "@iso/assets/icon-heart.svg";
 import LogoGoogle from "@iso/assets/logo-google.svg";
 import { logInAct } from "@iso/redux/auth/actions";
 import { useSelector, useDispatch } from "react-redux";
@@ -63,9 +64,23 @@ export default function SignIn() {
         <Message
           style={hasError ? { animation: "1s ease-out 0s 1 downMessage" } : {}}
         >
-          Feito com
-          <span> ♥ </span>
-          pela Pontte
+          <p
+            style={{
+              display: "flex",
+              alignItems: "center",
+              userSelect: "none",
+            }}
+          >
+            Feito com
+            <span>
+              <IconHeart
+                style={{
+                  height: "14px",
+                }}
+              />
+            </span>
+            pela Pontte
+          </p>
         </Message>
       </Main>
     </Container>
