@@ -13,5 +13,5 @@ export const Container = styled.div`
   padding: 10px 10px;
   margin: 10px;
   background: transparent;
-  margin-top: 70px
+  margin-top: 70px;
 `;
