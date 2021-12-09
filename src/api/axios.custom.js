@@ -15,7 +15,7 @@ export class AxiosCustom {
 
       if (error.response.status === 403) {
         store.dispatch(refreshTokenAct());
-        return Promise.resolve(this.request(error.config));
+        return Promise.reject(error);
       }
 
       return Promise.reject(error);
