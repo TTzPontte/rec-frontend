@@ -17,6 +17,8 @@ import {
 } from './Topbar.styles';
 import { ReactComponent as SvgLogoPontte } from '../../assets/logo-pontte.svg';
 
+import { ReactComponent as IconLogOut } from '../../assets/Log_out.svg';  
+
 const styleLogoPontte = {
   width: '160px',
   height: '36px',
@@ -91,7 +93,12 @@ export default function Topbar() {
                 closable={false}
               >
                 <div>
-                  <SairStyle onClick={logout} >Sair</SairStyle>
+                  <div style={ {float: 'left', marginRight: 7} }>
+                    <IconLogOut/>
+                  </div>
+                  <div>  
+                    <SairStyle onClick={logout} >Sair</SairStyle>
+                  </div>  
                 </div>  
               </Modal>               
             </section>

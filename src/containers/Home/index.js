@@ -22,87 +22,8 @@ import { set } from "nprogress";
 
 export default function Home({ handleOperacao }) {
 
-    const tableColumns = [
-        {
-            title: 'Id Operação',
-            dataIndex: 'uuid',
-            rowKey: 'uuid',
-            width: '5%',
-            render: (text, processo) => (
-                <Button
-                    type="text"
-                    onClick={() => handleOperacao(processo)}
-                    title={processo.uuid}
-                >
-                    {processo.uuid}
-                </Button>
-            ),
-        },
-        {
-            title: 'Origem',
-            dataIndex: 'origem',
-            rowKey: 'origem',
-            width: '5%',
-            render: (text, processo) => (
-                <Button
-                    type="text"
-                    onClick={() => handleOperacao(processo)}
-                    title={processo.origem}
-                >
-                    {processo.origem}
-                </Button>
-            ),
-        },        
-        {
-            title: 'Valor da Operação',
-            dataIndex: 'valorSolicitado',
-            rowKey: 'valorSolicitado',
-            width: '5%',
-            render: (text, processo) => (
-                <Button
-                    type="text"
-                    onClick={() => handleOperacao(processo)}
-                    title={processo.valorSolicitado}
-                >
-                    {processo.valorSolicitado}
-                </Button>
-            ),
-        },                
-        {
-            title: 'Tomador de Empréstimo',
-            dataIndex: 'tomador',
-            rowKey: 'tomador',
-            width: '5%',
-            render: (text, processo) => (
-                <Button
-                    type="text"
-                    onClick={() => handleOperacao(processo)}
-                    title={processo.tomador}
-                >
-                    {processo.tomador}
-                </Button>
-            ),
-        },                        
-        {
-            title: 'CPF Tomador',
-            dataIndex: 'cpfTomador',
-            rowKey: 'cpfTomador',
-            width: '5%',
-            render: (text, processo) => (
-                <Button
-                    type="text"
-                    onClick={() => handleOperacao(processo)}
-                    title={processo.cpfTomador}
-                >
-                    {processo.cpfTomador}
-                </Button>
-            ),
-        },
-    ];
-
     const api = new Api();
     const [textoBusca, setTextoBusca] = useState('');
-    // const [processos, setProcessos] = useState([]);
     const [processosSearch, setProcessosSearch] = useState({skip: 0, take: 10, total: 0, processos: 0});
 
     async function search() {
@@ -124,11 +45,6 @@ export default function Home({ handleOperacao }) {
         await search();
     }
     const handleSubmit = useCallback(handleSubmitFn, [textoBusca]);    
-
-    async function handleTableChange(page: any) {
-        processosSearch.skip = processosSearch.take * (page.current - 1);
-        await search();
-    };
 
     async function onChangePagination(pageNumber) {
         processosSearch.skip = processosSearch.take * (pageNumber - 1);
@@ -178,25 +94,6 @@ export default function Home({ handleOperacao }) {
                         </ButtonDiv>
                     </div>
                 </Form>
-
-                {/* <Row style={rowStyle} gutter={gutter} justify="start">
-                    <Col span={2}></Col>
-                    <Col span={20} style={colStyle}>
-                        <TableWrapper
-                            rowKey='uuid'
-                            dataSource={processosSearch.processos}
-                            columns={tableColumns}
-                            pagination={{
-                                defaultCurrent: processosSearch.skip + 1,
-                                total: processosSearch.total,
-                                // pageSize: processosSearch.take,
-                            }}
-                            style={{ marginTop: '20px', width: '100%' }}
-                            onChange={handleTableChange}                            
-                        />
-                    </Col>
-                    <Col span={2}></Col>
-                </Row> */}
 
                 <Row style={rowStyle} gutter={gutter} justify="start">
                     <Col span={2}></Col>
