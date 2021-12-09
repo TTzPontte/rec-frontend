@@ -57,7 +57,7 @@ export default function InputMonetarioPersonalizado({ texto, valorCampo, iconeLa
 
     return (
         <div>
-            <div className="hoverAzul" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
+            <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
             <div className="divInput"> <CurrencyInput decimalSeparator="," thousandSeparator="." precision="2"
             prefix="R$" value={valorCampo} className={estiloInput} disabled={desabilitarCampo} 
 

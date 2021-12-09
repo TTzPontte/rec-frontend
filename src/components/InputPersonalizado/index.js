@@ -55,10 +55,9 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
         habilitarDesabilitar();
     }
 
-
     return (
         <div>
-            <div className="hoverAzul" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
+            <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <EditOutlined className={estiloIconeEditar} /></div>
             <div className="divInput"> <Input type={tipoInput} defaultValue={valorCampo} className={estiloInput} disabled={desabilitarCampo} onChange={handleChange} id={idCampo}/></div>
             <CheckCircleFilled className={estiloIconeOk} onClick={handleOk} /> <CloseCircleFilled className={estiloIconeNOk} onClick={handleCancel} />
         </div>

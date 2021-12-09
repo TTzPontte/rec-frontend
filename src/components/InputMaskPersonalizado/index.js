@@ -59,7 +59,7 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
 
     return (
         <div>
-            <div className="hoverAzul" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
+            <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto}  <EditOutlined className={estiloIconeEditar} /></div>
             <div className="divInput"> <InputMask 
 
                 onChange={(value) =>
