@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.68" height="14.04" viewBox="0 0 12.68 14.04">
+  <g id="Icon_trash_16x16" data-name="Icon/trash/16x16" transform="translate(0.5 0.5)">
+    <path id="Path_12832" data-name="Path 12832" d="M12.5,75.5v9.89a1.13,1.13,0,0,1-1.13,1.12H4.62a1.13,1.13,0,0,1-1.13-1.12V75.5" transform="translate(-2.16 -73.47)" fill="none" stroke="#66666e" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Line_180" data-name="Line 180" x2="11.68" transform="translate(0 2.03)" fill="none" stroke="#66666e" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Line_181" data-name="Line 181" x2="2.86" transform="translate(4.39)" fill="none" stroke="#66666e" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Line_182" data-name="Line 182" y2="5" transform="translate(4.34 5.04)" fill="none" stroke="#66666e" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Line_183" data-name="Line 183" y2="5" transform="translate(7.34 5.04)" fill="none" stroke="#66666e" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+  </g>
+</svg>
