@@ -16,7 +16,7 @@ const INITIAL_STATE = {
 
 export default function authReducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-    case ACT.CHECK_AUTHORIZATION:
+    case ACT.VERIFY_USER_AUTHENTICATION:
       return state;
     case ACT.LOGIN_REQUEST:
       return state;
@@ -39,6 +39,7 @@ export default function authReducer(state = INITIAL_STATE, action = {}) {
       return {
         ...state,
         isLoading: false,
+        hasError: action.hasError,
       };
     default:
       return state;

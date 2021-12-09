@@ -113,7 +113,7 @@ export const Button = styled.button`
 
 export const IconBuscaDiv = styled.div`
   float: left;
-  margin: 27px;
+  margin: 20px;
 `;
 
 export const InputDiv = styled.div`

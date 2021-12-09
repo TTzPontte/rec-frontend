@@ -19,6 +19,19 @@ class Api {
   async salvarProcesso(url, formValues) {
     const response = await this.service.patch(url, formValues);
   }
+
+  async verifyTokenId({ tokenId }) {
+    try {
+      console.log('verificando token id...')
+      return !!(await this.service.post("/auth/login", null, {
+        headers: {
+          Authorization: tokenId,
+        },
+      }));
+    } catch {
+      return false;
+    }
+  }
 }
 
 export default Api;

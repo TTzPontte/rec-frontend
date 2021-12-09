@@ -146,7 +146,7 @@ export default function Home({ handleOperacao }) {
     };
 
     const divForm = {
-        height: '75px',
+        height: '64px',
     }
 
     const gutter = 16;
@@ -206,19 +206,19 @@ export default function Home({ handleOperacao }) {
                             <div className="home_item-lista">                                
                                 <table className="home_table-list-header" style={ {width: '99%', marginLeft: '5px'} }>
                                     <colgroup>
-                                        <col style={ {width: '23%'} } />
-                                        <col style={ {width: '20%'} } />
-                                        <col style={ {width: '20%'} } />
-                                        <col style={ {width: '20%'} } />
-                                        <col style={ {width: '20%'} } />
+                                        <col style={ {width: '26%'} } />
+                                        <col style={ {width: '9%'} } />
+                                        <col style={ {width: '12%'} } />
+                                        <col style={ {width: '16%'} } />
+                                        <col style={ {width: '12%'} } />
                                     </colgroup>                                    
                                     <thead className="ant-table-thead">
                                         <tr>
-                                            <th className="ant-table-cell" style={ {width: '23%', background: '#ffffff', borderBottom: '0px'} } >Id Operação</th>
-                                            <th className="ant-table-cell" style={ {width: '20%', background: '#ffffff', borderBottom: '0px'} } >Origem</th>
-                                            <th className="ant-table-cell" style={ {width: '20%', background: '#ffffff', borderBottom: '0px'} } >Valor da Operação</th>
-                                            <th className="ant-table-cell" style={ {width: '20%', background: '#ffffff', borderBottom: '0px'} } >Tomador de Empréstimo</th>
-                                            <th className="ant-table-cell" style={ {width: '20%', background: '#ffffff', borderBottom: '0px'} } >CPF Tomador</th>
+                                            <th className="ant-table-cell" style={ {width: '26%', background: '#ffffff', borderBottom: '0px'} } >Id Operação</th>
+                                            <th className="ant-table-cell" style={ {width: '9%', background: '#ffffff', borderBottom: '0px'} } >Origem</th>
+                                            <th className="ant-table-cell" style={ {width: '12%', background: '#ffffff', borderBottom: '0px'} } >Valor da Operação</th>
+                                            <th className="ant-table-cell" style={ {width: '16%', background: '#ffffff', borderBottom: '0px'} } >Tomador de Empréstimo</th>
+                                            <th className="ant-table-cell" style={ {width: '12%', background: '#ffffff', borderBottom: '0px'} } >CPF Tomador</th>
                                         </tr>
                                     </thead>
                                 </table>
