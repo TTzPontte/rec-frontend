@@ -15,11 +15,12 @@ export const getUserSession = async () => {
   try {
     const cognito = await Auth.currentSession();
 
-    const idToken = cognito.getIdToken();
+    const identityToken = cognito.getIdToken()
 
-    const awsToken = idToken.getJwtToken();
+    const { name, email, picture } = identityToken.payload;
 
-    const { name, email, picture } = idToken.payload;
+    const tokenId = identityToken.payload;
+    const accessToken = cognito.getAccessToken().getJwtToken();
 
     return {
       user: {
@@ -27,7 +28,8 @@ export const getUserSession = async () => {
         email,
         picture,
       },
-      token: awsToken,
+      tokenId,
+      accessToken,
     };
   } catch {
     return {};

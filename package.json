@@ -102,7 +102,8 @@
     "rich-marker": "^0.0.1",
     "styled-components": "^5.1.1",
     "styled-theme": "^0.3.3",
-    "swiper": "^5.4.5"
+    "swiper": "^5.4.5",
+    "typeface-lato": "^1.1.13"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.0",

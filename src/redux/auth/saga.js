@@ -5,27 +5,25 @@ import {
   logInGoogle,
   logOutGoogle,
 } from "@iso/lib/aws/aws.amplify";
-import { getAppToken } from "@iso/lib/aws/aws.authentication";
 import { createBrowserHistory } from "history";
+import { AxiosCustom } from "@iso/api/axios.custom";
 
 const history = createBrowserHistory();
 
 export function* checkAuthorization() {
   yield takeEvery(ACT.CHECK_AUTHORIZATION, function* () {
     try {
-      let { user: profile, token: userToken } = yield call(getUserSession);
+      let { user: profile, tokenId, accessToken } = yield call(getUserSession);
 
-      if (!userToken) throw new Error("User not Found");
-
-      const { access_token: appToken } = yield call(getAppToken);
+      if (!tokenId) throw new Error("User not Found");
 
       yield put({
         type: ACT.LOGIN_SUCCESS,
         payload: {
           profile,
           credentials: {
-            userToken,
-            appToken,
+            tokenId,
+            accessToken,
           },
         },
       });
@@ -42,13 +40,13 @@ export function* loginRequest() {
 export function* loginSuccess() {
   yield takeEvery(ACT.LOGIN_SUCCESS, function ({ payload }) {
     const { credentials } = payload;
-    localStorage.setItem('token', credentials.appToken)
+    AxiosCustom.setAuthorization(credentials.accessToken);
   });
 }
 
 export function* logout() {
   yield takeEvery(ACT.LOGOUT, () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token");
     history.push("/");
     logOutGoogle();
   });

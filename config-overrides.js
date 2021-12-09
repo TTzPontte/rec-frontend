@@ -19,6 +19,7 @@ module.exports = function(config, env) {
         '@iso/redux': path.resolve(__dirname, 'src/redux'),
         '@iso/lib': path.resolve(__dirname, 'src/library'),
         '@iso/ui': path.resolve(__dirname, 'src/UI'),
+        '@iso/api': path.resolve(__dirname, 'src/api'),
       })
     )(config, env)
   );

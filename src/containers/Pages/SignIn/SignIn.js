@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Header,
@@ -22,10 +22,10 @@ export default function SignIn() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!!Auth.credentials.userToken) {
+    if (!!Auth.credentials.tokenId) {
       history.push("/dashboard");
     }
-  }, [Auth.credentials.userToken, history]);
+  }, [Auth.credentials.tokenId, history]);
 
   const handlerLogIn = () => dispatch(logInAct());
 
