@@ -19,7 +19,7 @@ export const getUserSession = async () => {
 
     const { name, email, picture } = identityToken.payload;
 
-    const tokenId = identityToken.payload;
+    const tokenId = identityToken.getJwtToken();
     const accessToken = cognito.getAccessToken().getJwtToken();
 
     return {
