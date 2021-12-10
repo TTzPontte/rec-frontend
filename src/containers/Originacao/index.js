@@ -49,7 +49,6 @@ export default function Originacao({ uuid }) {
             if (!response.processoAnexo) {
 
                 response.processoAnexo = {};
-                response.processoAnexo.texto = "Lorem ipsum dolor sit amet consectetur adipiscing elit suspendisse aptent orci, facilisi eget facilisis nibh penatibus tincidunt mauris condimentum porta. Sollicitudin augue tincidunt vehicula interdum aliquam litora orci molestie, class varius libero adipiscing magnis nunc lorem, justo eros egestas habitant arcu risus gravida. Mauris in dictum non est cursus torquent venenatis facilisi porttitor gravida, primis finibus malesuada dapibus etiam eros suspendisse hac. Ac senectus erat urna ad hendrerit mus blandit egestas rutrum sagittis tempor, tristique phasellus nunc volutpat eu venenatis varius ullamcorper ultricies nullam. Rutrum in auctor suspendisse conubia hendrerit faucibus vel hac bibendum tristique rhoncus habitant aliquam ligula, tellus vitae potenti ridiculus varius nam duis cubilia est sem consequat sit primis. Massa cursus quam facilisi blandit ligula suscipit pulvinar odio turpis, ut fusce aenean etiam magnis non duis scelerisque, est rhoncus ultricies posuere dignissim cubilia amet placerat.";
                 setValuesProcessoAnexo(response.processoAnexo);
             } else {
                 response.processoAnexo.map((p) => (
@@ -75,7 +74,7 @@ export default function Originacao({ uuid }) {
     };
 
     const colStyle = {
-        marginBottom: '40px',
+        marginBottom: '30px',
         paddingBottom: '20px',
     };
 
