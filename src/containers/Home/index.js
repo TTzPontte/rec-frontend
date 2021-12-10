@@ -1,7 +1,6 @@
-
+import StringUtils from "../../utils/StringUtils";
 import { Button, Pagination } from "antd";
 import { Input } from 'antd';
-import TableWrapper from '@iso/containers/Tables/AntTables/AntTables.styles';
 import { List, Col, Row } from 'antd';
 import { useState, useCallback } from 'react';
 import React from 'react';
@@ -15,10 +14,8 @@ import {
     IconBuscaDiv,
   } from './styled-components';
 import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';  
-
 import Api from '../../api';
 import Topbar from "../Topbar/Topbar";
-import { set } from "nprogress";
 
 export default function Home({ handleOperacao }) {
 
@@ -143,7 +140,7 @@ export default function Home({ handleOperacao }) {
                                             </td>
                                             <td className="ant-table-cell" style={ {width: '20%'} } >
                                                 <Button type="text" onClick={() => handleOperacao(item)} title={item.origem} >
-                                                    <span>{item.origem}</span>
+                                                    <span>{StringUtils.truncateString(item.origem, 12)}</span>
                                                 </Button>
                                             </td> 
                                             <td className="ant-table-cell" style={ {width: '20%'} } >
