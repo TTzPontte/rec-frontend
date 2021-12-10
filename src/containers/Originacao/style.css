@@ -13,40 +13,17 @@ h1 {
   color: #5C3B6B;
 }
 
-.fundoRoxo{
-  background: #9D89A6;
-  color: white !important;
-  
-}
 .labelInput{
   color: #3B3349 !important;
 }
   .ant-collapse-header{
     color: white !important;
+    background: #9D89A6;
   }
 
-.nome {
-  margin-left: 10px;
-}
-
-.logoEmpresa {
-  width: 120;
-  height: 60px;
-  margin: 10px;
-  /* border-radius: 4px; */
-}
-
-.extrato {
-  padding-right: 40px;
-  min-width: 50%;
-}
-
-.extrato div {
-  border-bottom: dashed 1px black;
-}
 
 .pontilhado {
-  border: solid 0,2px black;
+  border: solid 1px #E1DFDF;
   border-left: solid 5px #5C3B6B;
   border-radius: 5px;
 }
@@ -64,7 +41,7 @@ body {
 }
 
 * {
-  font-family: 'Lato' !important;
+  font-family: 'Lato Bold' !important;
 }
 .label {
   font-size: 16px;

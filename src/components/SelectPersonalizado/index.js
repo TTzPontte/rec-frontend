@@ -1,8 +1,8 @@
 import Select, { SelectOption } from '@iso/components/uielements/select';
-
-import { CheckCircleFilled, CloseCircleFilled, EditOutlined, UpSquareOutlined } from '@ant-design/icons';
-import Input from '@iso/components/uielements/input';
 import React, { useState } from 'react';
+import { ReactComponent as CheckConfirmSecondary } from '../../assets/check-confirm-secondary.svg';
+import { ReactComponent as CloseSecondary } from '../../assets/close-secondary.svg';
+import { ReactComponent as IconPencilEdit } from '../../assets/icon-pencil_edit.svg';
 import './style.css';
 
 export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lista, onSave, handleChange, idCampo }) {
@@ -36,8 +36,8 @@ export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lis
     }
 
     const handleMouseOver = () => {
-        if (estiloIconeEditar) {
-            setEstiloIconeEditar(null);
+        if (estiloIconeEditar == 'hidden') {
+            setEstiloIconeEditar('iconeEditar');
         } else {
             setEstiloIconeEditar("hidden");
         }
@@ -54,7 +54,7 @@ export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lis
 
     return (
         <div>
-            <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <EditOutlined className={estiloIconeEditar} /></div>
+            <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <IconPencilEdit className={estiloIconeEditar} /></div>
             <div className="divInput">
                 <Select
                 bordered={!desabilitarCampo}
@@ -73,7 +73,7 @@ export default function SelectPersonalizado({ texto, valorCampo, iconeLabel, lis
                     ))}
                 </Select>
             </div>
-            <CheckCircleFilled className={estiloIconeOk} onClick={handleOk} /> <CloseCircleFilled className={estiloIconeNOk} onClick={handleCancel} />
+            <CheckConfirmSecondary className={estiloIconeOk} onClick={handleOk} /> <CloseSecondary className={estiloIconeNOk} onClick={handleCancel} />
         </div>
     );
 }

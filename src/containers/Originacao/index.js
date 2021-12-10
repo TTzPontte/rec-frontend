@@ -1,21 +1,20 @@
-import { DownSquareOutlined, MailOutlined, UpSquareOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { ReactComponent as IconDropdown } from '../../assets/icon-dropdown.svg';  
+import { ReactComponent as IconPhone } from '../../assets/icon-phone-14x14.svg';  
+import { ReactComponent as IconTextNumber } from '../../assets/icon-text_number.svg';  
+import { ReactComponent as IconEmail } from '../../assets/icon-email-14x14.svg';  
+
 import Collapse from '@iso/components/uielements/collapse';
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Api from '../../api';
 import InputMaskPersonalizado from '../../components/InputMaskPersonalizado';
 import InputMonetarioPersonalizado from '../../components/InputMonetarioPersonalizado';
+import RadioPersonalizado from '../../components/RadioPersonalizado';
 import InputPersonalizado from '../../components/InputPersonalizado';
 import SelectPersonalizado from '../../components/SelectPersonalizado';
 import TextAreaPersonalizado from '../../components/TextAreaPersonalizado';
 import { Container } from '../style';
 import './style.css';
-import {
-    MatchText,
-    SearchProvider,
-    SearchContext,
-    SearchEventContext,
-} from 'react-ctrl-f';
 
 export default function Originacao({ uuid }) {
     const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
@@ -50,6 +49,7 @@ export default function Originacao({ uuid }) {
             if (!response.processoAnexo) {
 
                 response.processoAnexo = {};
+                response.processoAnexo.texto = "Lorem ipsum dolor sit amet consectetur adipiscing elit suspendisse aptent orci, facilisi eget facilisis nibh penatibus tincidunt mauris condimentum porta. Sollicitudin augue tincidunt vehicula interdum aliquam litora orci molestie, class varius libero adipiscing magnis nunc lorem, justo eros egestas habitant arcu risus gravida. Mauris in dictum non est cursus torquent venenatis facilisi porttitor gravida, primis finibus malesuada dapibus etiam eros suspendisse hac. Ac senectus erat urna ad hendrerit mus blandit egestas rutrum sagittis tempor, tristique phasellus nunc volutpat eu venenatis varius ullamcorper ultricies nullam. Rutrum in auctor suspendisse conubia hendrerit faucibus vel hac bibendum tristique rhoncus habitant aliquam ligula, tellus vitae potenti ridiculus varius nam duis cubilia est sem consequat sit primis. Massa cursus quam facilisi blandit ligula suscipit pulvinar odio turpis, ut fusce aenean etiam magnis non duis scelerisque, est rhoncus ultricies posuere dignissim cubilia amet placerat.";
                 setValuesProcessoAnexo(response.processoAnexo);
             } else {
                 response.processoAnexo.map((p) => (
@@ -72,13 +72,13 @@ export default function Originacao({ uuid }) {
     const { Panel } = Collapse;
     const rowStyle = {
         width: '100%',
-        display: 'flex',
-        flexFlow: 'row wrap',
     };
 
     const colStyle = {
-        marginBottom: '5px',
+        marginBottom: '40px',
+        paddingBottom: '20px',
     };
+
 
     const gutter = 16;
 
@@ -215,24 +215,20 @@ export default function Originacao({ uuid }) {
                             <div className="pontilhado">
                                 <div className="conteudo">
                                     <h2>INFORMAÇÕES PESSOAIS</h2>
-                                        <MatchText id='match-text-id-1'>
-                                        <h2>INFORMAÇÕES PESSOAIS</h2>
-                                        </MatchText>
-
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome da empresa parceira" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
+                                            <InputPersonalizado texto="Nome da empresa parceira" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Email do parceiro" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<MailOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" editavel={false} />
+                                            <InputPersonalizado texto="Email do parceiro" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<IconEmail />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" editavel={false} />
                                         </Col>
                                     </Row>
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome do parceiro" valorCampo={valuesConsultor.nome} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                            <InputPersonalizado texto="Nome do parceiro" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMaskPersonalizado texto="Telefone" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<WhatsAppOutlined />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" mask="(99) 99999-9999" editavel={false} />
+                                            <InputMaskPersonalizado texto="Telefone" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconPhone />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" mask="+ 99 (99) 99999-9999" editavel={false} />
                                         </Col>
                                     </Row>
                                 </div>
@@ -255,50 +251,57 @@ export default function Originacao({ uuid }) {
                                     <h2>INFORMAÇÕES DA OPERAÇÃO</h2>
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Tipo de operação" valorCampo={values.processoTipo} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChange} idCampo="processoTipo" />
+                                            <SelectPersonalizado texto="Tipo de operação" valorCampo={values.processoTipo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChange} idCampo="processoTipo" />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Formula de amortização" valorCampo={values.amortizacao} iconeLabel={<DownSquareOutlined />} lista={formulaAmortizacao} onSave={onSave} handleChange={handleInputChange} idCampo="amortizacao" />
+                                            <RadioPersonalizado texto="Formula de amortização" valorCampo={values.amortizacao} iconeLabel={<IconDropdown />} lista={formulaAmortizacao} onSave={onSave} handleChange={handleInputChange} idCampo="amortizacao" />
                                         </Col>
                                     </Row>
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMonetarioPersonalizado texto="Valor da operação" valorCampo={values.valorSolicitado} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorSolicitado" />
+                                            <InputMonetarioPersonalizado texto="Valor da operação" valorCampo={values.valorSolicitado} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorSolicitado" />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Mês do ano sem pagar" valorCampo={valuesSimulacao.mesAnoSemPagar} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="mesAnoSemPagar" />
+                                            <SelectPersonalizado texto="Mês do ano sem pagar" valorCampo={valuesSimulacao.mesAnoSemPagar} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="mesAnoSemPagar" />
                                         </Col>
                                     </Row>
 
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMonetarioPersonalizado texto="Valor informado do imóvel" valorCampo={values.valorInformadoImovel} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorInformadoImovel" />
+                                            <InputMonetarioPersonalizado texto="Valor informado do imóvel" valorCampo={values.valorInformadoImovel} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorInformadoImovel" />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Carência" valorCampo={valuesSimulacao.carencia} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="carencia" />
+                                            <SelectPersonalizado texto="Carência" valorCampo={valuesSimulacao.carencia} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="carencia" />
                                         </Col>
                                     </Row>
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMonetarioPersonalizado texto="Renda composta" valorCampo={valuesSimulacao.rendaMensal} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMonetarioChangeSimulacao} idCampo="rendaMensal" />
+                                            <InputMonetarioPersonalizado texto="Renda composta" valorCampo={valuesSimulacao.rendaMensal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMonetarioChangeSimulacao} idCampo="rendaMensal" />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Motivo do empréstimo" valorCampo={valuesSimulacao.motivacao} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="motivacao" />
+                                            <SelectPersonalizado texto="Motivo do empréstimo" valorCampo={valuesSimulacao.motivacao} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="motivacao" />
                                         </Col>
                                     </Row>
-                                    <Row style={rowStyle} gutter={16} justify="start">
+
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMaskPersonalizado texto="CEP do imóvel" valorCampo={valuesSimulacao.cep} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputMaskChange} idCampo="cep" mask="99999-999" />
+                                            <InputMaskPersonalizado texto="CEP do imóvel" valorCampo={valuesSimulacao.cep} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMaskChange} idCampo="cep" mask="99999-999" />
+                                            <br/>
+                                            <div style={colStyle}/>
+                                            <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <TextAreaPersonalizado texto="Informações adicionais" valorCampo={valuesProcessoAnexo.texto} iconeLabel={<UpSquareOutlined />} onSave={onSave} handleChange={handleInputChange} idCampo="texto" />
+                                            <TextAreaPersonalizado texto="Informações adicionais" valorCampo={valuesProcessoAnexo.texto} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChange} idCampo="texto" />
                                         </Col>
                                     </Row>
-                                    <Row style={rowStyle} gutter={16} justify="start">
+                                       
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                        </Col>
+                                    {/* <Row style={rowStyle} gutter={16} justify="start">
                                         <Col sm={11} md={11} xs={11} style={colStyle}>
-                                            <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<DownSquareOutlined />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
+                                            <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
                                         </Col>
-                                    </Row>
+                                    </Row> */}
                                 </div>
                             </div>
 

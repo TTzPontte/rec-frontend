@@ -17,16 +17,12 @@
   .iconeVerde{
     margin-top: 6px;
     padding-left: 15px;
-    width: 40px;
+    color: green !important;
+    font-size: 20px;
   }
   .iconeCinza{
     margin-top: 6px;
     
-    width: 26px;
-  }
-
-  .iconeEditar{
-    max-width: 12px;
-    max-height: 12px;
+    color: gray !important;
     font-size: 20px;
   }

@@ -2,11 +2,21 @@
     resize: none;
 }
 
-.textarea {
+/* .textarea {
   display: block;
   white-space: nowrap;
   width: 200px;
   overflow: hidden;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+   */
+
+
+.textarea {
+  display: block;
+  width: 200px;
   -o-text-overflow: ellipsis;
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;
