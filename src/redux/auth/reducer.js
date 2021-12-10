@@ -15,6 +15,7 @@ const INITIAL_STATE = {
 };
 
 export default function authReducer(state = INITIAL_STATE, action = {}) {
+
   switch (action.type) {
     case ACT.VERIFY_USER_AUTHENTICATION:
       return state;

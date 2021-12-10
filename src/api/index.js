@@ -1,4 +1,5 @@
 import { AxiosCustom } from "./axios.custom";
+
 class Api {
   constructor() {
     this.service = AxiosCustom.getService();

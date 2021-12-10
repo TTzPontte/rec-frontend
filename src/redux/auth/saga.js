@@ -57,7 +57,6 @@ export function* verifyUserAuthentication() {
         },
       });
     } catch (e) {
-      console.log(e);
       yield put({
         type: e.fatalError ? ACT.LOGOUT : ACT.RESET,
         hasError: !!localStorage.getItem("hasError"),
@@ -75,6 +74,13 @@ export function* loginSuccess() {
   yield takeEvery(ACT.LOGIN_SUCCESS, ({ payload }) =>
     AxiosCustom.setAuthorization(payload.credentials.accessToken)
   );
+}
+
+export function* refreshToken() {
+  yield takeEvery(ACT.REFRESH_TOKEN, function* () {
+    let { accessToken } = yield call(getUserSession);
+    AxiosCustom.setAuthorization(accessToken);
+  });
 }
 
 export function* logInError() {
@@ -100,5 +106,6 @@ export default function* rootSaga() {
     fork(loginSuccess),
     fork(logInError),
     fork(logout),
+    fork(refreshToken),
   ]);
 }
