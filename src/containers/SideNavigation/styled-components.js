@@ -55,7 +55,7 @@ export const UserInfo = styled.div`
 
     strong {
       font-weight: 400;
-      font: normal normal medium 16px/19px "Lato", sans-serif;;
+      font: normal normal medium 16px/19px "Lato", sans-serif;
       color: ${colors.textSecondary};
     }
 
@@ -85,21 +85,24 @@ export const Nav = styled.nav`
       justify-content: start;
 
       margin-bottom: 10px;
-      margin-left: 10px;
 
-      cursor: pointer;
       letter-spacing: 0.1px;
       font: normal normal normal 16px/19px Lato;
 
-      img {
-        margin: 0px 16px;
-        width: 20px;
-        height: 20px;
-      }
-
-      a {
+      .navButton {
+        width: 100%;
         margin-left: 10px;
-        color: ${colors.textSecondary};
+
+        img {
+          margin: 0px 16px;
+          width: 20px;
+          height: 20px;
+        }
+
+        a {
+          margin-left: 10px;
+          color: ${colors.textSecondary};
+        }
       }
     }
 
@@ -121,9 +124,10 @@ export const Footer = styled.footer`
   margin: auto;
   margin-bottom: 20px;
 
-  cursor: pointer;
-
   div {
+    span {
+      cursor: pointer;
+    }
     img {
       width: 20px;
       height: 20px;
