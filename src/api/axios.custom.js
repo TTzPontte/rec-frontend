@@ -2,7 +2,7 @@ import axios from "axios";
 import { store } from "@iso/redux/store";
 import { refreshTokenAct } from "@iso/redux/auth/actions";
 export class AxiosCustom {
-  static request = axios.create({ baseURL: "http://localhost:5000" });
+  static request = axios.create({ baseURL: process.env.REACT_APP_BACKEND });
 
   static getService() {
     return this.request;
