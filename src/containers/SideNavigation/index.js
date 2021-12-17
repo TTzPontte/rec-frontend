@@ -21,10 +21,12 @@ const SideNavigation = ({ handleOperacao }) => {
         <SvgLogoPontte
           style={{
             width: "120px",
-            height: "120px",
+            height: "60px",
             color: "#5C3B6B",
             marginLeft: "10px",
+            cursor: "pointer",
           }}
+          onClick={() => handleOperacao(null)}
         />
       </Header>
 
@@ -40,28 +42,38 @@ const SideNavigation = ({ handleOperacao }) => {
       <Nav>
         <ul>
           <li>
-            <img src={iconOrigination} alt="Originação" />
-            <Link to="/dashboard/originacao">Originação</Link>
+            <div className="navButton">
+              <img src={iconOrigination} alt="Originação" />
+              <Link to="/dashboard/originacao">Originação</Link>
+            </div>
           </li>
 
           <li>
-            <img src={iconPeople} alt="Pessoas" />
-            <Link to="/dashboard/pessoas">Pessoas</Link>
+            <div className="navButton">
+              <img src={iconPeople} alt="Pessoas" />
+              <Link to="/dashboard/pessoas">Pessoas</Link>
+            </div>
           </li>
 
           <li>
-            <img src={iconImmobile} alt="Imovél" />
-            <Link to="/dashboard/imovel">Imóvel</Link>
+            <div className="navButton">
+              <img src={iconImmobile} alt="Imovél" />
+              <Link to="/dashboard/imovel">Imóvel</Link>
+            </div>
           </li>
 
           <li>
-            <img src={iconProposal} alt="Proposta" />
-            <Link to="/dashboard/proposta">Proposta</Link>
+            <div className="navButton">
+              <img src={iconProposal} alt="Proposta" />
+              <Link to="/dashboard/proposta">Proposta</Link>
+            </div>
           </li>
 
           <li>
-            <img src={iconContract} alt="Contrato" />
-            <Link to="/dashboard/contrato">Contrato</Link>
+            <div className="navButton">
+              <img src={iconContract} alt="Contrato" />
+              <Link to="/dashboard/contrato">Contrato</Link>
+            </div>
           </li>
         </ul>
       </Nav>

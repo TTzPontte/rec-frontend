@@ -83,7 +83,7 @@ export default function Topbar({ uiid }) {
 
         <Row style={rowStyle} gutter={gutter} justify="start">
           <Col sm={15} md={15} xs={15} style={colStyle}>
-            <h1>ID#{uiid}</h1>
+            <h1>ID# {uiid}</h1>
           </Col>
 
           <Col sm={5} md={5} xs={5} style={colStyle2}>

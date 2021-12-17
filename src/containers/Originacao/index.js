@@ -1,7 +1,7 @@
-import { ReactComponent as IconDropdown } from '../../assets/icon-dropdown.svg';  
-import { ReactComponent as IconPhone } from '../../assets/icon-phone-14x14.svg';  
-import { ReactComponent as IconTextNumber } from '../../assets/icon-text_number.svg';  
-import { ReactComponent as IconEmail } from '../../assets/icon-email-14x14.svg';  
+import { ReactComponent as IconDropdown } from '../../assets/icon-dropdown.svg';
+import { ReactComponent as IconPhone } from '../../assets/icon-phone-14x14.svg';
+import { ReactComponent as IconTextNumber } from '../../assets/icon-text_number.svg';
+import { ReactComponent as IconEmail } from '../../assets/icon-email-14x14.svg';
 
 import Collapse from '@iso/components/uielements/collapse';
 import { Col, Row } from 'antd';
@@ -59,7 +59,8 @@ export default function Originacao({ uuid }) {
             response.valorInformadoImovel = valorInformadoImovel;
             setValues(response);
             setValuesSimulacao(response.simulacao);
-            setValuesConsultorParceiro(response.consultor.parceiro);
+            if (response.consultor)
+                setValuesConsultorParceiro(response.consultor.parceiro);
             setValuesProcessoAnexo(response.processoAnexo);
             setValuesConsultor(response.consultor);
         }
@@ -285,17 +286,17 @@ export default function Originacao({ uuid }) {
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
                                             <InputMaskPersonalizado texto="CEP do imóvel" valorCampo={valuesSimulacao.cep} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMaskChange} idCampo="cep" mask="99999-999" />
-                                            <br/>
-                                            <div style={colStyle}/>
+                                            <br />
+                                            <div style={colStyle} />
                                             <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
                                             <TextAreaPersonalizado texto="Informações adicionais" valorCampo={valuesProcessoAnexo.texto} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChange} idCampo="texto" />
                                         </Col>
                                     </Row>
-                                       
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                        </Col>
+
+                                    <Col sm={18} md={12} xs={12} style={colStyle}>
+                                    </Col>
                                     {/* <Row style={rowStyle} gutter={16} justify="start">
                                         <Col sm={11} md={11} xs={11} style={colStyle}>
                                             <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
