@@ -2,6 +2,8 @@ import { ReactComponent as IconDropdown } from '../../assets/icon-dropdown.svg';
 import { ReactComponent as IconPhone } from '../../assets/icon-phone-14x14.svg';
 import { ReactComponent as IconTextNumber } from '../../assets/icon-text_number.svg';
 import { ReactComponent as IconEmail } from '../../assets/icon-email-14x14.svg';
+import { ReactComponent as IconDocumentNumber } from '../../assets/icon-document_number.svg';
+import { ReactComponent as IconCalendar } from '../../assets/icon-calendar.svg';
 
 import Collapse from '@iso/components/uielements/collapse';
 import { Col, Row } from 'antd';
@@ -16,7 +18,7 @@ import TextAreaPersonalizado from '../../components/TextAreaPersonalizado';
 import { Container } from '../style';
 import './style.css';
 
-export default function Originacao({ uuid }) {
+export default function Pessoa({ uuid }) {
     const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
     const [formulaAmortizacao, setFormulaAmortizacao] = useState(['SAC', 'PRICE']);
     const [values, setValues] = React.useState(null);
@@ -209,100 +211,116 @@ export default function Originacao({ uuid }) {
                     <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
 
                         <Panel
-                            header="PARCEIRO | CRÉDITO BOM DEMAIS"
+                            header={"PESSOA | " + valuesConsultorParceiro.nome}
                             key="1" >
 
-                            <div className="pontilhado">
-                                <div className="conteudo">
-                                    <h2>INFORMAÇÕES PESSOAIS</h2>
+                            <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="pontilhado conteudo">
+                                <Panel
+                                    header="INFORMAÇÕES DA PESSOA"
+                                    key="1" >
+
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome da empresa parceira" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
+                                            <InputPersonalizado texto="Nome" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Email do parceiro" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<IconEmail />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" editavel={false} />
+                                            <InputPersonalizado texto="Nome do pai" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" editavel={false} />
                                         </Col>
                                     </Row>
                                     <Row style={rowStyle} gutter={gutter} justify="start">
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome do parceiro" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                            <InputPersonalizado texto="Papel na operação" valorCampo={valuesConsultor.nome} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
                                         </Col>
                                         <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMaskPersonalizado texto="Telefone" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconPhone />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" mask="+ 99 (99) 99999-9999" editavel={false} />
+                                            <InputPersonalizado texto="Profissão" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
                                         </Col>
                                     </Row>
-                                </div>
-                            </div>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Renda aferida" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Estado civil" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="E-mail" valorCampo={valuesConsultor.nome} iconeLabel={<IconEmail />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Regime de união" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Celular" valorCampo={valuesConsultor.nome} iconeLabel={<IconPhone />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Logradouro | Endereço" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Data de nascimento" valorCampo={valuesConsultor.nome} iconeLabel={<IconCalendar />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Número | Endereço" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="CPF" valorCampo={valuesConsultor.nome} iconeLabel={<IconDocumentNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Complemento | Endereço" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="RG" valorCampo={valuesConsultor.nome} iconeLabel={<IconDocumentNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="CEP" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Orgão emissor" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Estado" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Nacionalidade" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Cidade" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Escolaridade" valorCampo={valuesConsultor.nome} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Bairro" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={rowStyle} gutter={gutter} justify="start">
+                                        <Col sm={18} md={12} xs={12} style={colStyle}>
+                                            <InputPersonalizado texto="Nome da mãe" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
+                                        </Col>
+                                    </Row>
+                                </Panel>
+                            </Collapse>
+
 
                         </Panel>
 
                     </Collapse>
                 )}
                 <br />
-                {(valuesSimulacao &&
-                    <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
-                        <Panel
-                            background='purple'
-                            header="OPERAÇÃO | HOME EQUITY"
-                            key="1" >
-
-                            <div className="pontilhado">
-                                <div className="conteudo">
-                                    <h2>INFORMAÇÕES DA OPERAÇÃO</h2>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Tipo de operação" valorCampo={values.processoTipo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChange} idCampo="processoTipo" />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <RadioPersonalizado texto="Formula de amortização" valorCampo={values.amortizacao} iconeLabel={<IconDropdown />} lista={formulaAmortizacao} onSave={onSave} handleChange={handleInputChange} idCampo="amortizacao" />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMonetarioPersonalizado texto="Valor da operação" valorCampo={values.valorSolicitado} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorSolicitado" />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Mês do ano sem pagar" valorCampo={valuesSimulacao.mesAnoSemPagar} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="mesAnoSemPagar" />
-                                        </Col>
-                                    </Row>
-
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMonetarioPersonalizado texto="Valor informado do imóvel" valorCampo={values.valorInformadoImovel} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMonetarioChange} idCampo="valorInformadoImovel" />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Carência" valorCampo={valuesSimulacao.carencia} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="carencia" />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMonetarioPersonalizado texto="Renda composta" valorCampo={valuesSimulacao.rendaMensal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMonetarioChangeSimulacao} idCampo="rendaMensal" />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <SelectPersonalizado texto="Motivo do empréstimo" valorCampo={valuesSimulacao.motivacao} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="motivacao" />
-                                        </Col>
-                                    </Row>
-
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputMaskPersonalizado texto="CEP do imóvel" valorCampo={valuesSimulacao.cep} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputMaskChange} idCampo="cep" mask="99999-999" />
-                                            <br />
-                                            <div style={colStyle} />
-                                            <SelectPersonalizado texto="Prazo de pagamento" valorCampo={valuesSimulacao.prazo} iconeLabel={<IconDropdown />} lista={tiposOperacao} onSave={onSave} handleChange={handleInputChangeSimulacao} idCampo="prazo" />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <TextAreaPersonalizado texto="Informações adicionais" valorCampo={valuesProcessoAnexo.texto} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChange} idCampo="texto" />
-                                        </Col>
-                                    </Row>
-
-                                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                                    </Col>
-                                </div>
-                            </div>
-
-                        </Panel>
-                    </Collapse>
-                )}
             </Container>
         )
     );
