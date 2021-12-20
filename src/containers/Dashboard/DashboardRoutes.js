@@ -8,6 +8,11 @@ const routes = [
 		exact: 'originacao',
 		component: lazy(() => import('../Originacao')),
 	},
+	{
+		path: 'pessoas',
+		exact: 'pessoas',
+		component: lazy(() => import('../Pessoa')),
+	},
 ];
 
 export default function AppRouter({operacao}) {
