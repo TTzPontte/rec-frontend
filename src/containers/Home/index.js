@@ -109,11 +109,11 @@ export default function Home({ handleOperacao }) {
                                     </colgroup>                                    
                                     <thead className="ant-table-thead">
                                         <tr>
-                                            <th className="ant-table-cell" style={ {width: '26%', background: '#ffffff', borderBottom: '0px'} } >Id Operação</th>
-                                            <th className="ant-table-cell" style={ {width: '9%', background: '#ffffff', borderBottom: '0px'} } >Origem</th>
-                                            <th className="ant-table-cell" style={ {width: '12%', background: '#ffffff', borderBottom: '0px'} } >Valor da Operação</th>
-                                            <th className="ant-table-cell" style={ {width: '16%', background: '#ffffff', borderBottom: '0px'} } >Tomador de Empréstimo</th>
-                                            <th className="ant-table-cell" style={ {width: '12%', background: '#ffffff', borderBottom: '0px'} } >CPF Tomador</th>
+                                            <th className="ant-table-cell" style={ {width: '26%', background: '#ffffff', borderBottom: '0px', paddingLeft: '20px', paddingTop: '20px'} } >Id Operação</th>
+                                            <th className="ant-table-cell" style={ {width: '9%', background: '#ffffff', borderBottom: '0px', paddingTop: '20px'} } >Origem</th>
+                                            <th className="ant-table-cell" style={ {width: '12%', background: '#ffffff', borderBottom: '0px', paddingTop: '20px'} } >Valor da Operação</th>
+                                            <th className="ant-table-cell" style={ {width: '16%', background: '#ffffff', borderBottom: '0px', paddingTop: '20px'} } >Tomador de Empréstimo</th>
+                                            <th className="ant-table-cell" style={ {width: '12%', background: '#ffffff', borderBottom: '0px', paddingTop: '20px'} } >CPF Tomador</th>
                                         </tr>
                                     </thead>
                                 </table>
