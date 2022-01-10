@@ -151,7 +151,7 @@ export default function Home({ handleOperacao }) {
                                             </td> 
                                             <td className="ant-table-cell" style={ {width: '20%'} } >
                                                 <Button type="text" onClick={() => handleOperacao(item)} title={item.tomador} >
-                                                    <span>{item.tomador}</span>
+                                                    <span>{StringUtils.truncateString(item.tomador, 22)}</span>
                                                 </Button>
                                             </td>                  
                                             <td className="ant-table-cell" style={ {width: '20%'} } >
@@ -167,7 +167,14 @@ export default function Home({ handleOperacao }) {
                         )
                         }
                     />
-                    <div style={ { float: 'right', marginRight: '10px', height: '100px' } } ><Pagination defaultCurrent={1} onChange={onChangePagination} total={processosSearch.total} /></div>
+                    <div style={ { float: 'right', marginRight: '10px', height: '100px' } } >
+                        <Pagination 
+                            defaultCurrent={1} 
+                            onChange={onChangePagination} 
+                            total={processosSearch.total} 
+                            showTotal={(total, range) => `${total} processos`}
+                        />                          
+                    </div>
                     </Col>
                     <Col span={2}></Col>
                 </Row>
