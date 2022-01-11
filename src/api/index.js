@@ -21,9 +21,13 @@ class Api {
     const response = await this.service.patch(url, formValues);
   }
 
+  async alterarPessoa(url, pessoa) {
+    return await this.service.patch(url, pessoa);
+  }
+
   async verifyTokenId({ tokenId }) {
     try {
-      console.log('verificando token id...')
+      console.log("verificando token id...");
       return !!(await this.service.post("/auth/login", null, {
         headers: {
           Authorization: tokenId,

@@ -13,7 +13,6 @@ import { PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/utility/loader";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
-const Originacao = lazy(() => import("./containers/Originacao"));
 
 const publicRoutes = [
   {
