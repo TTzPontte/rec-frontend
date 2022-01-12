@@ -1,10 +1,38 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.div``;
+
+export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+  cursor: pointer;
+
+  .iconPencilEdit {
+    visibility: hidden;
+  }
+
+  :hover {
+    color: #2c3faa;
+    .iconPencilEdit {
+      visibility: visible;
+    }
+  }
+
+  > :first-child {
+    margin-right: 10px;
+  }
+
+  > :nth-child(2) {
+    margin-right: 5px;
+  }
+`;
+
+export const AreaEditing = styled.div`
   width: 444px;
   height: 40px;
   display: flex;
-  //margin: 0 auto;
 `;
 
 export const AreaDropDown = styled.div`
@@ -31,7 +59,9 @@ export const Header = styled.div`
     color: #3b3349;
   }
 
-  .btnArrosDown {
+  .btnArrowDown {
+    width: 26px;
+    height: 12px;
     padding-right: 10px;
     transform: ${(props) => (props.isOpen ? "scaleY(-1)" : "scaleY(1)")};
     cursor: pointer;
@@ -147,13 +177,14 @@ export const InputAddItem = styled.div`
 `;
 
 export const AreaSaveChanged = styled.div`
-  width: 20%;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 
-  &:first-child {
-    padding-right: 20px;
-    border: 1px red solid;
+  > * {
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
   }
 `;

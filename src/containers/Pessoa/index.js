@@ -5,6 +5,7 @@ import { CollapsePersonalizado } from "../../components/CollapsePersonalizado";
 import InputPersonalizado from "../../components/InputPersonalizado";
 import Api from "../../api";
 import { mapperPessoa } from "./mapper";
+import { DropDownDM } from "../../components/DropDownDM";
 
 export default function Pessoa({ uuid }) {
   const [envolvidos, setEnvolvidos] = useState([]);
@@ -34,46 +35,68 @@ export default function Pessoa({ uuid }) {
           return (
             pessoa && (
               <CollapsePersonalizado
-                title={`PESSOA | ${
+                title={`PESSOA  |  ${
                   pessoa ? pessoa["nomeSocial"] || pessoa["nome"] : ""
                 }`}
               >
                 <Content>
-                  <h2>INFORMAÇÕES DA PESSOA</h2>
-                  {Object.entries(mapperPessoa).map(([key, fields]) => (
-                    <div style={{ height: "70px" }}>
-                      <InputPersonalizado
-                        texto={fields.title}
-                        valorCampo={pessoa[key]}
-                        iconeLabel={fields.icon ?? <IconTextNumber />}
-                        onSave={(value) => {
-                          if (!value) return;
+                  <header>INFORMAÇÕES DA PESSOA</header>
+                  {Object.entries(mapperPessoa).map(([key, fields]) => {
+                    switch (fields.component) {
+                      case "Input":
+                        return (
+                          <div style={{ height: "70px" }}>
+                            <InputPersonalizado
+                              texto={fields.title}
+                              valorCampo={pessoa[key]}
+                              iconeLabel={fields.icon ?? <IconTextNumber />}
+                              onSave={(value) => {
+                                if (!value) return;
 
-                          const novaPessoa = { ...pessoa, [key]: value };
+                                const novaPessoa = { ...pessoa, [key]: value };
 
-                          api
-                            .alterarPessoa(`/pessoa/${pessoa.id}`, novaPessoa)
-                            .then(() => {
-                              envolvidos[index] = {
-                                ...envolvido,
-                                pessoa: novaPessoa,
-                              };
-                              setEnvolvidos(envolvidos);
-                              console.log(envolvidos);
-                            });
-                        }}
-                        handleChange={() => {}}
-                        idCampo={key}
-                        editavel={true}
-                      />
-                    </div>
-                  ))}
+                                api
+                                  .alterarPessoa(
+                                    `/pessoa/${pessoa.id}`,
+                                    novaPessoa
+                                  )
+                                  .then(() => {
+                                    envolvidos[index] = {
+                                      ...envolvido,
+                                      pessoa: novaPessoa,
+                                    };
+                                    setEnvolvidos(envolvidos);
+                                    console.log(envolvidos);
+                                  });
+                              }}
+                              handleChange={() => {}}
+                              idCampo={key}
+                              editavel={true}
+                            />
+                          </div>
+                        );
+
+                      case "DropDown":
+                        return (
+                          <DropDownDM
+                            title={fields.title}
+                            handleGetItem={fields.getItem}
+                            handleGetStatusInfo={(item) => {
+                              console.log(item);
+                            }}
+                            handleSaveProcessInfo={async () => {}}
+                          />
+                        );
+                      default:
+                        break;
+                    }
+                  })}
                 </Content>
                 <Content>
-                  <h2>DOCUMENTOS</h2>
+                  <header>DOCUMENTOS</header>
                 </Content>
                 <Content>
-                  <h2>DIVIDAS</h2>
+                  <header>DIVIDAS</header>
                 </Content>
               </CollapsePersonalizado>
             )

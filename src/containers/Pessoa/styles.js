@@ -12,16 +12,17 @@ export const Content = styled.div`
   grid-template-rows: 1fr 1fr;
   margin-bottom: 20px;
 
-  h2 {
+  header {
     margin-top: 5px;
     grid-column: 1/3;
-    font: normal normal bold 16px "Lato", sans-serif;
     letter-spacing: 0px;
     color: #5c3b6b;
+    font: normal normal 500 1.1em system-ui !important;
+    letter-spacing: 0.2px !important;
   }
 
   padding: 20px;
-  border: solid 1px #e1dfdf;
+  border: 1px solid #e8e8ef;
   border-left: solid 4px #5c3b6b;
   border-radius: 5px;
 `;

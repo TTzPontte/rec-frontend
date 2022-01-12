@@ -25,6 +25,10 @@ class Api {
     return await this.service.patch(url, pessoa);
   }
 
+  async buscarTabelaDM(endpoint) {
+    return await this.service.get(endpoint);
+  }
+
   async verifyTokenId({ tokenId }) {
     try {
       console.log("verificando token id...");
