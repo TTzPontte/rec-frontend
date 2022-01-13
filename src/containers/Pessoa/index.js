@@ -9,12 +9,12 @@ import { ReactComponent as IconNovaPessoa } from '../../assets/button-add.svg';
 import backgroundModalNovaPessoa from "@iso/assets/back_nova_pessoa.svg";
 
 import Collapse from '@iso/components/uielements/collapse';
-import { Button, Col, Modal, Row } from 'antd';
+import { Button, Col, Input, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Api from '../../api';
 import InputPersonalizado from '../../components/InputPersonalizado';
 import { Container } from '../style';
-import { DivModalNovaPessoa, DivNovaPessoa, DivSpanNovaPessoa, SpanNovaPessoa } from './styled-components';
+import { DivContentModalPF, DivContentModalPJ, DivModalNovaPessoa, DivModalPFInputCPF, DivModalPFInputNome, DivModalPFTexto, DivModalPFTextoCPF, DivModalPFTextoNome, DivModalPFTitulo, DivNovaPessoa, DivSpanNovaPessoa, SpanNovaPessoa } from './styled-components';
 import './style.css';
 
 export default function Pessoa({ uuid }) {
@@ -168,11 +168,13 @@ export default function Pessoa({ uuid }) {
 
     const handleNovaPessoaPF = () => {
         console.log("PF");
+        handleCancel();
         showModalPF();
     }
 
     const handleNovaPessoaPJ = () => {
         console.log("PJ");
+        handleCancel();
         showModalPJ();
     }
 
@@ -385,9 +387,9 @@ export default function Pessoa({ uuid }) {
                                 </Modal>                                 
                             </DivNovaPessoa>
                             <Modal 
-                                    style={{ top: 90, left: '35%', borderRadius: 5 }}  
-                                    width={260}
-                                    height={222}
+                                    style={{ borderRadius: 10 }}  
+                                    width={648}
+                                    height={480}
                                     visible={isModalNovaPessoaPFVisible}
                                     closable 
                                     onOk={handlePFOk} 
@@ -395,12 +397,21 @@ export default function Pessoa({ uuid }) {
                                     footer={null}
                                     closable={false}
                                 >
-                                    <span>PF</span>
+                                    <DivContentModalPF>
+                                        <DivModalPFTitulo><span>Adiciona nova PF</span></DivModalPFTitulo>
+                                        <DivModalPFTexto>
+                                            <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
+                                        </DivModalPFTexto>
+                                        <DivModalPFTextoNome>Nome</DivModalPFTextoNome>
+                                        <DivModalPFInputNome><Input placeholder="Nome..." style={{width: 544, height: 40}} /></DivModalPFInputNome>
+                                        <DivModalPFTextoCPF>CPF</DivModalPFTextoCPF>
+                                        <DivModalPFInputCPF><Input placeholder="CPF..." style={{width: 544, height: 40}}/></DivModalPFInputCPF>
+                                    </DivContentModalPF>
                             </Modal> 
                             <Modal 
-                                    style={{ top: 90, left: '35%', borderRadius: 5 }}  
-                                    width={260}
-                                    height={222}
+                                    style={{ borderRadius: 5 }}  
+                                    width={648}
+                                    height={480}
                                     visible={isModalNovaPessoaPJVisible}
                                     closable 
                                     onOk={handlePJOk} 
@@ -408,7 +419,10 @@ export default function Pessoa({ uuid }) {
                                     footer={null}
                                     closable={false}
                                 >
-                                    <span>PJ</span>
+                                    <DivContentModalPJ>
+                                        <span>Adiciona nova PJ</span>
+                                        <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
+                                    </DivContentModalPJ>
                             </Modal>                                   
                         </Panel>
 
