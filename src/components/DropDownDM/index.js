@@ -25,15 +25,18 @@ export const DropDownDM = ({
   handleSaveProcessInfo,
   iconLabel = <IconTextNumber />,
   title,
+  initialValue = "Selecione",
 }) => {
   const [listItem, setListItem] = useState([]);
   const [inputItem, setInputItem] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingItem, setIsAddingItem] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [lastSave, setLastSave] = useState(initialValue);
   const [selectedItem, setSelectedItem] = useState({
     id: 0,
-    descricao: "Selecione",
+    descricao: initialValue,
+    isSave: false,
   });
 
   useEffect(() => {
@@ -64,13 +67,17 @@ export const DropDownDM = ({
   };
 
   const handleIsAddingItem = () => setIsAddingItem(!isAddingItem);
-  const handleSave = () =>
-    handleSaveProcessInfo(selectedItem) && setEditing(false);
-  const handleCancel = () => setEditing(false);
-  const handleSetEdding = () => setEditing(!editing);
 
-  const itemSelected = (description) =>
-    description === "Selecione" ? "" : description;
+  const handleSave = () => {
+    handleSaveProcessInfo(selectedItem);
+    setLastSave(selectedItem.descricao);
+    setEditing(false);
+  };
+
+  const handleCancel = () => {
+    setEditing(false);
+  };
+  const handleSetEdding = () => setEditing(!editing);
 
   return (
     <Container>
@@ -80,7 +87,7 @@ export const DropDownDM = ({
         <IconPencilEdit className="iconPencilEdit" />
       </Title>
       {!editing ? (
-        <span>{itemSelected(selectedItem.descricao)}</span>
+        <span className="description">{lastSave || "Selecione"}</span>
       ) : (
         <AreaEditing>
           <AreaDropDown>

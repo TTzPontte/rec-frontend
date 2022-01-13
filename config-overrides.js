@@ -20,6 +20,7 @@ module.exports = function(config, env) {
         '@iso/lib': path.resolve(__dirname, 'src/library'),
         '@iso/ui': path.resolve(__dirname, 'src/UI'),
         '@iso/api': path.resolve(__dirname, 'src/api'),
+        '@iso/utils': path.resolve(__dirname, 'src/utils')
       })
     )(config, env)
   );

@@ -17,16 +17,20 @@ class Api {
     return resposta.data[0];
   }
 
-  async salvarProcesso(url, formValues) {
-    const response = await this.service.patch(url, formValues);
+  async alterarProcesso(url, formValues) {
+    return await this.service.patch(url, formValues);
   }
 
-  async alterarPessoa(url, pessoa) {
-    return await this.service.patch(url, pessoa);
+  async buscarPessoa(id){
+    return await this.service.get(`pessoa?id=${id}`)
   }
 
   async buscarTabelaDM(endpoint) {
     return await this.service.get(endpoint);
+  }
+
+  async addItemDM(endpoint, payload){
+    return await this.service.post(endpoint, payload)
   }
 
   async verifyTokenId({ tokenId }) {

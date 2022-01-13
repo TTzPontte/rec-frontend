@@ -66,7 +66,6 @@ export default function Routes() {
             {publicRoutes.map((route, index) => (
               <Route key={index} path={route.path} exact={route.exact}>
                 <route.component />
-                {console.log(route.path)}
               </Route>
             ))}
             <PrivateRoute path="/dashboard">

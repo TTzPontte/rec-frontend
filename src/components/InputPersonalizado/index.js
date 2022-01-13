@@ -10,7 +10,7 @@ export default function InputPersonalizado({
   valorCampo,
   iconeLabel,
   onSave,
-  handleChange,
+  handleChange = () => {},
   idCampo,
   editavel = true,
   tipoInput = "text",
@@ -19,7 +19,7 @@ export default function InputPersonalizado({
   const [desabilitarCampo, setDesabilitarCampo] = useState(true);
   const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
   const [estiloIconeNOk, setEstiloIconeNOk] = useState("hidden");
-  const [estiloIconeEditar, setEstiloIconeEditar] = useState("iconeEditar");
+  const [estiloIconeEditar, setEstiloIconeEditar] = useState("hidden");
   const [textAlterado, setTextAlterado] = useState("");
 
   const habilitarDesabilitar = () => {
@@ -47,8 +47,8 @@ export default function InputPersonalizado({
   };
 
   const handleMouseOver = () => {
-    if (estiloIconeEditar == "hidden") {
-      setEstiloIconeEditar("iconeEditar");
+    if (estiloIconeEditar === "hidden") {
+      setEstiloIconeEditar(null);
     } else {
       setEstiloIconeEditar("hidden");
     }
