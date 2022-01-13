@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="67.997917mm"
+   height="72.468842mm"
+   viewBox="0 0 67.997917 72.468842"
+   version="1.1"
+   id="svg869"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="back_nova_pessoa.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview871"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.98520767"
+     inkscape:cx="-128.90683"
+     inkscape:cy="255.78364"
+     inkscape:window-width="3840"
+     inkscape:window-height="1526"
+     inkscape:window-x="2869"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs866">
+    <filter
+       id="Rectangle_5469"
+       x="71.5"
+       y="33.903"
+       width="257"
+       height="240"
+       filterUnits="userSpaceOnUse">
+      <feOffset
+         dy="3"
+         input="SourceAlpha"
+         id="feOffset102" />
+      <feGaussianBlur
+         stdDeviation="3"
+         result="blur-3"
+         id="feGaussianBlur104" />
+      <feFlood
+         flood-opacity="0.161"
+         id="feFlood106" />
+      <feComposite
+         operator="in"
+         in2="blur-3"
+         id="feComposite108"
+         result="result1" />
+      <feComposite
+         in="SourceGraphic"
+         in2="result1"
+         id="feComposite110" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-67.472933,-4.0587857)">
+    <g
+       id="g830"
+       transform="matrix(0.26458333,0,0,0.26458333,78.75212,26.084025)">
+      <g
+         transform="translate(-114.13,-83.25)"
+         filter="url(#Rectangle_5469)"
+         id="g120">
+        <g
+           id="Rectangle_5469-2"
+           data-name="Rectangle 5469"
+           transform="translate(80.5,39.9)"
+           fill="#ffffff"
+           stroke="#e8e8ef"
+           stroke-width="1">
+          <rect
+             width="239"
+             height="222"
+             rx="4"
+             stroke="none"
+             id="rect115"
+             x="0"
+             y="0" />
+          <rect
+             x="0.5"
+             y="0.5"
+             width="238"
+             height="221"
+             rx="3.5"
+             fill="none"
+             id="rect117" />
+        </g>
+      </g>
+      <g
+         id="icon">
+        <path
+           id="Path_21557"
+           data-name="Path 21557"
+           d="m 3056.53,3879.57 a 38.186,38.186 0 1 0 76.371,0 z"
+           transform="translate(-3008.848,-3931.312)"
+           fill="#e8e8ef" />
+        <circle
+           id="Ellipse_3309"
+           data-name="Ellipse 3309"
+           cx="30.667999"
+           cy="30.667999"
+           r="30.667999"
+           transform="translate(54.856,-82.745)"
+           fill="#ffffff"
+           stroke="#e8e8ef"
+           stroke-width="1" />
+        <g
+           id="persona"
+           transform="translate(-1151.598,-616.056)">
+          <path
+             id="Path_21984"
+             data-name="Path 21984"
+             d="m 2625.416,3088.67 h 6.425 a 8.564,8.564 0 0 1 8.564,8.564 v 0.213 a 33.492,33.492 0 0 1 -8.156,6.126 29.108,29.108 0 0 1 -13.132,3.089 31.969,31.969 0 0 1 -14.713,-3.569 26.842,26.842 0 0 1 -6.4,-4.88 v -0.979 a 8.564,8.564 0 0 1 8.564,-8.564 h 6.6 a 4.589,4.589 0 0 0 4.589,4.589 h 3.059 a 4.589,4.589 0 0 0 4.589,-4.589 z"
+             transform="translate(-1381.672,-2512.974)"
+             fill="#5c3b6b"
+             stroke="#5c3b6b"
+             stroke-width="1" />
+          <path
+             id="Path_21985"
+             data-name="Path 21985"
+             d="m 2627.525,3005.535 c 1.044,-0.854 0.92,-2.369 0.467,-3.629 -1.606,-4.465 -12.1,-8.173 -17.825,-1.778 -5.947,6.648 -2.946,8.9 -7.816,12.412 -7.078,5.089 -4.38,12.247 -3.34,14.15 h 13.934"
+             transform="translate(-1381.438,-2454.579)"
+             fill="none"
+             stroke="#5c3b6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <path
+             id="Path_21986"
+             data-name="Path 21986"
+             d="m 2651.638,3068.213 v 3.225 c 0,3.456 -2.7,5.219 -6.027,5.219 v 0 c -3.33,0 -6.031,-1.762 -6.031,-5.219 v -8.938"
+             transform="translate(-1408.073,-2496.358)"
+             fill="none"
+             stroke="#5c3b6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <path
+             id="Path_21987"
+             data-name="Path 21987"
+             d="m 2664.077,3016.65 a 9.252,9.252 0 0 1 3.4,5.012 l 1.57,5.819 a 9.287,9.287 0 0 1 -6.545,11.379 v 0 a 9.236,9.236 0 0 1 -4.746,0.03"
+             transform="translate(-1419.61,-2467.245)"
+             fill="none"
+             stroke="#5c3b6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <path
+             id="Path_21988"
+             data-name="Path 21988"
+             d="m 2669.811,3046.74 0.657,2.157 a 1.183,1.183 0 0 1 -0.653,1.526 v 0 a 1.183,1.183 0 0 1 -1.395,-0.9"
+             transform="translate(-1426.385,-2486.35)"
+             fill="none"
+             stroke="#5c3b6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <path
+             id="Path_21989"
+             data-name="Path 21989"
+             d="m 2633.752,3032.076 a 3.514,3.514 0 0 1 -2.267,0.953 3.563,3.563 0 0 1 -2.351,-6.356 c 11.456,0.884 9.221,-10.758 16.395,-10.586"
+             transform="translate(-1400.58,-2466.886)"
+             fill="none"
+             stroke="#5c3b6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <path
+             id="Path_21990"
+             data-name="Path 21990"
+             d="M 2673.73,3077.57"
+             transform="translate(-1429.756,-2505.926)"
+             fill="none"
+             stroke="#5c3c6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <path
+             id="Path_21991"
+             data-name="Path 21991"
+             d="M 2655.33,3079"
+             transform="translate(-1418.073,-2506.834)"
+             fill="none"
+             stroke="#5c3c6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+          <circle
+             id="Ellipse_3456"
+             data-name="Ellipse 3456"
+             cx="1.351"
+             cy="1.351"
+             r="1.351"
+             transform="translate(1237.399,559.32)"
+             fill="#5c3b6b" />
+          <circle
+             id="Ellipse_3457"
+             data-name="Ellipse 3457"
+             cx="1.351"
+             cy="1.351"
+             r="1.351"
+             transform="translate(1244.693,557.316)"
+             fill="#5c3b6b" />
+          <path
+             id="Path_21993"
+             data-name="Path 21993"
+             d="m 2671.486,3058.581 a 2.738,2.738 0 0 1 -4.556,1.563"
+             transform="translate(-1425.439,-2493.869)"
+             fill="none"
+             stroke="#5c3b6b"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

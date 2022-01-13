@@ -4,18 +4,17 @@ import { ReactComponent as IconTextNumber } from '../../assets/icon-text_number.
 import { ReactComponent as IconEmail } from '../../assets/icon-email-14x14.svg';
 import { ReactComponent as IconDocumentNumber } from '../../assets/icon-document_number.svg';
 import { ReactComponent as IconCalendar } from '../../assets/icon-calendar.svg';
+import { ReactComponent as IconNovaPessoa } from '../../assets/button-add.svg';
+
+import backgroundModalNovaPessoa from "@iso/assets/back_nova_pessoa.svg";
 
 import Collapse from '@iso/components/uielements/collapse';
-import { Col, Row } from 'antd';
+import { Button, Col, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Api from '../../api';
-import InputMaskPersonalizado from '../../components/InputMaskPersonalizado';
-import InputMonetarioPersonalizado from '../../components/InputMonetarioPersonalizado';
-import RadioPersonalizado from '../../components/RadioPersonalizado';
 import InputPersonalizado from '../../components/InputPersonalizado';
-import SelectPersonalizado from '../../components/SelectPersonalizado';
-import TextAreaPersonalizado from '../../components/TextAreaPersonalizado';
 import { Container } from '../style';
+import { DivModalNovaPessoa, DivNovaPessoa, DivSpanNovaPessoa, SpanNovaPessoa } from './styled-components';
 import './style.css';
 
 export default function Pessoa({ uuid }) {
@@ -69,7 +68,6 @@ export default function Pessoa({ uuid }) {
         findByUuid();
 
     }, []);
-
 
     const { Panel } = Collapse;
     const rowStyle = {
@@ -125,6 +123,58 @@ export default function Pessoa({ uuid }) {
         // }
     };
 
+    const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] = useState(false);
+    const novaPessoaHandle = (e) => {
+        console.log('Nova Pessoa');
+        showModal();
+    }
+    const showModal = () => {
+        setIsModalNovaPessoaVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalNovaPessoaVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalNovaPessoaVisible(false);
+    };     
+
+    const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] = useState(false);
+    const showModalPF = () => {
+        setIsModalNovaPessoaPFVisible(true);
+    };
+
+    const handlePFOk = () => {
+        setIsModalNovaPessoaPFVisible(false);
+    };
+
+    const handlePFCancel = () => {
+        setIsModalNovaPessoaPFVisible(false);
+    };  
+
+    const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] = useState(false);
+    const showModalPJ = () => {
+        setIsModalNovaPessoaPJVisible(true);
+    };
+
+    const handlePJOk = () => {
+        setIsModalNovaPessoaPJVisible(false);
+    };
+
+    const handlePJCancel = () => {
+        setIsModalNovaPessoaPJVisible(false);
+    }; 
+
+    const handleNovaPessoaPF = () => {
+        console.log("PF");
+        showModalPF();
+    }
+
+    const handleNovaPessoaPJ = () => {
+        console.log("PJ");
+        showModalPJ();
+    }
 
     const handleInputChange = (e) => {
         console.log(e);
@@ -314,8 +364,52 @@ export default function Pessoa({ uuid }) {
                                     </Row>
                                 </Panel>
                             </Collapse>
-
-
+                            <DivNovaPessoa>
+                                <IconNovaPessoa onClick={novaPessoaHandle} style={{cursor: 'pointer'}}/>
+                                <Modal 
+                                    style={{ top: 90, left: '35%', borderRadius: 5 }}  
+                                    width={260}
+                                    height={222}
+                                    visible={isModalNovaPessoaVisible}
+                                    closable 
+                                    onOk={handleOk} 
+                                    onCancel={handleCancel}
+                                    footer={null}
+                                    closable={false}
+                                >
+                                    <DivModalNovaPessoa>
+                                        <DivSpanNovaPessoa><SpanNovaPessoa>Que tipo de pessoa você gostaria de adicionar?</SpanNovaPessoa></DivSpanNovaPessoa>
+                                        <div><Button onClick={handleNovaPessoaPF} type="text" style={{ width: '210px', height: '35px', marginTop: '30px', borderStyle: 'solid', borderColor: 'gray'}}>Pessoa física</Button></div>
+                                        <div><Button onClick={handleNovaPessoaPJ} type="text" style={{ width: '210px', height: '35px', marginTop: '10px', borderStyle: 'solid', borderColor: 'gray'}}>Pessoa jurídica</Button></div>
+                                    </DivModalNovaPessoa>  
+                                </Modal>                                 
+                            </DivNovaPessoa>
+                            <Modal 
+                                    style={{ top: 90, left: '35%', borderRadius: 5 }}  
+                                    width={260}
+                                    height={222}
+                                    visible={isModalNovaPessoaPFVisible}
+                                    closable 
+                                    onOk={handlePFOk} 
+                                    onCancel={handlePFCancel}
+                                    footer={null}
+                                    closable={false}
+                                >
+                                    <span>PF</span>
+                            </Modal> 
+                            <Modal 
+                                    style={{ top: 90, left: '35%', borderRadius: 5 }}  
+                                    width={260}
+                                    height={222}
+                                    visible={isModalNovaPessoaPJVisible}
+                                    closable 
+                                    onOk={handlePJOk} 
+                                    onCancel={handlePJCancel}
+                                    footer={null}
+                                    closable={false}
+                                >
+                                    <span>PJ</span>
+                            </Modal>                                   
                         </Panel>
 
                     </Collapse>
