@@ -36,7 +36,7 @@ export const DivContentModalPJ = styled.div`
     height: 480px;
 `;
 
-export const DivModalPFTitulo = styled.div`
+export const DivModalTitulo = styled.div`
     width: 544px;
     height: 40px;
     margin-top: 56px;
@@ -47,7 +47,7 @@ export const DivModalPFTitulo = styled.div`
     opacity: 1;
 `;
 
-export const DivModalPFTexto = styled.div`
+export const DivModalTexto = styled.div`
     width: 544px;
     height: 45px;
     margin-top: 24px;
@@ -57,28 +57,43 @@ export const DivModalPFTexto = styled.div`
     opacity: 1;
 `;
 
-export const DivModalPFTextoNome = styled.div`
-width: 544px;
-height: 40px;
-margin-left: 28px;
-margin-top: 24px;
+export const DivModalTextoTipoEnvolvimento = styled.div`
+    width: 544px;
+    height: 40px;
+    margin-top: 24px;
+    margin-left: 28px;
 `;
 
-export const DivModalPFInputNome = styled.div`
-width: 544px;
-height: 40px;
-margin-left: 28px;
+export const DivModalSelectTipoEnvolvimento = styled.div`
+    width: 544px;
+    height: 45px;
+    margin-left: 28px;
 `;
 
-export const DivModalPFTextoCPF = styled.div`
-width: 544px;
-height: 40px;
-margin-top: 24px;
-margin-left: 28px;
+export const DivModalTextoNome = styled.div`
+    width: 544px;
+    height: 40px;
+    margin-left: 28px;
+    margin-top: 24px;
 `;
 
-export const DivModalPFInputCPF = styled.div`
-width: 648px;
-height: 40px;
-margin-left: 28px;
+export const DivModalInputNome = styled.div`
+    width: 544px;
+    height: 40px;
+    margin-left: 28px;
 `;
+
+export const DivModalTextoCPF = styled.div`
+    width: 544px;
+    height: 40px;
+    margin-top: 24px;
+    margin-left: 28px;
+`;
+
+export const DivModalInputCPF = styled.div`
+    width: 648px;
+    height: 40px;
+    margin-left: 28px;
+`;
+
+

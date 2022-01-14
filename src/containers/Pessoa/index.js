@@ -9,13 +9,15 @@ import { ReactComponent as IconNovaPessoa } from '../../assets/button-add.svg';
 import backgroundModalNovaPessoa from "@iso/assets/back_nova_pessoa.svg";
 
 import Collapse from '@iso/components/uielements/collapse';
-import { Button, Col, Input, Modal, Row } from 'antd';
+import { Button, Col, Input, Modal, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Api from '../../api';
 import InputPersonalizado from '../../components/InputPersonalizado';
 import { Container } from '../style';
-import { DivContentModalPF, DivContentModalPJ, DivModalNovaPessoa, DivModalPFInputCPF, DivModalPFInputNome, DivModalPFTexto, DivModalPFTextoCPF, DivModalPFTextoNome, DivModalPFTitulo, DivNovaPessoa, DivSpanNovaPessoa, SpanNovaPessoa } from './styled-components';
+import { DivContentModalPF, DivContentModalPJ, DivModalInputCPF, DivModalInputNome, DivModalNovaPessoa, DivModalPFInputCPF, DivModalPFInputNome, DivModalPFTexto, DivModalPFTextoCPF, DivModalPFTextoNome, DivModalPFTitulo, DivModalSelectTipoEnvolvimento, DivModalTexto, DivModalTextoCPF, DivModalTextoNome, DivModalTextoTipoEnvolvimento, DivModalTitulo, DivNovaPessoa, DivSpanNovaPessoa, SpanNovaPessoa } from './styled-components';
 import './style.css';
+
+const { Option } = Select;
 
 export default function Pessoa({ uuid }) {
     const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
@@ -398,14 +400,21 @@ export default function Pessoa({ uuid }) {
                                     closable={false}
                                 >
                                     <DivContentModalPF>
-                                        <DivModalPFTitulo><span>Adiciona nova PF</span></DivModalPFTitulo>
-                                        <DivModalPFTexto>
+                                        <DivModalTitulo><span>Adiciona nova PF</span></DivModalTitulo>
+                                        <DivModalTexto>
                                             <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
-                                        </DivModalPFTexto>
-                                        <DivModalPFTextoNome>Nome</DivModalPFTextoNome>
-                                        <DivModalPFInputNome><Input placeholder="Nome..." style={{width: 544, height: 40}} /></DivModalPFInputNome>
-                                        <DivModalPFTextoCPF>CPF</DivModalPFTextoCPF>
-                                        <DivModalPFInputCPF><Input placeholder="CPF..." style={{width: 544, height: 40}}/></DivModalPFInputCPF>
+                                        </DivModalTexto>
+                                        <DivModalTextoTipoEnvolvimento>Tipo de envolvimento</DivModalTextoTipoEnvolvimento>    
+                                        <DivModalSelectTipoEnvolvimento>
+                                            <Select defaultValue="Tomador" style={{ width: 544 }} >
+                                                <Option value="Composição de renda">Composição de renda</Option>
+                                                <Option value="Tomador">Tomador</Option>
+                                            </Select>
+                                        </DivModalSelectTipoEnvolvimento>
+                                        <DivModalTextoNome>Nome</DivModalTextoNome>
+                                        <DivModalInputNome><Input placeholder="Nome..." style={{width: 544, height: 40}} /></DivModalInputNome>
+                                        <DivModalTextoCPF>CPF</DivModalTextoCPF>
+                                        <DivModalInputCPF><Input placeholder="CPF..." style={{width: 544, height: 40}}/></DivModalInputCPF>
                                     </DivContentModalPF>
                             </Modal> 
                             <Modal 
@@ -420,8 +429,21 @@ export default function Pessoa({ uuid }) {
                                     closable={false}
                                 >
                                     <DivContentModalPJ>
-                                        <span>Adiciona nova PJ</span>
-                                        <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
+                                    <DivModalTitulo><span>Adiciona nova PJ</span></DivModalTitulo>
+                                        <DivModalTexto>
+                                            <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
+                                        </DivModalTexto>
+                                        <DivModalTextoTipoEnvolvimento>Tipo de envolvimento</DivModalTextoTipoEnvolvimento>    
+                                        <DivModalSelectTipoEnvolvimento>
+                                            <Select defaultValue="Tomador" style={{ width: 544 }} >
+                                                <Option value="Composição de renda">Composição de renda</Option>
+                                                <Option value="Tomador">Tomador</Option>
+                                            </Select>
+                                        </DivModalSelectTipoEnvolvimento>                                        
+                                        <DivModalTextoNome>Razão Social</DivModalTextoNome>
+                                        <DivModalInputNome><Input placeholder="Razão Social..." style={{width: 544, height: 40}} /></DivModalInputNome>
+                                        <DivModalTextoCPF>CNPJ</DivModalTextoCPF>
+                                        <DivModalInputCPF><Input placeholder="CNPJ..." style={{width: 544, height: 40}}/></DivModalInputCPF>
                                     </DivContentModalPJ>
                             </Modal>                                   
                         </Panel>
