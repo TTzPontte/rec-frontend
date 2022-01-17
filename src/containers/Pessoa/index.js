@@ -125,6 +125,7 @@ export default function Pessoa({ uuid }) {
         // }
     };
 
+    // Modal PF e PJ
     const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] = useState(false);
     const novaPessoaHandle = (e) => {
         console.log('Nova Pessoa');
@@ -140,10 +141,30 @@ export default function Pessoa({ uuid }) {
 
     const handleCancel = () => {
         setIsModalNovaPessoaVisible(false);
-    };     
+    }; 
+    //    
 
+    // Modal PF
     const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] = useState(false);
+    const [valuesPF, setValuesPF] = React.useState({ processo: uuid, pessoaTipo: 'PF' });
+    const [buttonConcluirPFState, setButtonConcluirPFState] = React.useState(true);
+
+    const enableButtonConcluirPF = () => {
+        if (
+            (typeof valuesPF.nome !== 'undefined' && valuesPF.nome !== '') &&
+            (typeof valuesPF.cpf !== 'undefined' && valuesPF.cpf !== '') &&
+            (typeof valuesPF.envolvimento !== 'undefined' && valuesPF.envolvimento !== '')
+        ) {
+            setButtonConcluirPFState(false);
+        }
+    }
+
+    const startNovaPF = () => {
+        setValuesPF({ processo: uuid, pessoaTipo: 'PF' });
+    }
+
     const showModalPF = () => {
+        startNovaPF();
         setIsModalNovaPessoaPFVisible(true);
     };
 
@@ -152,20 +173,8 @@ export default function Pessoa({ uuid }) {
     };
 
     const handlePFCancel = () => {
+        startNovaPF();
         setIsModalNovaPessoaPFVisible(false);
-    };  
-
-    const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] = useState(false);
-    const showModalPJ = () => {
-        setIsModalNovaPessoaPJVisible(true);
-    };
-
-    const handlePJOk = () => {
-        setIsModalNovaPessoaPJVisible(false);
-    };
-
-    const handlePJCancel = () => {
-        setIsModalNovaPessoaPJVisible(false);
     }; 
 
     const handleNovaPessoaPF = () => {
@@ -174,11 +183,90 @@ export default function Pessoa({ uuid }) {
         showModalPF();
     }
 
+    const handleInputPF = (e) => {
+        const auxValuesPF = { ...valuesPF };
+        auxValuesPF[e.target.id] = e.target.value;
+        setValuesPF(auxValuesPF);
+        console.log(valuesPF);
+        enableButtonConcluirPF();
+    };
+
+    const handleSelectPFEnvolvimento = (value) => {
+        const auxValuesPF = { ...valuesPF };
+        auxValuesPF["envolvimento"] = value;
+        setValuesPF(auxValuesPF);
+        console.log(valuesPF);
+        enableButtonConcluirPF();
+    };    
+  
+    const handlePFConcluir = async () => {
+        console.log("Grava PF: ");
+        console.log(valuesPF);
+        let response = await api.salvarPessoaNoProcesso(valuesPF);
+    }
+    //
+
+    // Modal PJ
+    const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] = useState(false);
+    const [valuesPJ, setValuesPJ] = React.useState({ processo: uuid, pessoaTipo: 'PJ' });
+    const [buttonConcluirPJState, setButtonConcluirPJState] = React.useState(true);
+
+    const enableButtonConcluirPJ = () => {
+        if (
+            (typeof valuesPJ.razaoSocial !== 'undefined' && valuesPJ.razaoSocial !== '') &&
+            (typeof valuesPJ.cnpj !== 'undefined' && valuesPJ.cnpj !== '') &&
+            (typeof valuesPJ.envolvimento !== 'undefined' && valuesPJ.envolvimento !== '')
+        ) {
+            setButtonConcluirPJState(false);
+        }
+    }    
+
+    const startNovaPJ = () => {
+        setValuesPJ({ processo: uuid, pessoaTipo: 'PJ' });
+    }
+
+    const showModalPJ = () => {
+        startNovaPJ();
+        setIsModalNovaPessoaPJVisible(true);
+    };
+
+    const handlePJOk = () => {
+        setIsModalNovaPessoaPJVisible(false);
+    };
+
+    const handlePJCancel = () => {
+        startNovaPJ();
+        setIsModalNovaPessoaPJVisible(false);
+    }; 
+    
     const handleNovaPessoaPJ = () => {
         console.log("PJ");
         handleCancel();
         showModalPJ();
     }
+    
+    const handleInputPJ = (e) => {
+        const auxValuesPJ = { ...valuesPJ };
+        auxValuesPJ[e.target.id] = e.target.value;
+        setValuesPJ(auxValuesPJ);
+        console.log(valuesPJ);
+        enableButtonConcluirPJ();
+    };
+
+    const handleSelectPJEnvolvimento = (value) => {
+        const auxValuesPJ = { ...valuesPJ };
+        auxValuesPJ["envolvimento"] = value;
+        setValuesPJ(auxValuesPJ);
+        console.log(valuesPJ);
+        enableButtonConcluirPJ();
+    };       
+
+    const handlePJConcluir = () => {
+        console.log("Grava PJ: ");
+        console.log(valuesPJ);
+    }
+    //   
+    
 
     const handleInputChange = (e) => {
         console.log(e);
@@ -406,15 +494,19 @@ export default function Pessoa({ uuid }) {
                                         </DivModalTexto>
                                         <DivModalTextoTipoEnvolvimento>Tipo de envolvimento</DivModalTextoTipoEnvolvimento>    
                                         <DivModalSelectTipoEnvolvimento>
-                                            <Select defaultValue="Tomador" style={{ width: 544 }} >
+                                            <Select onChange={handleSelectPFEnvolvimento} onBlur={enableButtonConcluirPF} placeholder="Selecione..." style={{ width: 544 }} >                                                
                                                 <Option value="Composição de renda">Composição de renda</Option>
                                                 <Option value="Tomador">Tomador</Option>
                                             </Select>
                                         </DivModalSelectTipoEnvolvimento>
                                         <DivModalTextoNome>Nome</DivModalTextoNome>
-                                        <DivModalInputNome><Input placeholder="Nome..." style={{width: 544, height: 40}} /></DivModalInputNome>
+                                        <DivModalInputNome><Input id="nome" onChange={handleInputPF} onBlur={enableButtonConcluirPF} placeholder="Nome..." style={{width: 544, height: 40}} /></DivModalInputNome>
                                         <DivModalTextoCPF>CPF</DivModalTextoCPF>
-                                        <DivModalInputCPF><Input placeholder="CPF..." style={{width: 544, height: 40}}/></DivModalInputCPF>
+                                        <DivModalInputCPF><Input id="cpf" onChange={handleInputPF} onBlur={enableButtonConcluirPF} placeholder="CPF..." style={{width: 544, height: 40}}/></DivModalInputCPF>
+                                        <div style={{marginTop: '10px'}}>
+                                            <Button onClick={handlePFCancel} type="text" className="modalNovaPessoa_botaoCancelar">CANCELAR</Button>
+                                            <Button onClick={handlePFConcluir} disabled={buttonConcluirPFState} type="text" className="modalNovaPessoa_botaoConcluir">CONCLUIR</Button>
+                                        </div>                                        
                                     </DivContentModalPF>
                             </Modal> 
                             <Modal 
@@ -435,15 +527,19 @@ export default function Pessoa({ uuid }) {
                                         </DivModalTexto>
                                         <DivModalTextoTipoEnvolvimento>Tipo de envolvimento</DivModalTextoTipoEnvolvimento>    
                                         <DivModalSelectTipoEnvolvimento>
-                                            <Select defaultValue="Tomador" style={{ width: 544 }} >
+                                            <Select onChange={handleSelectPJEnvolvimento} onBlur={enableButtonConcluirPJ} placeholder="Selecione..." style={{ width: 544 }} >
                                                 <Option value="Composição de renda">Composição de renda</Option>
                                                 <Option value="Tomador">Tomador</Option>
                                             </Select>
                                         </DivModalSelectTipoEnvolvimento>                                        
                                         <DivModalTextoNome>Razão Social</DivModalTextoNome>
-                                        <DivModalInputNome><Input placeholder="Razão Social..." style={{width: 544, height: 40}} /></DivModalInputNome>
+                                        <DivModalInputNome><Input id="razaoSocial" onChange={handleInputPJ} onBlur={enableButtonConcluirPJ} placeholder="Razão Social..." style={{width: 544, height: 40}} /></DivModalInputNome>
                                         <DivModalTextoCPF>CNPJ</DivModalTextoCPF>
-                                        <DivModalInputCPF><Input placeholder="CNPJ..." style={{width: 544, height: 40}}/></DivModalInputCPF>
+                                        <DivModalInputCPF><Input id="cnpj" onChange={handleInputPJ} onBlur={enableButtonConcluirPJ} placeholder="CNPJ..." style={{width: 544, height: 40}}/></DivModalInputCPF>
+                                        <div style={{marginTop: '10px'}}>
+                                            <Button onClick={handlePJCancel} type="text" className="modalNovaPessoa_botaoCancelar">CANCELAR</Button>
+                                            <Button onClick={handlePJConcluir} disabled={buttonConcluirPJState} type="text" className="modalNovaPessoa_botaoConcluir">CONCLUIR</Button>
+                                        </div>                                         
                                     </DivContentModalPJ>
                             </Modal>                                   
                         </Panel>

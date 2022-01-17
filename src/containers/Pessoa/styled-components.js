@@ -39,7 +39,7 @@ export const DivContentModalPJ = styled.div`
 export const DivModalTitulo = styled.div`
     width: 544px;
     height: 40px;
-    margin-top: 56px;
+    margin-top: 10px;
     margin-left: 28px;
     font-size: 24px;
     font-weight: bold;
@@ -59,7 +59,7 @@ export const DivModalTexto = styled.div`
 
 export const DivModalTextoTipoEnvolvimento = styled.div`
     width: 544px;
-    height: 40px;
+    height: 25px;
     margin-top: 24px;
     margin-left: 28px;
 `;
@@ -72,7 +72,7 @@ export const DivModalSelectTipoEnvolvimento = styled.div`
 
 export const DivModalTextoNome = styled.div`
     width: 544px;
-    height: 40px;
+    height: 25px;
     margin-left: 28px;
     margin-top: 24px;
 `;
@@ -85,7 +85,7 @@ export const DivModalInputNome = styled.div`
 
 export const DivModalTextoCPF = styled.div`
     width: 544px;
-    height: 40px;
+    height: 25px;
     margin-top: 24px;
     margin-left: 28px;
 `;

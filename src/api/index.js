@@ -17,6 +17,14 @@ class Api {
     return resposta.data[0];
   }
 
+  async salvarPessoaNoProcesso(pessoa) {
+    console.log(pessoa);
+    let processo = await this.buscarProcessoByUuid('/processo/'.concat(pessoa.processo + '/0/1'));
+    console.log(processo);
+    //const resposta = await this.service.post('/pessoa', dados);
+    //return resposta.data[0];
+  }
+
   async salvarProcesso(url, formValues) {
     const response = await this.service.patch(url, formValues);
   }
