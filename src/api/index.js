@@ -21,16 +21,24 @@ class Api {
     return await this.service.patch(url, formValues);
   }
 
-  async buscarPessoa(id){
-    return await this.service.get(`pessoa?id=${id}`)
+  async buscarProcesso(endpoint) {
+    return await this.service.get(endpoint);
+  }
+
+  async deletar(endpoint) {
+    return await this.service.delete(endpoint);
   }
 
   async buscarTabelaDM(endpoint) {
     return await this.service.get(endpoint);
   }
 
-  async addItemDM(endpoint, payload){
-    return await this.service.post(endpoint, payload)
+  async addItemDM(endpoint, payload) {
+    return await this.service.post(endpoint, payload);
+  }
+
+  async downloadFile(endpoint) {
+    return this.service.get(endpoint, { responseType: "blob" });
   }
 
   async verifyTokenId({ tokenId }) {

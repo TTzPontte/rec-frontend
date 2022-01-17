@@ -17,7 +17,7 @@ import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.s
 import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
-import addAttachment from "../../assets/add-attachment.svg";
+import addAttachmentIcon from "../../assets/add-attachment.svg";
 
 export const DropDownDM = ({
   handleGetItem,
@@ -123,7 +123,7 @@ export const DropDownDM = ({
                     </InputAddItem>
                   ) : (
                     <BtnAddItem onClick={handleIsAddingItem}>
-                      <img src={addAttachment} alt="" />
+                      <img src={addAttachmentIcon} alt="" />
                       <span>Adicionar novo item</span>
                     </BtnAddItem>
                   )}

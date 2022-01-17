@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Container, Content } from "./styles";
 import { CollapsePersonalizado } from "../../components/CollapsePersonalizado";
 import Api from "../../api";
-import InputPersonalizado from "../../components/InputPersonalizado";
-import InputMaskPersonalizado from "../../components/InputMaskPersonalizado";
-import InputMonetarioPersonalizado from "../../components/InputMonetarioPersonalizado";
-import { DropDownDM } from "../../components/DropDownDM";
+import InputPersonalizado from "@iso/components/InputPersonalizado";
+import InputMaskPersonalizado from "@iso/components/InputMaskPersonalizado";
+import InputMonetarioPersonalizado from "@iso/components/InputMonetarioPersonalizado";
+import { DropDownDM } from "@iso/components/DropDownDM";
+import { Documento } from "@iso/components/Documento";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
 import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
@@ -14,6 +15,7 @@ import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
 export default function Pessoa({ uuid }) {
   const [processo, setProcesso] = useState([]);
   const [envolvidos, setEnvolvidos] = useState([]);
+  const [documentosProcesso, setDocumentosProcesso] = useState([]);
 
   const api = new Api();
 
@@ -26,13 +28,24 @@ export default function Pessoa({ uuid }) {
 
     const { envolvidos } = processo;
 
+    const documentos = [];
+
     await Promise.all(
       envolvidos.map(async (e, index) => {
         if (!e.pessoa) return;
-        const { data } = await api.buscarPessoa(e.pessoa?.id);
+        const { data } = await api.buscarProcesso(`pessoa?id=${e.pessoa?.id}`);
         envolvidos[index].pessoa = data[0];
+
+        const { data: documentosData } = await api.buscarProcesso(
+          `pessoa-anexo?pessoa=${e.pessoa?.id}`
+        );
+        if (documentosData?.length > 0) {
+          documentos.push(...documentosData);
+        }
       })
     );
+
+    setDocumentosProcesso(documentos);
 
     if (envolvidos.length > 0) setEnvolvidos(envolvidos);
   };
@@ -55,6 +68,18 @@ export default function Pessoa({ uuid }) {
       };
       setEnvolvidos(envolvidos);
     });
+  };
+
+  const utilGroupBy = (array, key) => {
+    console.log("entrou", array, key);
+    const result = array.reduce((a, c) => {
+      const t = a[c[key]] || [];
+      t.push(c);
+      a[c[key]] = t;
+      return a;
+    }, {});
+    console.log(result);
+    return result;
   };
 
   return (
@@ -108,7 +133,7 @@ export default function Pessoa({ uuid }) {
                   {pessoa.rendas.length > 0 &&
                     pessoa.rendas.map((renda) => (
                       <InputMonetarioPersonalizado
-                        texto={`Renda aferida:`}
+                        texto={`Renda aferida | ${renda.rendaTipo}:`}
                         valorCampo={renda.rendaAferida}
                         iconeLabel={<IconTextNumber />}
                         onSave={(value) =>
@@ -352,6 +377,23 @@ export default function Pessoa({ uuid }) {
 
                 <Content>
                   <header>DOCUMENTOS</header>
+                  {documentosProcesso.length > 0 &&
+                    Object.entries(
+                      utilGroupBy(
+                        documentosProcesso.filter(
+                          (d) => d.pessoa.id === envolvido.pessoa.id
+                        ),
+                        "anexoTipo"
+                      )
+                    ).map(([title, files]) => (
+                      <Documento
+                        title={title}
+                        files={files}
+                      />
+                    ))}
+                    <div className="addFilePessoa">
+                    <button>Adicionar</button>
+                    </div>
                 </Content>
 
                 <Content>
