@@ -1,556 +1,816 @@
-import { ReactComponent as IconDropdown } from '../../assets/icon-dropdown.svg';
-import { ReactComponent as IconPhone } from '../../assets/icon-phone-14x14.svg';
-import { ReactComponent as IconTextNumber } from '../../assets/icon-text_number.svg';
-import { ReactComponent as IconEmail } from '../../assets/icon-email-14x14.svg';
-import { ReactComponent as IconDocumentNumber } from '../../assets/icon-document_number.svg';
-import { ReactComponent as IconCalendar } from '../../assets/icon-calendar.svg';
-import { ReactComponent as IconNovaPessoa } from '../../assets/button-add.svg';
+import React, { useCallback, useEffect, useState } from "react";
+import { Container, Content } from "./styles";
+import { CollapsePersonalizado } from "../../components/CollapsePersonalizado";
+import Api from "../../api";
+import InputPersonalizado from "@iso/components/InputPersonalizado";
+import InputMaskPersonalizado from "@iso/components/InputMaskPersonalizado";
+import InputMonetarioPersonalizado from "@iso/components/InputMonetarioPersonalizado";
+import { DropDownDM } from "@iso/components/DropDownDM";
+import { Documento } from "@iso/components/Documento";
+import { AddDocumento } from "@iso/components/AddDocumento";
 
-import backgroundModalNovaPessoa from "@iso/assets/back_nova_pessoa.svg";
+import { groupBy } from "@iso/utils/GroupBy";
 
-import Collapse from '@iso/components/uielements/collapse';
-import { Button, Col, Input, Modal, Row, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
-import Api from '../../api';
-import InputPersonalizado from '../../components/InputPersonalizado';
-import { Container } from '../style';
-import { DivContentModalPF, DivContentModalPJ, DivModalInputCPF, DivModalInputNome, DivModalNovaPessoa, DivModalPFInputCPF, DivModalPFInputNome, DivModalPFTexto, DivModalPFTextoCPF, DivModalPFTextoNome, DivModalPFTitulo, DivModalSelectTipoEnvolvimento, DivModalTexto, DivModalTextoCPF, DivModalTextoNome, DivModalTextoTipoEnvolvimento, DivModalTitulo, DivNovaPessoa, DivSpanNovaPessoa, SpanNovaPessoa } from './styled-components';
-import './style.css';
-
+import {
+  DivContentModalPF,
+  DivContentModalPJ,
+  DivModalInputCPF,
+  DivModalInputNome,
+  DivModalNovaPessoa,
+  DivModalPFInputCPF,
+  DivModalPFInputNome,
+  DivModalPFTexto,
+  DivModalPFTextoCPF,
+  DivModalPFTextoNome,
+  DivModalPFTitulo,
+  DivModalSelectTipoEnvolvimento,
+  DivModalTexto,
+  DivModalTextoCPF,
+  DivModalTextoNome,
+  DivModalTextoTipoEnvolvimento,
+  DivModalTitulo,
+  DivNovaPessoa,
+  DivSpanNovaPessoa,
+  SpanNovaPessoa,
+} from "./styled-components";
+import { Button, Input, Modal, Select } from "antd";
+import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
+import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
+import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
+import { ReactComponent as IconNovaPessoa } from "../../assets/button-add.svg";
 const { Option } = Select;
 
 export default function Pessoa({ uuid }) {
-    const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
-    const [formulaAmortizacao, setFormulaAmortizacao] = useState(['SAC', 'PRICE']);
-    const [values, setValues] = React.useState(null);
-    const [valuesSimulacao, setValuesSimulacao] = React.useState(null);
-    const [valuesConsultorParceiro, setValuesConsultorParceiro] = React.useState(null);
-    const [valuesConsultor, setValuesConsultor] = React.useState(null);
-    const [valuesProcessoAnexo, setValuesProcessoAnexo] = React.useState(null);
-    const api = new Api();
+  const [processo, setProcesso] = useState([]);
+  const [envolvidos, setEnvolvidos] = useState([]);
+  const [documentosProcesso, setDocumentosProcesso] = useState([]);
+  const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
 
-    useEffect(() => {
-        async function findByUuid() {
-            let response = await api.buscarProcessoByUuid('/processo/'.concat(uuid + '/0/1'));
+  const api = new Api();
 
-            let valorInformadoImovel = 0;
-            if (response.patrimonios) {
-                {
-                    response.patrimonios.map((arg) => (
-                        valorInformadoImovel = arg.patrimonio.valorInformado + valorInformadoImovel
-                    ))
-                }
-
-            } else {
-                response.patrimonios = {};
-            }
-
-            if (!response.simulacao) {
-                response.simulacao = {};
-            }
-
-            if (!response.processoAnexo) {
-
-                response.processoAnexo = {};
-                setValuesProcessoAnexo(response.processoAnexo);
-            } else {
-                response.processoAnexo.map((p) => (
-                    setValuesProcessoAnexo(p.tipo == "info_adicional" ? p : null)
-                ))
-            }
-
-            response.valorInformadoImovel = valorInformadoImovel;
-            setValues(response);
-            setValuesSimulacao(response.simulacao);
-            if (response.consultor)
-                setValuesConsultorParceiro(response.consultor.parceiro);
-            setValuesProcessoAnexo(response.processoAnexo);
-            setValuesConsultor(response.consultor);
-        }
-        findByUuid();
-
-    }, []);
-
-    const { Panel } = Collapse;
-    const rowStyle = {
-        width: '100%',
-    };
-
-    const colStyle = {
-        marginBottom: '30px',
-        paddingBottom: '20px',
-    };
-
-
-    const gutter = 16;
-
-    const onSave = (e) => {
-        // e.preventDefault();
-        const auxValues = { ...values };
-        const auxValuesSimulacao = { ...valuesSimulacao };
-
-        if (auxValues.valorSolicitado)
-            auxValues['valorSolicitado'] = Number(auxValues.valorSolicitado.toString().replace(',', '.'));
-
-        if (auxValuesSimulacao.rendaMensal)
-            auxValuesSimulacao['rendaMensal'] = Number(auxValuesSimulacao.rendaMensal.toString().replace(',', '.'));
-
-        const consultor = { ...valuesConsultor, parceiro: valuesConsultorParceiro }
-
-        const formValues = { ...auxValues, simulacao: auxValuesSimulacao, consultor: consultor };
-
-        console.log(formValues);
-        async function submit() {
-            try {
-                const response = await api.salvarProcesso(`/processo/${formValues.id}`, formValues);
-                console.log('response');
-                console.log(response);
-                if (response.data.returnCode === 200) {
-                    // FormUtils.openNotification(
-                    //     'success',
-                    //     'Sucesso',
-                    //     'Processo Atualizado com sucesso'
-                    // );
-                    // handleRedirect();
-                } else {
-                    // FormUtils.openNotification('error', 'Atenção', response.data);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        // if (validateForm()) {
-        submit();
-        // }
-    };
-
-    // Modal PF e PJ
-    const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] = useState(false);
-    const novaPessoaHandle = (e) => {
-        console.log('Nova Pessoa');
-        showModal();
-    }
-    const showModal = () => {
-        setIsModalNovaPessoaVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalNovaPessoaVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalNovaPessoaVisible(false);
-    }; 
-    //    
-
-    // Modal PF
-    const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] = useState(false);
-    const [valuesPF, setValuesPF] = React.useState({ processo: uuid, pessoaTipo: 'PF' });
-    const [buttonConcluirPFState, setButtonConcluirPFState] = React.useState(true);
-
-    const enableButtonConcluirPF = () => {
-        if (
-            (typeof valuesPF.nome !== 'undefined' && valuesPF.nome !== '') &&
-            (typeof valuesPF.cpf !== 'undefined' && valuesPF.cpf !== '') &&
-            (typeof valuesPF.envolvimento !== 'undefined' && valuesPF.envolvimento !== '')
-        ) {
-            setButtonConcluirPFState(false);
-        }
-    }
-
-    const startNovaPF = () => {
-        setValuesPF({ processo: uuid, pessoaTipo: 'PF' });
-    }
-
-    const showModalPF = () => {
-        startNovaPF();
-        setIsModalNovaPessoaPFVisible(true);
-    };
-
-    const handlePFOk = () => {
-        setIsModalNovaPessoaPFVisible(false);
-    };
-
-    const handlePFCancel = () => {
-        startNovaPF();
-        setIsModalNovaPessoaPFVisible(false);
-    }; 
-
-    const handleNovaPessoaPF = () => {
-        console.log("PF");
-        handleCancel();
-        showModalPF();
-    }
-
-    const handleInputPF = (e) => {
-        const auxValuesPF = { ...valuesPF };
-        auxValuesPF[e.target.id] = e.target.value;
-        setValuesPF(auxValuesPF);
-        console.log(valuesPF);
-        enableButtonConcluirPF();
-    };
-
-    const handleSelectPFEnvolvimento = (value) => {
-        const auxValuesPF = { ...valuesPF };
-        auxValuesPF["envolvimento"] = value;
-        setValuesPF(auxValuesPF);
-        console.log(valuesPF);
-        enableButtonConcluirPF();
-    };    
-  
-    const handlePFConcluir = async () => {
-        console.log("Grava PF: ");
-        console.log(valuesPF);
-        let response = await api.salvarPessoaNoProcesso(valuesPF);
-        handlePFCancel();
-    }
-    //
-
-    // Modal PJ
-    const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] = useState(false);
-    const [valuesPJ, setValuesPJ] = React.useState({ processo: uuid, pessoaTipo: 'PJ' });
-    const [buttonConcluirPJState, setButtonConcluirPJState] = React.useState(true);
-
-    const enableButtonConcluirPJ = () => {
-        if (
-            (typeof valuesPJ.razaoSocial !== 'undefined' && valuesPJ.razaoSocial !== '') &&
-            (typeof valuesPJ.cnpj !== 'undefined' && valuesPJ.cnpj !== '') &&
-            (typeof valuesPJ.envolvimento !== 'undefined' && valuesPJ.envolvimento !== '')
-        ) {
-            setButtonConcluirPJState(false);
-        }
-    }    
-
-    const startNovaPJ = () => {
-        setValuesPJ({ processo: uuid, pessoaTipo: 'PJ' });
-    }
-
-    const showModalPJ = () => {
-        startNovaPJ();
-        setIsModalNovaPessoaPJVisible(true);
-    };
-
-    const handlePJOk = () => {
-        setIsModalNovaPessoaPJVisible(false);
-    };
-
-    const handlePJCancel = () => {
-        startNovaPJ();
-        setIsModalNovaPessoaPJVisible(false);
-    }; 
-    
-    const handleNovaPessoaPJ = () => {
-        console.log("PJ");
-        handleCancel();
-        showModalPJ();
-    }
-    
-    const handleInputPJ = (e) => {
-        const auxValuesPJ = { ...valuesPJ };
-        auxValuesPJ[e.target.id] = e.target.value;
-        setValuesPJ(auxValuesPJ);
-        console.log(valuesPJ);
-        enableButtonConcluirPJ();
-    };
-
-    const handleSelectPJEnvolvimento = (value) => {
-        const auxValuesPJ = { ...valuesPJ };
-        auxValuesPJ["envolvimento"] = value;
-        setValuesPJ(auxValuesPJ);
-        console.log(valuesPJ);
-        enableButtonConcluirPJ();
-    };       
-
-    const handlePJConcluir = async () => {
-        console.log("Grava PJ: ");
-        console.log(valuesPJ);
-        let response = await api.salvarPessoaNoProcesso(valuesPJ);
-        handlePJCancel();
-    }
-    //   
-    
-
-    const handleInputChange = (e) => {
-        console.log(e);
-        const auxValues = { ...values };
-        auxValues[e.target.id] = e.target.value;
-        setValues(auxValues);
-        console.log(values);
-    };
-
-    const handleInputChangeNumber = (e) => {
-        console.log(e);
-        const auxValues = { ...values };
-        auxValues[e.target.id] = e.target.valueAsNumber;
-        setValues(auxValues);
-        console.log(values);
-    };
-
-    const handleInputChangeSimulacao = (e) => {
-        console.log(e);
-        const auxValues = { ...valuesSimulacao };
-        auxValues[e.target.id] = e.target.value;
-        setValuesSimulacao(auxValues);
-        console.log(valuesSimulacao);
-    };
-
-    const handleInputChangeConsultorParceiro = (e) => {
-        console.log(e);
-        const auxValues = { ...valuesConsultorParceiro };
-        auxValues[e.target.id] = e.target.value;
-        setValuesConsultorParceiro(auxValues);
-        console.log(valuesConsultorParceiro);
-    };
-
-    const handleInputChangeConsultor = (e) => {
-        console.log(e);
-        const auxValues = { ...valuesConsultor };
-        auxValues[e.target.id] = e.target.value;
-        setValuesConsultor(auxValues);
-        console.log(valuesConsultor);
-    };
-
-    const handleInputMaskChange = (e) => {
-        console.log(e.target.value);
-        const auxValues = { ...valuesSimulacao };
-        let str = e.target.value;
-        auxValues[e.target.id] = str;
-        setValuesSimulacao(auxValues);
-        console.log(valuesSimulacao);
-
-    };
-
-    const handleInputMonetarioChange = (e) => {
-        let str = e.target.value;
-        const auxValues = { ...values };
-        let valor = onlyMonetario(str);
-        auxValues[e.target.id] = valor;
-        setValues(auxValues);
-        console.log(auxValues);
-        console.log(valor);
-
-    };
-
-    const handleInputMonetarioChangeSimulacao = (e) => {
-        let str = e.target.value;
-        const auxValues = { ...valuesSimulacao };
-        let valor = onlyMonetario(str);
-        auxValues[e.target.id] = valor;
-        setValuesSimulacao(auxValues);
-        console.log(auxValues);
-        console.log(valor);
-
-    };
-
-    var onlyMonetario = (str) => str.replace(/[\R$.]/g, '');
-
-    const onlyNumbers = (str) => str.replace(/[^0-9]/g, '');
-
-    return (
-        (values &&
-            <Container>
-
-                {(values && valuesConsultor && valuesConsultorParceiro &&
-
-                    <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="fundoRoxo">
-
-                        <Panel
-                            header={"PESSOA | " + valuesConsultorParceiro.nome}
-                            key="1" >
-
-                            <Collapse expandIconPosition="right" defaultActiveKey={["1"]} className="pontilhado conteudo">
-                                <Panel
-                                    header="INFORMAÇÕES DA PESSOA"
-                                    key="1" >
-
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome" valorCampo={valuesConsultorParceiro.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome do pai" valorCampo={valuesConsultorParceiro.contato} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="contato" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Papel na operação" valorCampo={valuesConsultor.nome} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Profissão" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Renda aferida" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Estado civil" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="E-mail" valorCampo={valuesConsultor.nome} iconeLabel={<IconEmail />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Regime de união" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Celular" valorCampo={valuesConsultor.nome} iconeLabel={<IconPhone />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Logradouro | Endereço" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Data de nascimento" valorCampo={valuesConsultor.nome} iconeLabel={<IconCalendar />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Número | Endereço" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="CPF" valorCampo={valuesConsultor.nome} iconeLabel={<IconDocumentNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Complemento | Endereço" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="RG" valorCampo={valuesConsultor.nome} iconeLabel={<IconDocumentNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="CEP" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Orgão emissor" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Estado" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nacionalidade" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Cidade" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Escolaridade" valorCampo={valuesConsultor.nome} iconeLabel={<IconDropdown />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Bairro" valorCampo={valuesConsultorParceiro.telefoneRepresentanteLegal} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultorParceiro} idCampo="telefone" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                    <Row style={rowStyle} gutter={gutter} justify="start">
-                                        <Col sm={18} md={12} xs={12} style={colStyle}>
-                                            <InputPersonalizado texto="Nome da mãe" valorCampo={valuesConsultor.nome} iconeLabel={<IconTextNumber />} onSave={onSave} handleChange={handleInputChangeConsultor} idCampo="nome" editavel={false} />
-                                        </Col>
-                                    </Row>
-                                </Panel>
-                            </Collapse>
-                            <DivNovaPessoa>
-                                <IconNovaPessoa onClick={novaPessoaHandle} style={{cursor: 'pointer'}}/>
-                                <Modal 
-                                    style={{ top: 90, left: '35%', borderRadius: 5 }}  
-                                    width={260}
-                                    height={222}
-                                    visible={isModalNovaPessoaVisible}
-                                    closable 
-                                    onOk={handleOk} 
-                                    onCancel={handleCancel}
-                                    footer={null}
-                                    closable={false}
-                                >
-                                    <DivModalNovaPessoa>
-                                        <DivSpanNovaPessoa><SpanNovaPessoa>Que tipo de pessoa você gostaria de adicionar?</SpanNovaPessoa></DivSpanNovaPessoa>
-                                        <div><Button onClick={handleNovaPessoaPF} type="text" style={{ width: '210px', height: '35px', marginTop: '30px', borderStyle: 'solid', borderColor: 'gray'}}>Pessoa física</Button></div>
-                                        <div><Button onClick={handleNovaPessoaPJ} type="text" style={{ width: '210px', height: '35px', marginTop: '10px', borderStyle: 'solid', borderColor: 'gray'}}>Pessoa jurídica</Button></div>
-                                    </DivModalNovaPessoa>  
-                                </Modal>                                 
-                            </DivNovaPessoa>
-                            <Modal 
-                                    style={{ borderRadius: 10 }}  
-                                    width={648}
-                                    height={480}
-                                    visible={isModalNovaPessoaPFVisible}
-                                    closable 
-                                    onOk={handlePFOk} 
-                                    onCancel={handlePFCancel}
-                                    footer={null}
-                                    closable={false}
-                                >
-                                    <DivContentModalPF>
-                                        <DivModalTitulo><span>Adiciona nova PF</span></DivModalTitulo>
-                                        <DivModalTexto>
-                                            <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
-                                        </DivModalTexto>
-                                        <DivModalTextoTipoEnvolvimento>Tipo de envolvimento</DivModalTextoTipoEnvolvimento>    
-                                        <DivModalSelectTipoEnvolvimento>
-                                            <Select onChange={handleSelectPFEnvolvimento} onBlur={enableButtonConcluirPF} placeholder="Selecione..." style={{ width: 544 }} >                                                
-                                                <Option value="Composição de renda">Composição de renda</Option>
-                                                <Option value="Tomador">Tomador</Option>
-                                            </Select>
-                                        </DivModalSelectTipoEnvolvimento>
-                                        <DivModalTextoNome>Nome</DivModalTextoNome>
-                                        <DivModalInputNome><Input id="nome" onChange={handleInputPF} onBlur={enableButtonConcluirPF} placeholder="Nome..." style={{width: 544, height: 40}} /></DivModalInputNome>
-                                        <DivModalTextoCPF>CPF</DivModalTextoCPF>
-                                        <DivModalInputCPF><Input id="cpf" onChange={handleInputPF} onBlur={enableButtonConcluirPF} placeholder="CPF..." style={{width: 544, height: 40}}/></DivModalInputCPF>
-                                        <div style={{marginTop: '10px'}}>
-                                            <Button onClick={handlePFCancel} type="text" className="modalNovaPessoa_botaoCancelar">CANCELAR</Button>
-                                            <Button onClick={handlePFConcluir} disabled={buttonConcluirPFState} type="text" className="modalNovaPessoa_botaoConcluir">CONCLUIR</Button>
-                                        </div>                                        
-                                    </DivContentModalPF>
-                            </Modal> 
-                            <Modal 
-                                    style={{ borderRadius: 5 }}  
-                                    width={648}
-                                    height={480}
-                                    visible={isModalNovaPessoaPJVisible}
-                                    closable 
-                                    onOk={handlePJOk} 
-                                    onCancel={handlePJCancel}
-                                    footer={null}
-                                    closable={false}
-                                >
-                                    <DivContentModalPJ>
-                                    <DivModalTitulo><span>Adiciona nova PJ</span></DivModalTitulo>
-                                        <DivModalTexto>
-                                            <span>Antes de adicionarmos uma nova pessoa à operação, precisamos que você nos informe os dados abaixo! ;)</span>
-                                        </DivModalTexto>
-                                        <DivModalTextoTipoEnvolvimento>Tipo de envolvimento</DivModalTextoTipoEnvolvimento>    
-                                        <DivModalSelectTipoEnvolvimento>
-                                            <Select onChange={handleSelectPJEnvolvimento} onBlur={enableButtonConcluirPJ} placeholder="Selecione..." style={{ width: 544 }} >
-                                                <Option value="Composição de renda">Composição de renda</Option>
-                                                <Option value="Tomador">Tomador</Option>
-                                            </Select>
-                                        </DivModalSelectTipoEnvolvimento>                                        
-                                        <DivModalTextoNome>Razão Social</DivModalTextoNome>
-                                        <DivModalInputNome><Input id="razaoSocial" onChange={handleInputPJ} onBlur={enableButtonConcluirPJ} placeholder="Razão Social..." style={{width: 544, height: 40}} /></DivModalInputNome>
-                                        <DivModalTextoCPF>CNPJ</DivModalTextoCPF>
-                                        <DivModalInputCPF><Input id="cnpj" onChange={handleInputPJ} onBlur={enableButtonConcluirPJ} placeholder="CNPJ..." style={{width: 544, height: 40}}/></DivModalInputCPF>
-                                        <div style={{marginTop: '10px'}}>
-                                            <Button onClick={handlePJCancel} type="text" className="modalNovaPessoa_botaoCancelar">CANCELAR</Button>
-                                            <Button onClick={handlePJConcluir} disabled={buttonConcluirPJState} type="text" className="modalNovaPessoa_botaoConcluir">CONCLUIR</Button>
-                                        </div>                                         
-                                    </DivContentModalPJ>
-                            </Modal>                                   
-                        </Panel>
-
-                    </Collapse>
-                )}
-                <br />
-            </Container>
-        )
+  const getEnvolvidos = async () => {
+    const processo = await api.buscarProcessoByUuid(
+      "/processo/".concat(uuid + "/0/1")
     );
+
+    setProcesso(processo);
+
+    const { envolvidos } = processo;
+
+    const documentos = [];
+
+    await Promise.all(
+      envolvidos.map(async (e, index) => {
+        if (!e.pessoa) return;
+        const { data } = await api.buscarProcesso(`pessoa?id=${e.pessoa?.id}`);
+        envolvidos[index].pessoa = data[0];
+
+        const { data: documentosData } = await api.buscarProcesso(
+          `pessoa-anexo?pessoa=${e.pessoa?.id}`
+        );
+        if (documentosData?.length > 0) {
+          documentos.push(...documentosData);
+        }
+      })
+    );
+
+    setDocumentosProcesso(documentos);
+
+    if (envolvidos.length > 0) setEnvolvidos(envolvidos);
+  };
+
+  const getEnvolvidosCallback = useCallback(getEnvolvidos, []);
+
+  useEffect(() => {
+    getEnvolvidosCallback();
+  }, [getEnvolvidosCallback]);
+
+  const handleOnSavePessoa = (newValue, pessoa, key, index) => {
+    if (!newValue) return;
+
+    const novaPessoa = { ...pessoa, [key]: newValue };
+
+    api.alterarProcesso(`/pessoa/${pessoa.id}`, novaPessoa).then(() => {
+      envolvidos[index] = {
+        ...envolvidos[index],
+        pessoa: novaPessoa,
+      };
+      setEnvolvidos(envolvidos);
+    });
+  };
+
+  const handleSetEnvolvidos = (envolvido) => {
+    console.log(envolvidos, [...envolvidos, envolvido]);
+    setEnvolvidos([...envolvidos, envolvido]);
+  };
+
+  const handleGetDocumentsByPersonID = (id) =>
+    Object.entries(
+      groupBy(
+        documentosProcesso.filter((d) => d.pessoa.id === id),
+        "anexoTipo"
+      )
+    );
+
+  const handleAddListDocument = (item) => {
+    setDocumentosProcesso([...documentosProcesso, item]);
+  };
+
+  // Modal PF e PJ
+  const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] =
+    useState(false);
+  const novaPessoaHandle = (e) => {
+    console.log("Nova Pessoa");
+    showModal();
+  };
+  const showModal = () => {
+    setIsModalNovaPessoaVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalNovaPessoaVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalNovaPessoaVisible(false);
+  };
+  //
+
+  // Modal PF
+  const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] =
+    useState(false);
+  const [valuesPF, setValuesPF] = React.useState({
+    processo: uuid,
+    pessoaTipo: "PF",
+  });
+  const [buttonConcluirPFState, setButtonConcluirPFState] =
+    React.useState(true);
+
+  const enableButtonConcluirPF = () => {
+    if (
+      typeof valuesPF.nome !== "undefined" &&
+      valuesPF.nome !== "" &&
+      typeof valuesPF.cpf !== "undefined" &&
+      valuesPF.cpf !== "" &&
+      typeof valuesPF.envolvimento !== "undefined" &&
+      valuesPF.envolvimento !== ""
+    ) {
+      setButtonConcluirPFState(false);
+    }
+  };
+
+  const startNovaPF = () => {
+    setValuesPF({ processo: uuid, pessoaTipo: "PF" });
+  };
+
+  const showModalPF = () => {
+    startNovaPF();
+    setIsModalNovaPessoaPFVisible(true);
+  };
+
+  const handlePFOk = () => {
+    setIsModalNovaPessoaPFVisible(false);
+  };
+
+  const handlePFCancel = () => {
+    startNovaPF();
+    setIsModalNovaPessoaPFVisible(false);
+  };
+
+  const handleNovaPessoaPF = () => {
+    console.log("PF");
+    handleCancel();
+    showModalPF();
+  };
+
+  const handleInputPF = (e) => {
+    const auxValuesPF = { ...valuesPF };
+    auxValuesPF[e.target.id] = e.target.value;
+    setValuesPF(auxValuesPF);
+    console.log(valuesPF);
+    enableButtonConcluirPF();
+  };
+
+  const handleSelectPFEnvolvimento = (value) => {
+    const auxValuesPF = { ...valuesPF };
+    auxValuesPF["envolvimento"] = value;
+    setValuesPF(auxValuesPF);
+    console.log(valuesPF);
+    enableButtonConcluirPF();
+  };
+
+  const handlePFConcluir = async () => {
+    console.log("Grava PF: ");
+    console.log(valuesPF);
+    let response = await api.salvarPessoaNoProcesso(valuesPF);
+    handlePFCancel();
+  };
+  //
+
+  // Modal PJ
+  const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] =
+    useState(false);
+  const [valuesPJ, setValuesPJ] = useState({
+    processo: uuid,
+    pessoaTipo: "PJ",
+  });
+  const [buttonConcluirPJState, setButtonConcluirPJState] = useState(true);
+
+  const enableButtonConcluirPJ = () => {
+    if (
+      typeof valuesPJ.razaoSocial !== "undefined" &&
+      valuesPJ.razaoSocial !== "" &&
+      typeof valuesPJ.cnpj !== "undefined" &&
+      valuesPJ.cnpj !== "" &&
+      typeof valuesPJ.envolvimento !== "undefined" &&
+      valuesPJ.envolvimento !== ""
+    ) {
+      setButtonConcluirPJState(false);
+    }
+  };
+
+  const startNovaPJ = () => {
+    setValuesPJ({ processo: uuid, pessoaTipo: "PJ" });
+  };
+
+  const showModalPJ = () => {
+    startNovaPJ();
+    setIsModalNovaPessoaPJVisible(true);
+  };
+
+  const handlePJOk = () => {
+    setIsModalNovaPessoaPJVisible(false);
+  };
+
+  const handlePJCancel = () => {
+    startNovaPJ();
+    setIsModalNovaPessoaPJVisible(false);
+  };
+
+  const handleNovaPessoaPJ = () => {
+    console.log("PJ");
+    handleCancel();
+    showModalPJ();
+  };
+
+  const handleInputPJ = (e) => {
+    const auxValuesPJ = { ...valuesPJ };
+    auxValuesPJ[e.target.id] = e.target.value;
+    setValuesPJ(auxValuesPJ);
+    console.log(valuesPJ);
+    enableButtonConcluirPJ();
+  };
+
+  const handleSelectPJEnvolvimento = (value) => {
+    const auxValuesPJ = { ...valuesPJ };
+    auxValuesPJ["envolvimento"] = value;
+    setValuesPJ(auxValuesPJ);
+    console.log(valuesPJ);
+    enableButtonConcluirPJ();
+  };
+
+  const handlePJConcluir = async () => {
+    console.log("Grava PJ: ");
+    console.log(valuesPJ);
+    let response = await api.salvarPessoaNoProcesso(valuesPJ);
+    handlePJCancel();
+  };
+  // end Modals
+
+  return (
+    <Container>
+      {envolvidos?.length > 0 &&
+        envolvidos.map((envolvido, index) => {
+          const { pessoa } = envolvido;
+
+          return (
+            pessoa && (
+              <CollapsePersonalizado
+                title={`PESSOA  |  ${pessoa["nomeSocial"] || pessoa["nome"]}`}
+                key={envolvido.id}
+                startOpen={false}
+              >
+                <Content>
+                  <header>INFORMAÇÕES DA PESSOA</header>
+                  <InputPersonalizado
+                    texto={"Nome:"}
+                    valorCampo={pessoa.nome}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(value, pessoa, "nome", index)
+                    }
+                    idCampo={"nome"}
+                  />
+
+                  <DropDownDM
+                    title={"Papel na operação"}
+                    initialValue={envolvido.tipo}
+                    handleSaveItem={(descricao) =>
+                      api.addItemDM("dm-processo-tipo", { descricao })
+                    }
+                    handleGetItem={() => api.buscarTabelaDM("dm-processo-tipo")}
+                    handleSaveProcessInfo={async ({ descricao }) =>
+                      api.alterarProcesso(
+                        `/processo-envolvidos/${envolvido.id}`,
+                        {
+                          tipo: descricao,
+                          pessoa: {
+                            id: pessoa.id,
+                          },
+                          processo: {
+                            id: processo.id,
+                          },
+                        }
+                      )
+                    }
+                  />
+
+                  {pessoa.rendas?.length > 0 &&
+                    pessoa.rendas.map((renda) => (
+                      <InputMonetarioPersonalizado
+                        texto={`Renda aferida | ${renda.rendaTipo}:`}
+                        valorCampo={renda.rendaAferida}
+                        iconeLabel={<IconTextNumber />}
+                        onSave={(value) =>
+                          api.alterarProcesso(`/renda/${renda.id}`, {
+                            ...renda,
+                            rendaAferida: Number(value.replace(/[^0-9]/g, "")),
+                          })
+                        }
+                        idCampo={"nome"}
+                      />
+                    ))}
+
+                  <InputPersonalizado
+                    texto={"E-mail:"}
+                    valorCampo={pessoa.email}
+                    iconeLabel={<IconEmail />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(value, pessoa, "email", index)
+                    }
+                    idCampo={"email"}
+                  />
+
+                  {pessoa.telefones?.length > 0 &&
+                    pessoa.telefones.map((telefone) => (
+                      <InputMaskPersonalizado
+                        texto={"Telefone"}
+                        valorCampo={`${telefone.ddd} + ${telefone.numero}`}
+                        iconeLabel={<IconPhone />}
+                        onSave={(value) => {
+                          const numeroCompleto = value.replace(/[^0-9]/g, "");
+                          const ddd = numeroCompleto.slice(0, 2);
+                          const numero = numeroCompleto.slice(2);
+                          api.alterarProcesso(`telefone/${telefone.id}`, {
+                            ddd,
+                            numero,
+                          });
+                        }}
+                        idCampo={"telefone"}
+                        mask={"(99) 99999-9999"}
+                      />
+                    ))}
+
+                  <InputMaskPersonalizado
+                    texto={"Data de Nascimento"}
+                    valorCampo={
+                      pessoa.dataNascimento
+                        ? pessoa.dataNascimento
+                            .slice(0, 10)
+                            .split("-")
+                            .reverse()
+                            .join("")
+                        : ""
+                    }
+                    iconeLabel={<IconPhone />}
+                    onSave={(value) => {
+                      const data = value.split("/").reverse().join("-");
+                      handleOnSavePessoa(data, pessoa, "dataNascimento", index);
+                    }}
+                    idCampo={"dataNascimento"}
+                    mask={"99/99/9999"}
+                  />
+
+                  <InputMaskPersonalizado
+                    texto={"CPF"}
+                    valorCampo={pessoa.cpf}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) => {
+                      const data = value.replace(/[^0-9]/g, "");
+                      handleOnSavePessoa(data, pessoa, "cpf", index);
+                    }}
+                    idCampo={"CPF"}
+                    mask={"999.999.999-99"}
+                  />
+
+                  <InputMaskPersonalizado
+                    texto={"RG"}
+                    valorCampo={pessoa.rg}
+                    iconeLabel={<IconPhone />}
+                    onSave={(value) => {
+                      const data = value.replace(/[^0-9]/g, "");
+                      handleOnSavePessoa(data, pessoa, "rg", index);
+                    }}
+                    idCampo={"RG"}
+                    mask={"99999999-9"}
+                  />
+
+                  <InputPersonalizado
+                    texto={"Orgão Emissor:"}
+                    valorCampo={pessoa.orgaoEmissorRg}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(
+                        value.toUpperCase(),
+                        pessoa,
+                        "orgaoEmissorRg",
+                        index
+                      )
+                    }
+                    idCampo={"orgaoEmissorRg"}
+                  />
+
+                  <InputPersonalizado
+                    texto={"Nacionalidade:"}
+                    valorCampo={pessoa.nacionalidade}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(value, pessoa, "nacionalidade", index)
+                    }
+                    idCampo={"nacionalidade"}
+                  />
+
+                  <InputPersonalizado
+                    texto={"Escolaridade:"}
+                    valorCampo={pessoa.escolaridade}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(value, pessoa, "escolaridade", index)
+                    }
+                    idCampo={"escolaridade"}
+                  />
+
+                  <InputPersonalizado
+                    texto={"Nome da mãe:"}
+                    valorCampo={pessoa.nomeMae}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(value, pessoa, "nomeMae", index)
+                    }
+                    idCampo={"nomeMae"}
+                  />
+
+                  <InputPersonalizado
+                    texto={"Profissão:"}
+                    valorCampo={pessoa.profissao}
+                    iconeLabel={<IconTextNumber />}
+                    onSave={(value) =>
+                      handleOnSavePessoa(value, pessoa, "profissao", index)
+                    }
+                    idCampo={"profissao"}
+                  />
+
+                  {pessoa.enderecos?.length > 0 &&
+                    pessoa.enderecos.map((endereco) => {
+                      const helperText = !!endereco.tipo
+                        ? ` | ${endereco.tipo}`
+                        : "";
+                      return (
+                        <>
+                          <InputPersonalizado
+                            texto={`Logradouro${helperText}:`}
+                            valorCampo={endereco.logradouro}
+                            iconeLabel={<IconTextNumber />}
+                            onSave={(value) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                logradouro: value,
+                              })
+                            }
+                            idCampo={"enderecoLogradouro"}
+                          />
+                          <InputPersonalizado
+                            texto={`Numero${helperText}:`}
+                            valorCampo={endereco.numero}
+                            iconeLabel={<IconTextNumber />}
+                            onSave={(value) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                numero: value,
+                              })
+                            }
+                            idCampo={"enderecoNumero"}
+                          />
+
+                          <InputPersonalizado
+                            texto={`Complemento${helperText}:`}
+                            valorCampo={endereco.complemento}
+                            iconeLabel={<IconTextNumber />}
+                            onSave={(value) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                complemento: value,
+                              })
+                            }
+                            idCampo={"enderecoComplemento"}
+                          />
+
+                          <InputMaskPersonalizado
+                            texto={`CEP${helperText}:`}
+                            valorCampo={endereco.cep}
+                            iconeLabel={<IconTextNumber />}
+                            onSave={(value) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                cep: value,
+                              })
+                            }
+                            idCampo={"enderecoCEP"}
+                            mask={"99999-999"}
+                          />
+
+                          <DropDownDM
+                            title={"Estado"}
+                            initialValue={endereco.estado}
+                            handleSaveItem={(descricao) =>
+                              api.addItemDM("dm-estado", { descricao })
+                            }
+                            handleGetItem={() =>
+                              api.buscarTabelaDM("dm-estado")
+                            }
+                            handleSaveProcessInfo={async ({ descricao }) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                estado: descricao,
+                              })
+                            }
+                          />
+
+                          <InputPersonalizado
+                            texto={`Cidade${helperText}:`}
+                            valorCampo={endereco.estado}
+                            iconeLabel={<IconTextNumber />}
+                            onSave={(value) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                cidade: value,
+                              })
+                            }
+                            idCampo={"enderecoCidade"}
+                          />
+
+                          <InputPersonalizado
+                            texto={`Bairro${helperText}:`}
+                            valorCampo={endereco.estado}
+                            iconeLabel={<IconTextNumber />}
+                            onSave={(value) =>
+                              api.alterarProcesso(`endereco/${endereco.id}`, {
+                                bairro: value,
+                              })
+                            }
+                            idCampo={"enderecoBairro"}
+                          />
+                        </>
+                      );
+                    })}
+                </Content>
+
+                <Content>
+                  <header>DOCUMENTOS</header>
+                  {handleGetDocumentsByPersonID(envolvido.pessoa.id).map(
+                    ([title, files]) => (
+                      <div className="documentoPessoa">
+                        <Documento
+                          title={title}
+                          files={files}
+                          pessoaId={envolvido.pessoa.id}
+                        />
+                      </div>
+                    )
+                  )}
+                  <div>
+                    <AddDocumento
+                      visible={isVisibleAddDocument}
+                      setVisible={setIsVisibleAddDocument}
+                      pessoaId={envolvido.pessoa.id}
+                      setListDocuments={handleAddListDocument}
+                    />
+                  </div>
+                  <div className="addFilePessoa">
+                    <button
+                      onClick={() =>
+                        setIsVisibleAddDocument(!isVisibleAddDocument)
+                      }
+                    >
+                      Adicionar
+                    </button>
+                  </div>
+                </Content>
+
+                <Content>
+                  <header>DIVIDAS</header>
+                </Content>
+              </CollapsePersonalizado>
+            )
+          );
+        })}
+      <DivNovaPessoa>
+        <IconNovaPessoa
+          onClick={novaPessoaHandle}
+          style={{ cursor: "pointer" }}
+        />
+        <Modal
+          style={{ top: 90, left: "35%", borderRadius: 5 }}
+          width={260}
+          height={222}
+          visible={isModalNovaPessoaVisible}
+          closable
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={null}
+          closable={false}
+        >
+          <DivModalNovaPessoa>
+            <DivSpanNovaPessoa>
+              <SpanNovaPessoa>
+                Que tipo de pessoa você gostaria de adicionar?
+              </SpanNovaPessoa>
+            </DivSpanNovaPessoa>
+            <div>
+              <Button
+                onClick={handleNovaPessoaPF}
+                type="text"
+                style={{
+                  width: "210px",
+                  height: "35px",
+                  marginTop: "30px",
+                  borderStyle: "solid",
+                  borderColor: "gray",
+                }}
+              >
+                Pessoa física
+              </Button>
+            </div>
+            <div>
+              <Button
+                onClick={handleNovaPessoaPJ}
+                type="text"
+                style={{
+                  width: "210px",
+                  height: "35px",
+                  marginTop: "10px",
+                  borderStyle: "solid",
+                  borderColor: "gray",
+                }}
+              >
+                Pessoa jurídica
+              </Button>
+            </div>
+          </DivModalNovaPessoa>
+        </Modal>
+      </DivNovaPessoa>
+      <Modal
+        style={{ borderRadius: 10 }}
+        width={648}
+        height={480}
+        visible={isModalNovaPessoaPFVisible}
+        closable
+        onOk={handlePFOk}
+        onCancel={handlePFCancel}
+        footer={null}
+        closable={false}
+      >
+        <DivContentModalPF>
+          <DivModalTitulo>
+            <span>Adiciona nova PF</span>
+          </DivModalTitulo>
+          <DivModalTexto>
+            <span>
+              Antes de adicionarmos uma nova pessoa à operação, precisamos que
+              você nos informe os dados abaixo! ;)
+            </span>
+          </DivModalTexto>
+          <DivModalTextoTipoEnvolvimento>
+            Tipo de envolvimento
+          </DivModalTextoTipoEnvolvimento>
+          <DivModalSelectTipoEnvolvimento>
+            <Select
+              onChange={handleSelectPFEnvolvimento}
+              onBlur={enableButtonConcluirPF}
+              placeholder="Selecione..."
+              style={{ width: 544 }}
+            >
+              <Option value="Composição de renda">Composição de renda</Option>
+              <Option value="Tomador">Tomador</Option>
+            </Select>
+          </DivModalSelectTipoEnvolvimento>
+          <DivModalTextoNome>Nome</DivModalTextoNome>
+          <DivModalInputNome>
+            <Input
+              id="nome"
+              onChange={handleInputPF}
+              onBlur={enableButtonConcluirPF}
+              placeholder="Nome..."
+              style={{ width: 544, height: 40 }}
+            />
+          </DivModalInputNome>
+          <DivModalTextoCPF>CPF</DivModalTextoCPF>
+          <DivModalInputCPF>
+            <Input
+              id="cpf"
+              onChange={handleInputPF}
+              onBlur={enableButtonConcluirPF}
+              placeholder="CPF..."
+              style={{ width: 544, height: 40 }}
+            />
+          </DivModalInputCPF>
+          <div style={{ marginTop: "10px" }}>
+            <Button
+              onClick={handlePFCancel}
+              type="text"
+              className="modalNovaPessoa_botaoCancelar"
+            >
+              CANCELAR
+            </Button>
+            <Button
+              onClick={handlePFConcluir}
+              disabled={buttonConcluirPFState}
+              type="text"
+              className="modalNovaPessoa_botaoConcluir"
+            >
+              CONCLUIR
+            </Button>
+          </div>
+        </DivContentModalPF>
+      </Modal>
+      <Modal
+        style={{ borderRadius: 5 }}
+        width={648}
+        height={480}
+        visible={isModalNovaPessoaPJVisible}
+        closable
+        onOk={handlePJOk}
+        onCancel={handlePJCancel}
+        footer={null}
+        closable={false}
+      >
+        <DivContentModalPJ>
+          <DivModalTitulo>
+            <span>Adiciona nova PJ</span>
+          </DivModalTitulo>
+          <DivModalTexto>
+            <span>
+              Antes de adicionarmos uma nova pessoa à operação, precisamos que
+              você nos informe os dados abaixo! ;)
+            </span>
+          </DivModalTexto>
+          <DivModalTextoTipoEnvolvimento>
+            Tipo de envolvimento
+          </DivModalTextoTipoEnvolvimento>
+          <DivModalSelectTipoEnvolvimento>
+            <Select
+              onChange={handleSelectPJEnvolvimento}
+              onBlur={enableButtonConcluirPJ}
+              placeholder="Selecione..."
+              style={{ width: 544 }}
+            >
+              <Option value="Composição de renda">Composição de renda</Option>
+              <Option value="Tomador">Tomador</Option>
+            </Select>
+          </DivModalSelectTipoEnvolvimento>
+          <DivModalTextoNome>Razão Social</DivModalTextoNome>
+          <DivModalInputNome>
+            <Input
+              id="razaoSocial"
+              onChange={handleInputPJ}
+              onBlur={enableButtonConcluirPJ}
+              placeholder="Razão Social..."
+              style={{ width: 544, height: 40 }}
+            />
+          </DivModalInputNome>
+          <DivModalTextoCPF>CNPJ</DivModalTextoCPF>
+          <DivModalInputCPF>
+            <Input
+              id="cnpj"
+              onChange={handleInputPJ}
+              onBlur={enableButtonConcluirPJ}
+              placeholder="CNPJ..."
+              style={{ width: 544, height: 40 }}
+            />
+          </DivModalInputCPF>
+          <div style={{ marginTop: "10px" }}>
+            <Button
+              onClick={handlePJCancel}
+              type="text"
+              className="modalNovaPessoa_botaoCancelar"
+            >
+              CANCELAR
+            </Button>
+            <Button
+              onClick={handlePJConcluir}
+              disabled={buttonConcluirPJState}
+              type="text"
+              className="modalNovaPessoa_botaoConcluir"
+            >
+              CONCLUIR
+            </Button>
+          </div>
+        </DivContentModalPJ>
+      </Modal>
+    </Container>
+  );
 }

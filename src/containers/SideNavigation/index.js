@@ -14,7 +14,7 @@ import { Container, Header, UserInfo, Nav, Footer } from "./styled-components";
 
 const SideNavigation = ({ handleOperacao }) => {
   const { profile } = useSelector((state) => state.Auth);
-  console.log(profile);
+
   return (
     <Container>
       <Header>

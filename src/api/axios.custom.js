@@ -13,7 +13,7 @@ export class AxiosCustom {
     (error) => {
       this.request.interceptors.response.eject(this.interceptors);
 
-      if (error.response.status === 403) {
+      if (error.response?.status === 403) {
         store.dispatch(refreshTokenAct());
         return Promise.reject(error);
       }

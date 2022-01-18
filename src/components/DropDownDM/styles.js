@@ -1,19 +1,57 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 444px;
+  height: 40px;
+
+  .description {
+    font: normal normal normal 14px "Lato", sans-serif;
+    letter-spacing: 0.2px;
+    color: #979797;
+    padding: 2px;
+  }
+`;
+
+export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  font: normal normal normal 15px "Lato", sans-serif;
+  padding-bottom: 10px;
+
+  .iconPencilEdit {
+    visibility: hidden;
+  }
+
+  :hover {
+    color: #2c3faa;
+    .iconPencilEdit {
+      visibility: visible;
+    }
+  }
+
+  > :first-child {
+    margin-right: 10px;
+  }
+
+  > :nth-child(2) {
+    margin-right: 5px;
+  }
+`;
+
+export const AreaEditing = styled.div`
+  width: 368px;
   height: 40px;
   display: flex;
-  //margin: 0 auto;
+  align-items: center;
 `;
 
 export const AreaDropDown = styled.div`
-  width: 368px;
   height: 100%;
 `;
 
 export const Header = styled.div`
-  width: 368px;
+  width: 340px;
   height: 40px;
 
   display: flex;
@@ -23,6 +61,7 @@ export const Header = styled.div`
   box-shadow: 0px 7px 64px #00000012;
   background: #ffffff;
   border: 1px solid #c3c3d5;
+  margin-left: 2px;
 
   h1 {
     font: normal normal normal 16px/20px "Lato", sans-serif;
@@ -31,7 +70,9 @@ export const Header = styled.div`
     color: #3b3349;
   }
 
-  .btnArrosDown {
+  .btnArrowDown {
+    width: 26px;
+    height: 12px;
     padding-right: 10px;
     transform: ${(props) => (props.isOpen ? "scaleY(-1)" : "scaleY(1)")};
     cursor: pointer;
@@ -43,6 +84,7 @@ export const List = styled.ul`
   height: 125px;
   position: absolute;
   overflow: auto;
+  z-index: 1000;
 
   margin: 0;
   padding: 0;
@@ -77,9 +119,7 @@ export const Item = styled.li`
   display: flex;
   align-items: center;
   list-style: none;
-  font: normal normal normal 16px/20px;
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
+  font: normal normal normal 15px "Lato", sans-serif;
 
   &:hover {
     background-color: #f0f0f7;
@@ -101,7 +141,7 @@ export const BtnAddItem = styled.div`
 
   font: normal normal normal 16px/20px;
   font-family: "Lato", sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   color: #2c3faa;
   border: 0;
 
@@ -147,13 +187,15 @@ export const InputAddItem = styled.div`
 `;
 
 export const AreaSaveChanged = styled.div`
-  width: 20%;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  &:first-child {
-    padding-right: 20px;
-    border: 1px red solid;
+  > * {
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
+    margin-left: 10px;
   }
 `;

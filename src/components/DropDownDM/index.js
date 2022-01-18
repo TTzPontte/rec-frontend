@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   Container,
+  Title,
+  AreaEditing,
   Header,
   List,
   Item,
@@ -13,25 +15,32 @@ import {
 import { ReactComponent as CheckConfirm } from "../../assets/check-confirm.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";
-import addAttachment from "../../assets/add-attachment.svg";
+import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
+import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
+import addAttachmentIcon from "../../assets/add-attachment.svg";
 
 export const DropDownDM = ({
-  handleGetItem,
-  handleSaveItem,
-  handleGetStatusInfo,
-  handleSaveProcessInfo,
+  handleGetItem = async () => {},
+  handleSaveItem = async () => {},
+  handleSaveProcessInfo = async () => {},
+  iconLabel = <IconDropdown />,
+  title = "",
+  initialValue = "Selecione",
 }) => {
   const [listItem, setListItem] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({
-    id: 0,
-    nome: "Selecione",
-  });
   const [inputItem, setInputItem] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingItem, setIsAddingItem] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [lastSave, setLastSave] = useState(initialValue);
+  const [selectedItem, setSelectedItem] = useState({
+    id: 0,
+    descricao: initialValue,
+    isSave: false,
+  });
 
   useEffect(() => {
-    handleGetItem().then((data) => setListItem(data));
+    handleGetItem().then(({ data }) => setListItem(data));
   }, [handleGetItem]);
 
   const handleAddItem = (item) => {
@@ -60,84 +69,78 @@ export const DropDownDM = ({
   const handleIsAddingItem = () => setIsAddingItem(!isAddingItem);
 
   const handleSave = () => {
-    handleSaveProcessInfo(selectedItem).then(() => {
-      if (handleGetStatusInfo) {
-        handleGetStatusInfo({
-          status: true,
-          selectedItem,
-        });
-      }
-    });
+    handleSaveProcessInfo(selectedItem);
+    setLastSave(selectedItem.descricao);
+    setEditing(false);
   };
 
   const handleCancel = () => {
-    if (handleGetStatusInfo) {
-      handleGetStatusInfo({
-        status: false,
-      });
-    }
+    setEditing(false);
   };
+  const handleSetEdding = () => setEditing(!editing);
 
   return (
     <Container>
-      <AreaDropDown>
-        <Header isOpen={isOpen}>
-          <h1>{selectedItem.nome}</h1>
-          <ArrowDown className="btnArrosDown" onClick={handleOpenList}>
-            Flexa
-          </ArrowDown>
-        </Header>
+      <Title onClick={handleSetEdding}>
+        {iconLabel}
+        <span>{title}</span>
+        <IconPencilEdit className="iconPencilEdit" />
+      </Title>
+      {!editing ? (
+        <span className="description">{lastSave || "Selecione"}</span>
+      ) : (
+        <AreaEditing>
+          <AreaDropDown>
+            <Header isOpen={isOpen}>
+              <h1>{selectedItem.descricao}</h1>
+              <ArrowDown className="btnArrowDown" onClick={handleOpenList}>
+                Flexa
+              </ArrowDown>
+            </Header>
 
-        <List isOpen={isOpen}>
-          {listItem.map((item) => (
-            <Item key={item.id} onClick={() => handleSelectedItem(item)}>
-              <span> {item.nome} </span>
-            </Item>
-          ))}
+            <List isOpen={isOpen}>
+              {listItem.length > 0 &&
+                listItem.map((item) => (
+                  <Item key={item.id} onClick={() => handleSelectedItem(item)}>
+                    <span> {item.descricao} </span>
+                  </Item>
+                ))}
 
-          {handleSaveItem ? (
-            <SubAreaAddItem>
-              {isAddingItem ? (
-                <InputAddItem hasText={!!inputItem}>
-                  <input
-                    type="text"
-                    placeholder="Adicione um novo item"
-                    value={inputItem}
-                    onChange={(e) => setInputItem(e.target.value)}
-                  />
-                  <CheckConfirm
-                    className="checkConfirm-addItem"
-                    onClick={() => handleAddItem(inputItem)}
-                  />
-                </InputAddItem>
-              ) : (
-                <BtnAddItem onClick={handleIsAddingItem}>
-                  <img src={addAttachment} alt="" />
-                  <span>Adicionar novo item</span>
-                </BtnAddItem>
-              )}
-            </SubAreaAddItem>
-          ) : null}
-        </List>
-      </AreaDropDown>
+              {handleSaveItem ? (
+                <SubAreaAddItem>
+                  {isAddingItem ? (
+                    <InputAddItem hasText={!!inputItem}>
+                      <input
+                        type="text"
+                        placeholder="Adicione um novo item"
+                        value={inputItem}
+                        onChange={(e) => setInputItem(e.target.value)}
+                      />
+                      <CheckConfirm
+                        className="checkConfirm-addItem"
+                        onClick={() => handleAddItem(inputItem)}
+                      />
+                    </InputAddItem>
+                  ) : (
+                    <BtnAddItem onClick={handleIsAddingItem}>
+                      <img src={addAttachmentIcon} alt="" />
+                      <span>Adicionar novo item</span>
+                    </BtnAddItem>
+                  )}
+                </SubAreaAddItem>
+              ) : null}
+            </List>
+          </AreaDropDown>
 
-      <AreaSaveChanged>
-        <CheckConfirm
-          style={{
-            height: "20px",
-            cursor: "pointer",
-            paddingRight: "5px",
-          }}
-          onClick={handleSave}
-        />
-        <CloseSecondary
-          style={{
-            height: "20px",
-            cursor: "pointer",
-          }}
-          onClick={handleCancel}
-        />
-      </AreaSaveChanged>
+          <AreaSaveChanged>
+            <CheckConfirm style={{ cursor: "pointer" }} onClick={handleSave} />
+            <CloseSecondary
+              style={{ cursor: "pointer" }}
+              onClick={handleCancel}
+            />
+          </AreaSaveChanged>
+        </AreaEditing>
+      )}
     </Container>
   );
 };

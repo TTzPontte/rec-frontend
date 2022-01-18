@@ -13,7 +13,6 @@ import { PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/utility/loader";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
-const Originacao = lazy(() => import("./containers/Originacao"));
 
 const publicRoutes = [
   {
@@ -67,7 +66,6 @@ export default function Routes() {
             {publicRoutes.map((route, index) => (
               <Route key={index} path={route.path} exact={route.exact}>
                 <route.component />
-                {console.log(route.path)}
               </Route>
             ))}
             <PrivateRoute path="/dashboard">
