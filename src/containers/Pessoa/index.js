@@ -8,21 +8,13 @@ import InputMonetarioPersonalizado from "@iso/components/InputMonetarioPersonali
 import { DropDownDM } from "@iso/components/DropDownDM";
 import { Documento } from "@iso/components/Documento";
 import { AddDocumento } from "@iso/components/AddDocumento";
-
 import { groupBy } from "@iso/utils/GroupBy";
-
 import {
   DivContentModalPF,
   DivContentModalPJ,
   DivModalInputCPF,
   DivModalInputNome,
   DivModalNovaPessoa,
-  DivModalPFInputCPF,
-  DivModalPFInputNome,
-  DivModalPFTexto,
-  DivModalPFTextoCPF,
-  DivModalPFTextoNome,
-  DivModalPFTitulo,
   DivModalSelectTipoEnvolvimento,
   DivModalTexto,
   DivModalTextoCPF,
@@ -33,6 +25,7 @@ import {
   DivSpanNovaPessoa,
   SpanNovaPessoa,
 } from "./styled-components";
+import './style.css';
 import { Button, Input, Modal, Select } from "antd";
 import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
@@ -203,6 +196,7 @@ export default function Pessoa({ uuid }) {
     console.log("Grava PF: ");
     console.log(valuesPF);
     let response = await api.salvarPessoaNoProcesso(valuesPF);
+    getEnvolvidos();
     handlePFCancel();
   };
   //
@@ -273,6 +267,7 @@ export default function Pessoa({ uuid }) {
     console.log("Grava PJ: ");
     console.log(valuesPJ);
     let response = await api.salvarPessoaNoProcesso(valuesPJ);
+    getEnvolvidos();
     handlePJCancel();
   };
   // end Modals
