@@ -12,7 +12,7 @@ import Api from "../../api";
 import { ReactComponent as TrashDocument } from "../../assets/icon-trash.svg";
 import folderIcon from "../../assets/icon-folder.svg";
 import addAttachmentIcon from "../../assets/add-attachment.svg";
-import InputPersonalizado from "@iso/components/InputPersonalizado";
+import { InputPersonalizado } from "@iso/components";
 import FormData from "form-data";
 
 function buildFileSelector() {

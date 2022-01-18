@@ -5,7 +5,7 @@ import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.s
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
 import "./style.css";
 
-export default function InputMonetarioPersonalizado({
+export const InputMonetarioPersonalizado = ({
   texto,
   valorCampo,
   iconeLabel,
@@ -13,7 +13,7 @@ export default function InputMonetarioPersonalizado({
   handleChange = () => {},
   idCampo,
   editavel = true,
-}) {
+}) => {
   const [estiloInput, setEstiloInput] = useState(
     "desabilitado inputMonetarioClass"
   );
@@ -94,4 +94,4 @@ export default function InputMonetarioPersonalizado({
       <CloseSecondary className={estiloIconeNOk} onClick={handleCancel} />
     </div>
   );
-}
+};

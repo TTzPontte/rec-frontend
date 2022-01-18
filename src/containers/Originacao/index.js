@@ -7,12 +7,14 @@ import Collapse from "@iso/components/uielements/collapse";
 import { Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import Api from "../../api";
-import InputMaskPersonalizado from "../../components/InputMaskPersonalizado";
-import InputMonetarioPersonalizado from "../../components/InputMonetarioPersonalizado";
-import RadioPersonalizado from "../../components/RadioPersonalizado";
-import InputPersonalizado from "../../components/InputPersonalizado";
-import SelectPersonalizado from "../../components/SelectPersonalizado";
-import TextAreaPersonalizado from "../../components/TextAreaPersonalizado";
+import {
+  InputPersonalizado,
+  InputMaskPersonalizado,
+  InputMonetarioPersonalizado,
+  RadioPersonalizado,
+  SelectPersonalizado,
+  TextAreaPersonalizado
+} from "@iso/components";
 import { Container } from "../style";
 import "./style.css";
 

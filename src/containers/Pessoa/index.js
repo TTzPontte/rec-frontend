@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Container, Content } from "./styles";
-import { CollapsePersonalizado } from "../../components/CollapsePersonalizado";
-import Api from "../../api";
-import InputPersonalizado from "@iso/components/InputPersonalizado";
-import InputMaskPersonalizado from "@iso/components/InputMaskPersonalizado";
-import InputMonetarioPersonalizado from "@iso/components/InputMonetarioPersonalizado";
-import { DropDownDM } from "@iso/components/DropDownDM";
-import { Documento } from "@iso/components/Documento";
-import { AddDocumento } from "@iso/components/AddDocumento";
-import { groupBy } from "@iso/utils/GroupBy";
+
+import {
+  DropDownDM,
+  Documento,
+  AddDocumento,
+  CollapsePersonalizado,
+  InputPersonalizado,
+  InputMaskPersonalizado,
+  InputMonetarioPersonalizado,
+} from "@iso/components";
+
 import {
   DivContentModalPF,
   DivContentModalPJ,
@@ -25,12 +26,18 @@ import {
   DivSpanNovaPessoa,
   SpanNovaPessoa,
 } from "./styled-components";
-import './style.css';
+
 import { Button, Input, Modal, Select } from "antd";
-import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
-import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
-import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
-import { ReactComponent as IconNovaPessoa } from "../../assets/button-add.svg";
+import { Container, Content } from "./styles";
+import Api from "@iso/api";
+import { groupBy } from "@iso/utils/GroupBy";
+import "./style.css";
+
+import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
+import { ReactComponent as IconTextNumber } from "@iso/assets/icon-text_number.svg";
+import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
+import { ReactComponent as IconNovaPessoa } from "@iso/assets/button-add.svg";
+
 const { Option } = Select;
 
 export default function Pessoa({ uuid }) {
