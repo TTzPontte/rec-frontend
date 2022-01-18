@@ -37,6 +37,10 @@ class Api {
     return await this.service.post(endpoint, payload);
   }
 
+  async salvar(endpoint, payload){
+    return await this.service.post(endpoint, payload);
+  }
+
   async downloadFile(endpoint) {
     return this.service.get(endpoint, { responseType: "blob" });
   }

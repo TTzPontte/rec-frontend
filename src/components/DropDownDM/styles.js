@@ -51,7 +51,7 @@ export const AreaDropDown = styled.div`
 `;
 
 export const Header = styled.div`
-  width: 368px;
+  width: 340px;
   height: 40px;
 
   display: flex;

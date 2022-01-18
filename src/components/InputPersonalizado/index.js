@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
+import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 import "./style.css";
 
 export default function InputPersonalizado({
   texto,
   valorCampo,
-  iconeLabel,
+  iconeLabel=<IconTextNumber />,
   onSave,
   handleChange = () => {},
   idCampo,

@@ -16,15 +16,15 @@ import { ReactComponent as CheckConfirm } from "../../assets/check-confirm.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
-import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
+import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
 import addAttachmentIcon from "../../assets/add-attachment.svg";
 
 export const DropDownDM = ({
-  handleGetItem,
-  handleSaveItem,
-  handleSaveProcessInfo,
-  iconLabel = <IconTextNumber />,
-  title,
+  handleGetItem = async () => {},
+  handleSaveItem = async () => {},
+  handleSaveProcessInfo = async () => {},
+  iconLabel = <IconDropdown />,
+  title = "",
   initialValue = "Selecione",
 }) => {
   const [listItem, setListItem] = useState([]);

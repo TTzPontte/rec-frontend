@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 480px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -18,6 +16,13 @@ export const Header = styled.div`
   font: normal normal normal 16px "Lato", sans-serif;
   letter-spacing: 0.1px;
   color: #3b3349;
+
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 10px;
+  }
 `;
 
 export const File = styled.div`
@@ -34,19 +39,39 @@ export const File = styled.div`
   border: 1px solid #e8e8ef;
   border-radius: 4px;
 
-  .btnFile {
-    width: 14px;
-    height: 13px;
-    margin-left: 10px;
-    cursor: pointer;
+  .filename {
+    width: 310px;
+    display: flex;
+    align-items: center;
   }
 
-  span {
+  .filename > div {
+    width: 310;
+
     text-decoration: underline;
     font: normal normal medium 16px/19px Lato;
     letter-spacing: 0.1px;
     color: #3b3349;
     margin-left: 13px;
+    cursor: pointer;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .areaBtnFiles {
+    width: 70px;
+    display: flex;
+    justify-content: space-around;
+    height: 30px;
+    align-items: center;
+  }
+
+  .btnFile {
+    width: 30px;
+    height: 16px;
+    margin-left: 10px;
     cursor: pointer;
   }
 `;

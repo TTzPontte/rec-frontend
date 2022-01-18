@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 65px 1fr 1fr;
+  //grid-template-rows: 65px 1fr 80px;
   margin-bottom: 20px;
 
   > * {
@@ -30,7 +30,7 @@ export const Content = styled.div`
 
   .addFilePessoa {
     grid-column: 1/3;
-    grid-row: 3/3;
+    grid-row: 5/5;
     position: relative;
 
     button {
@@ -38,6 +38,12 @@ export const Content = styled.div`
       right: 0;
       bottom: 0;
     }
+  }
+
+  .documentoPessoa {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
   }
 
   padding: 20px;

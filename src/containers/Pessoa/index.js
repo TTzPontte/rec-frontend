@@ -7,15 +7,17 @@ import InputMaskPersonalizado from "@iso/components/InputMaskPersonalizado";
 import InputMonetarioPersonalizado from "@iso/components/InputMonetarioPersonalizado";
 import { DropDownDM } from "@iso/components/DropDownDM";
 import { Documento } from "@iso/components/Documento";
+import { AddDocumento } from "@iso/components/AddDocumento";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
-import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
 import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
 import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
+import { groupBy } from "@iso/utils/GroupBy";
 
 export default function Pessoa({ uuid }) {
   const [processo, setProcesso] = useState([]);
   const [envolvidos, setEnvolvidos] = useState([]);
   const [documentosProcesso, setDocumentosProcesso] = useState([]);
+  const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
 
   const api = new Api();
 
@@ -70,16 +72,16 @@ export default function Pessoa({ uuid }) {
     });
   };
 
-  const utilGroupBy = (array, key) => {
-    console.log("entrou", array, key);
-    const result = array.reduce((a, c) => {
-      const t = a[c[key]] || [];
-      t.push(c);
-      a[c[key]] = t;
-      return a;
-    }, {});
-    console.log(result);
-    return result;
+  const handleGetDocumentsByPersonID = (id) =>
+    Object.entries(
+      groupBy(
+        documentosProcesso.filter((d) => d.pessoa.id === id),
+        "anexoTipo"
+      )
+    );
+
+  const handleAddListDocument = (item) => {
+    setDocumentosProcesso([...documentosProcesso, item]);
   };
 
   return (
@@ -109,7 +111,6 @@ export default function Pessoa({ uuid }) {
                   <DropDownDM
                     title={"Papel na operação"}
                     initialValue={envolvido.tipo}
-                    iconLabel={<IconDropdown />}
                     handleSaveItem={(descricao) =>
                       api.addItemDM("dm-processo-tipo", { descricao })
                     }
@@ -333,7 +334,6 @@ export default function Pessoa({ uuid }) {
                           <DropDownDM
                             title={"Estado"}
                             initialValue={endereco.estado}
-                            iconLabel={<IconDropdown />}
                             handleSaveItem={(descricao) =>
                               api.addItemDM("dm-estado", { descricao })
                             }
@@ -377,23 +377,34 @@ export default function Pessoa({ uuid }) {
 
                 <Content>
                   <header>DOCUMENTOS</header>
-                  {documentosProcesso.length > 0 &&
-                    Object.entries(
-                      utilGroupBy(
-                        documentosProcesso.filter(
-                          (d) => d.pessoa.id === envolvido.pessoa.id
-                        ),
-                        "anexoTipo"
-                      )
-                    ).map(([title, files]) => (
-                      <Documento
-                        title={title}
-                        files={files}
-                      />
-                    ))}
-                    <div className="addFilePessoa">
-                    <button>Adicionar</button>
-                    </div>
+                  {handleGetDocumentsByPersonID(envolvido.pessoa.id).map(
+                    ([title, files]) => (
+                      <div className="documentoPessoa">
+                        <Documento
+                          title={title}
+                          files={files}
+                          pessoaId={envolvido.pessoa.id}
+                        />
+                      </div>
+                    )
+                  )}
+                  <div>
+                    <AddDocumento
+                      visible={isVisibleAddDocument}
+                      setVisible={setIsVisibleAddDocument}
+                      pessoaId={envolvido.pessoa.id}
+                      setListDocuments={handleAddListDocument}
+                    />
+                  </div>
+                  <div className="addFilePessoa">
+                    <button
+                      onClick={() =>
+                        setIsVisibleAddDocument(!isVisibleAddDocument)
+                      }
+                    >
+                      Adicionar
+                    </button>
+                  </div>
                 </Content>
 
                 <Content>
