@@ -11,6 +11,8 @@ import {
 } from "@iso/components";
 
 import {
+  Container,
+  Content,
   DivContentModalPF,
   DivContentModalPJ,
   DivModalInputCPF,
@@ -28,7 +30,6 @@ import {
 } from "./styled-components";
 
 import { Button, Input, Modal, Select } from "antd";
-import { Container, Content } from "./styles";
 import Api from "@iso/api";
 import { groupBy } from "@iso/utils/GroupBy";
 import "./style.css";
