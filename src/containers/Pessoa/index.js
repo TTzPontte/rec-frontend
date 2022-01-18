@@ -203,6 +203,7 @@ export default function Pessoa({ uuid }) {
         console.log("Grava PF: ");
         console.log(valuesPF);
         let response = await api.salvarPessoaNoProcesso(valuesPF);
+        handlePFCancel();
     }
     //
 
@@ -261,9 +262,11 @@ export default function Pessoa({ uuid }) {
         enableButtonConcluirPJ();
     };       
 
-    const handlePJConcluir = () => {
+    const handlePJConcluir = async () => {
         console.log("Grava PJ: ");
         console.log(valuesPJ);
+        let response = await api.salvarPessoaNoProcesso(valuesPJ);
+        handlePJCancel();
     }
     //   
     
