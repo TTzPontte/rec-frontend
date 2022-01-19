@@ -38,13 +38,7 @@ export default function Originacao({ uuid }) {
 
       let valorInformadoImovel = 0;
       if (response.patrimonios) {
-        {
-          response.patrimonios.map(
-            (arg) =>
-              (valorInformadoImovel =
-                arg.patrimonio.valorInformado + valorInformadoImovel)
-          );
-        }
+        response.patrimonios.map( (arg) => (valorInformadoImovel = arg.patrimonio.valorInformado + valorInformadoImovel) );
       } else {
         response.patrimonios = {};
       }
@@ -58,7 +52,7 @@ export default function Originacao({ uuid }) {
         setValuesProcessoAnexo(response.processoAnexo);
       } else {
         response.processoAnexo.map((p) =>
-          setValuesProcessoAnexo(p.tipo == "info_adicional" ? p : null)
+          setValuesProcessoAnexo(p.tipo === "info_adicional" ? p : null)
         );
       }
 
@@ -145,13 +139,13 @@ export default function Originacao({ uuid }) {
     console.log(values);
   };
 
-  const handleInputChangeNumber = (e) => {
-    console.log(e);
-    const auxValues = { ...values };
-    auxValues[e.target.id] = e.target.valueAsNumber;
-    setValues(auxValues);
-    console.log(values);
-  };
+  // const handleInputChangeNumber = (e) => {
+  //   console.log(e);
+  //   const auxValues = { ...values };
+  //   auxValues[e.target.id] = e.target.valueAsNumber;
+  //   setValues(auxValues);
+  //   console.log(values);
+  // };
 
   const handleInputChangeSimulacao = (e) => {
     console.log(e);
@@ -208,7 +202,7 @@ export default function Originacao({ uuid }) {
 
   var onlyMonetario = (str) => str.replace(/[\R$.]/g, "");
 
-  const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
+  // const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
   return (
     values && (

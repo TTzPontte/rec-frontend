@@ -20,8 +20,16 @@ class Api {
 
   async salvarPessoaNoProcesso(dados) {
     console.log(dados);
-    let processo = await this.buscarProcessoByUuid('/processo/'.concat(dados.processo + '/0/1'));
-    console.log(processo);
+    let processo = null;
+    try {
+      processo = await this.buscarProcessoByUuid('/processo/'.concat(dados.processo + '/0/1'));
+    } catch (e) {
+      return e.message;
+    }
+
+    if (!StringUtils.isNotNull(processo)) {
+      return "Processo não encontrado na base de dados.";
+    }
 
     let retorno = {};
     let pessoa = null;
@@ -36,7 +44,7 @@ class Api {
         let resposta = await this.service.post('/pessoa', pessoa);
         pessoa = resposta.data;
       } catch (e) {
-        retorno = e;
+        retorno = e.message;
       }    
     }  
     if (StringUtils.isNotNull(pessoa) && StringUtils.isNotNull(pessoa.id) && StringUtils.isNotNull(processo) && StringUtils.isNotNull(processo.id)) {
@@ -46,14 +54,14 @@ class Api {
         processoEnvolvidos = resposta.data;
         retorno = processoEnvolvidos;
       } catch (e) {
-        retorno = e;
+        retorno = e.message;
       }
     }
     return retorno;
   }
 
   async salvarProcesso(url, formValues) {
-    const response = await this.service.patch(url, formValues);
+    return await this.service.patch(url, formValues);
   }
   
   async alterarProcesso(url, formValues) {

@@ -16,7 +16,7 @@ export default function TextAreaPersonalizado({ texto, valorCampo, iconeLabel, o
 
         setDesabilitarCampo(!desabilitarCampo);
 
-        if (estiloInput == "desabilitado semRelize textarea") {
+        if (estiloInput === "desabilitado semRelize textarea") {
             setEstiloInput("semRelize");
         } else {
             setEstiloInput("desabilitado semRelize textarea");
@@ -36,7 +36,7 @@ export default function TextAreaPersonalizado({ texto, valorCampo, iconeLabel, o
     }
 
     const handleMouseOver = () => {
-        if (estiloIconeEditar == 'hidden') {
+        if (estiloIconeEditar === 'hidden') {
             setEstiloIconeEditar('iconeEditar');
         } else {
             setEstiloIconeEditar("hidden");

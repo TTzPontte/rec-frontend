@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import appActions from '@iso/redux/app/actions';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import { logOutAct } from "@iso/redux/auth/actions";
 import {
   Container,
@@ -25,19 +24,11 @@ const styleLogoPontte = {
   color: '#5C3B6B',
 };
 
-const { toggleCollapsed } = appActions;
-
 export default function Topbar() {
 
   const Auth = useSelector((state) => state.Auth)
-
   const [user, setUser] = useState(Auth.profile);
-
-  const [selectedItem, setSelectedItem] = React.useState('');
-  const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
-  const { collapsed, openDrawer } = useSelector(state => state.App);
   const dispatch = useDispatch();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -55,15 +46,6 @@ export default function Topbar() {
   function logout() {
     dispatch(logOutAct());
   }
-
-  const isCollapsed = collapsed && !openDrawer;
-
-  const styling = {
-    background: customizedTheme.backgroundColor,
-    position: 'fixed',
-    width: '100%',
-    height: 70,
-  };  
 
   return (
       <Container>
@@ -86,7 +68,6 @@ export default function Topbar() {
                 width={224}
                 height={80}
                 visible={isModalVisible}
-                closable 
                 onOk={handleOk} 
                 onCancel={handleCancel}
                 footer={null}

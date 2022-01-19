@@ -1,13 +1,4 @@
 import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import {
-  transition,
-  borderRadius,
-  boxShadow,
-} from '@iso/lib/helpers/style_utils';
-import WithDirection from '@iso/lib/helpers/rtl';
-
-
 
 export const Container = styled.div`
   display: grid;
@@ -25,8 +16,6 @@ export const Header = styled.header`
   position: relative;
   box-shadow: 0px 3px 6px #0000000d;
 `;
-
-
 
 export const Logo = styled.div`
   top: 25%;
@@ -120,7 +109,6 @@ export const TextoUserEmail = styled.section`
   color: #979797;
   opacity: 1;
 `;
-
 
 export const SairStyle = styled.a`
   color: var(--unnamed-color-3b3349);

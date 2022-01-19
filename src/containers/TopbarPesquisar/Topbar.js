@@ -1,33 +1,22 @@
-import appActions from '@iso/redux/app/actions';
 import { Layout } from 'antd';
 import React, {useContext} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TopbarWrapper from './Topbar.styles';
 import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';
 import Input from '@iso/components/uielements/input';
 import { Col, Row } from 'antd';
 import './style.css';
 import {
-  MatchText,
-  SearchProvider,
-  SearchContext,
   SearchEventContext,
 } from 'react-ctrl-f';
 
-
-
 const { Header } = Layout;
-const { toggleCollapsed } = appActions;
 
 export default function Topbar({ uiid }) {
-  const [selectedItem, setSelectedItem] = React.useState('');
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
-  const dispatch = useDispatch();
   const { onSearchChange, onPrev, onNext } = useContext(SearchEventContext);
-  const handleToggle = React.useCallback(() => dispatch(toggleCollapsed()), [
-    dispatch,
-  ]);
+  
   const isCollapsed = collapsed && !openDrawer;
   const styling = {
     background: customizedTheme.backgroundColor,

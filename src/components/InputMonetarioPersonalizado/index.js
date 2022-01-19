@@ -27,7 +27,7 @@ export default function InputMonetarioPersonalizado({
     if (editavel) {
       setDesabilitarCampo(!desabilitarCampo);
 
-      if (estiloInput == "desabilitado inputMonetarioClass") {
+      if (estiloInput === "desabilitado inputMonetarioClass") {
         setEstiloInput("inputMonetarioClass");
       } else {
         setEstiloInput("desabilitado inputMonetarioClass");
@@ -48,7 +48,7 @@ export default function InputMonetarioPersonalizado({
   };
 
   const handleMouseOver = () => {
-    if (estiloIconeEditar == "hidden") {
+    if (estiloIconeEditar === "hidden") {
       setEstiloIconeEditar("iconeEditar");
     } else {
       setEstiloIconeEditar("hidden");

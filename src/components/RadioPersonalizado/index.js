@@ -36,7 +36,7 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
     }
 
     const handleMouseOver = () => {
-        if (estiloIconeEditar == 'hidden') {
+        if (estiloIconeEditar === 'hidden') {
             setEstiloIconeEditar('iconeEditar');
         } else {
             setEstiloIconeEditar("hidden");
@@ -56,19 +56,10 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
         
     }
 
-    const radioStyle = {
-        display: 'block',
-        height: '30px',
-        lineHeight: '30px',
-      };
-
     return (
         <div>
             <div className="hoverAzul labelInput" onClick={habilitarDesabilitar} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>{iconeLabel} {texto} <IconPencilEdit className={estiloIconeEditar} /></div>
             <div className="divInput"> 
-            
-            
-            
             
             {/* <Radio type={tipoInput} defaultValue={valorCampo} className={estiloInput} disabled={desabilitarCampo} onChange={handleChange} id={idCampo}/> */}
             <RadioGroup 
@@ -82,9 +73,6 @@ export default function InputPersonalizado({ texto, valorCampo, iconeLabel, onSa
                   SAC
                 </Radio>
               </RadioGroup>
-            
-            
-            
             
             </div>
             <CheckConfirmSecondary className={estiloIconeOk} onClick={handleOk} /> <CloseSecondary className={estiloIconeNOk} onClick={handleCancel} />

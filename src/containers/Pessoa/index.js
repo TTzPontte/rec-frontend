@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Container, Content } from "./styles";
-import { CollapsePersonalizado } from "../../components/CollapsePersonalizado";
 import Api from "../../api";
+import { CollapsePersonalizado } from "../../components/CollapsePersonalizado";
 import InputPersonalizado from "@iso/components/InputPersonalizado";
 import InputMaskPersonalizado from "@iso/components/InputMaskPersonalizado";
 import InputMonetarioPersonalizado from "@iso/components/InputMonetarioPersonalizado";
@@ -10,12 +9,12 @@ import { Documento } from "@iso/components/Documento";
 import { AddDocumento } from "@iso/components/AddDocumento";
 import { groupBy } from "@iso/utils/GroupBy";
 import {
-  DivContentModalPF,
-  DivContentModalPJ,
-  DivModalInputCPF,
-  DivModalInputNome,
-  DivModalNovaPessoa,
-  DivModalSelectTipoEnvolvimento,
+    DivContentModalPF,
+    DivContentModalPJ,
+    DivModalInputCPF,
+    DivModalInputNome,
+    DivModalNovaPessoa,
+    DivModalSelectTipoEnvolvimento,
   DivModalTexto,
   DivModalTextoCPF,
   DivModalTextoNome,
@@ -26,11 +25,14 @@ import {
   SpanNovaPessoa,
 } from "./styled-components";
 import './style.css';
+import { Container, Content } from "./styles";
 import { Button, Input, Modal, Select } from "antd";
 import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
 import { ReactComponent as IconNovaPessoa } from "../../assets/button-add.svg";
+import { ReactComponent as IconInputNomeRazaoSocial } from "../../assets/Icon-type-14x14.svg";
+import { ReactComponent as IconInputCpfCnpj } from "../../assets/Icon-doc-14x14.svg";
 const { Option } = Select;
 
 export default function Pessoa({ uuid }) {
@@ -110,10 +112,8 @@ export default function Pessoa({ uuid }) {
   };
 
   // Modal PF e PJ
-  const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] =
-    useState(false);
+  const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] = useState(false);
   const novaPessoaHandle = (e) => {
-    console.log("Nova Pessoa");
     showModal();
   };
   const showModal = () => {
@@ -130,14 +130,10 @@ export default function Pessoa({ uuid }) {
   //
 
   // Modal PF
-  const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] =
-    useState(false);
-  const [valuesPF, setValuesPF] = React.useState({
-    processo: uuid,
-    pessoaTipo: "PF",
-  });
-  const [buttonConcluirPFState, setButtonConcluirPFState] =
-    React.useState(true);
+  const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] = useState(false);
+  const [valuesPF, setValuesPF] = React.useState({ processo: uuid, pessoaTipo: "PF", });
+  const [errosPF, setErrosPF] = React.useState(null);
+  const [buttonConcluirPFState, setButtonConcluirPFState] = React.useState(true);
 
   const enableButtonConcluirPF = () => {
     if (
@@ -171,7 +167,6 @@ export default function Pessoa({ uuid }) {
   };
 
   const handleNovaPessoaPF = () => {
-    console.log("PF");
     handleCancel();
     showModalPF();
   };
@@ -180,7 +175,6 @@ export default function Pessoa({ uuid }) {
     const auxValuesPF = { ...valuesPF };
     auxValuesPF[e.target.id] = e.target.value;
     setValuesPF(auxValuesPF);
-    console.log(valuesPF);
     enableButtonConcluirPF();
   };
 
@@ -188,26 +182,24 @@ export default function Pessoa({ uuid }) {
     const auxValuesPF = { ...valuesPF };
     auxValuesPF["envolvimento"] = value;
     setValuesPF(auxValuesPF);
-    console.log(valuesPF);
     enableButtonConcluirPF();
   };
 
   const handlePFConcluir = async () => {
-    console.log("Grava PF: ");
-    console.log(valuesPF);
     let response = await api.salvarPessoaNoProcesso(valuesPF);
-    getEnvolvidos();
-    handlePFCancel();
+    if (typeof response !== 'object' && typeof response === 'string') {
+        setErrosPF(response);
+    } else {
+        getEnvolvidos();
+        handlePFCancel();
+    }
   };
   //
 
   // Modal PJ
-  const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] =
-    useState(false);
-  const [valuesPJ, setValuesPJ] = useState({
-    processo: uuid,
-    pessoaTipo: "PJ",
-  });
+  const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] = useState(false);
+  const [valuesPJ, setValuesPJ] = useState({processo: uuid, pessoaTipo: "PJ",});
+  const [errosPJ, setErrosPJ] = React.useState(null);
   const [buttonConcluirPJState, setButtonConcluirPJState] = useState(true);
 
   const enableButtonConcluirPJ = () => {
@@ -242,7 +234,6 @@ export default function Pessoa({ uuid }) {
   };
 
   const handleNovaPessoaPJ = () => {
-    console.log("PJ");
     handleCancel();
     showModalPJ();
   };
@@ -251,7 +242,6 @@ export default function Pessoa({ uuid }) {
     const auxValuesPJ = { ...valuesPJ };
     auxValuesPJ[e.target.id] = e.target.value;
     setValuesPJ(auxValuesPJ);
-    console.log(valuesPJ);
     enableButtonConcluirPJ();
   };
 
@@ -259,16 +249,17 @@ export default function Pessoa({ uuid }) {
     const auxValuesPJ = { ...valuesPJ };
     auxValuesPJ["envolvimento"] = value;
     setValuesPJ(auxValuesPJ);
-    console.log(valuesPJ);
     enableButtonConcluirPJ();
   };
 
   const handlePJConcluir = async () => {
-    console.log("Grava PJ: ");
-    console.log(valuesPJ);
     let response = await api.salvarPessoaNoProcesso(valuesPJ);
-    getEnvolvidos();
-    handlePJCancel();
+    if (typeof response !== 'object' && typeof response === 'string') {
+        setErrosPJ(response);
+    } else {
+        getEnvolvidos();
+        handlePJCancel();
+    }
   };
   // end Modals
 
@@ -678,7 +669,7 @@ export default function Pessoa({ uuid }) {
               Antes de adicionarmos uma nova pessoa à operação, precisamos que
               você nos informe os dados abaixo! ;)
             </span>
-          </DivModalTexto>
+          </DivModalTexto>          
           <DivModalTextoTipoEnvolvimento>
             Tipo de envolvimento
           </DivModalTextoTipoEnvolvimento>
@@ -693,6 +684,7 @@ export default function Pessoa({ uuid }) {
               <Option value="Tomador">Tomador</Option>
             </Select>
           </DivModalSelectTipoEnvolvimento>
+          <IconInputNomeRazaoSocial className="modalNovaPessoa_IconInputNomeRazaoSocial" />
           <DivModalTextoNome>Nome</DivModalTextoNome>
           <DivModalInputNome>
             <Input
@@ -703,6 +695,7 @@ export default function Pessoa({ uuid }) {
               style={{ width: 544, height: 40 }}
             />
           </DivModalInputNome>
+          <IconInputCpfCnpj className="modalNovaPessoa_IconInputCpfCnpj" />
           <DivModalTextoCPF>CPF</DivModalTextoCPF>
           <DivModalInputCPF>
             <Input
@@ -713,6 +706,7 @@ export default function Pessoa({ uuid }) {
               style={{ width: 544, height: 40 }}
             />
           </DivModalInputCPF>
+          <div style={{marginLeft: '28px', marginTop: '10px'}}><span style={{color: 'red'}}>{errosPF}</span></div>
           <div style={{ marginTop: "10px" }}>
             <Button
               onClick={handlePFCancel}
@@ -767,6 +761,7 @@ export default function Pessoa({ uuid }) {
               <Option value="Tomador">Tomador</Option>
             </Select>
           </DivModalSelectTipoEnvolvimento>
+          <IconInputNomeRazaoSocial className="modalNovaPessoa_IconInputNomeRazaoSocial" />
           <DivModalTextoNome>Razão Social</DivModalTextoNome>
           <DivModalInputNome>
             <Input
@@ -777,6 +772,7 @@ export default function Pessoa({ uuid }) {
               style={{ width: 544, height: 40 }}
             />
           </DivModalInputNome>
+          <IconInputCpfCnpj className="modalNovaPessoa_IconInputCpfCnpj" />
           <DivModalTextoCPF>CNPJ</DivModalTextoCPF>
           <DivModalInputCPF>
             <Input
@@ -787,6 +783,7 @@ export default function Pessoa({ uuid }) {
               style={{ width: 544, height: 40 }}
             />
           </DivModalInputCPF>
+          <div style={{marginLeft: '28px', marginTop: '10px'}}><span style={{color: 'red'}}>{errosPJ}</span></div>
           <div style={{ marginTop: "10px" }}>
             <Button
               onClick={handlePJCancel}

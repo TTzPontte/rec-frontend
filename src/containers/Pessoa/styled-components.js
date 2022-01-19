@@ -71,10 +71,11 @@ export const DivModalSelectTipoEnvolvimento = styled.div`
 `;
 
 export const DivModalTextoNome = styled.div`
-    width: 544px;
+    width: 599px;
     height: 25px;
-    margin-left: 28px;
-    margin-top: 24px;
+    /*margin-left: 28px;*/
+    margin-top: 20px;
+    float: right;
 `;
 
 export const DivModalInputNome = styled.div`
@@ -84,10 +85,11 @@ export const DivModalInputNome = styled.div`
 `;
 
 export const DivModalTextoCPF = styled.div`
-    width: 544px;
+    width: 599px;
     height: 25px;
-    margin-top: 24px;
-    margin-left: 28px;
+    /*margin-left: 28px;*/
+    margin-top: 20px;
+    float: right;
 `;
 
 export const DivModalInputCPF = styled.div`

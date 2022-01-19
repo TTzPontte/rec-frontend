@@ -47,7 +47,7 @@ export default function InputMaskPersonalizado({
   };
 
   const handleMouseOver = () => {
-    if (estiloIconeEditar == "hidden") {
+    if (estiloIconeEditar === "hidden") {
       setEstiloIconeEditar("iconeEditar");
     } else {
       setEstiloIconeEditar("hidden");
