@@ -3,18 +3,19 @@ import InputMask from "react-input-mask";
 import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
+import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 import "./style.css";
 
-export default function InputMaskPersonalizado({
+export const InputMaskPersonalizado = ({
   texto,
   valorCampo,
-  iconeLabel,
+  iconeLabel = <IconTextNumber />,
   onSave,
   handleChange = () => {},
   idCampo,
   mask,
   editavel = true,
-}) {
+}) => {
   const [estiloInput, setEstiloInput] = useState("desabilitado inputMaskClass");
   const [desabilitarCampo, setDesabilitarCampo] = useState(true);
   const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
@@ -91,4 +92,4 @@ export default function InputMaskPersonalizado({
       <CloseSecondary className={estiloIconeNOk} onClick={handleCancel} />
     </div>
   );
-}
+};

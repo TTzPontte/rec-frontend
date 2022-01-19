@@ -6,16 +6,16 @@ import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 import "./style.css";
 
-export default function InputPersonalizado({
+export const InputPersonalizado = ({
   texto,
   valorCampo,
-  iconeLabel=<IconTextNumber />,
+  iconeLabel = <IconTextNumber />,
   onSave,
   handleChange = () => {},
   idCampo,
   editavel = true,
   tipoInput = "text",
-}) {
+}) => {
   const [estiloInput, setEstiloInput] = useState("desabilitado");
   const [desabilitarCampo, setDesabilitarCampo] = useState(true);
   const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
@@ -93,4 +93,4 @@ export default function InputPersonalizado({
       <CloseSecondary className={estiloIconeNOk} onClick={handleCancel} />
     </div>
   );
-}
+};
