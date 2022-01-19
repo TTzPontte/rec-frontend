@@ -301,7 +301,9 @@ export default function Pessoa({ uuid }) {
                   height: "35px",
                   marginTop: "30px",
                   borderStyle: "solid",
-                  borderColor: "gray",
+                  borderColor: "#d3d3d3",
+                  fontSize: "15px",
+                  color: "#5C3B6B",                  
                 }}
               >
                 Pessoa física
@@ -316,7 +318,9 @@ export default function Pessoa({ uuid }) {
                   height: "35px",
                   marginTop: "10px",
                   borderStyle: "solid",
-                  borderColor: "gray",
+                  borderColor: "#d3d3d3",
+                  fontSize: "15px",
+                  color: "#5C3B6B",                  
                 }}
               >
                 Pessoa jurídica
