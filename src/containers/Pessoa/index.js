@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { CollapsePersonalizado } from "@iso/components";
-
 import { BlocoPessoaPF } from "./BlocoPessoaPF";
+import { Button, Input, Modal, Select } from "antd";
 
 import {
   Container,
@@ -21,13 +21,11 @@ import {
   DivSpanNovaPessoa,
   SpanNovaPessoa,
 } from "./styled-components";
-
-import { Button, Input, Modal, Select } from "antd";
-import Api from "@iso/api";
-import { groupBy } from "@iso/utils/GroupBy";
 import "./style.css";
 
 import { ReactComponent as IconNovaPessoa } from "@iso/assets/button-add.svg";
+
+import Api from "@iso/api";
 
 const { Option } = Select;
 
@@ -260,7 +258,7 @@ export default function Pessoa({ uuid }) {
   return (
     <Container>
       {envolvidos?.length > 0 &&
-        envolvidos.map((envolvido, index) => {
+        envolvidos.map((envolvido) => {
           const { pessoa } = envolvido;
 
           return (
