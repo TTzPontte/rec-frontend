@@ -32,6 +32,7 @@ export const AddDocumento = ({
   const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
   const [nomeDocumento, setNomeDocumento] = useState(null);
   const [tipoDocumento, setTipoDocumento] = useState(null);
+  const areFilled = !!arquivoSelecionado && !!tipoDocumento;
 
   const api = new Api();
 
@@ -46,7 +47,7 @@ export const AddDocumento = ({
   };
 
   const handleAddDocument = async () => {
-    if (!nomeDocumento && !tipoDocumento && !arquivoSelecionado) return;
+    if (!areFilled) return;
 
     const data = new FormData();
     data.append("file", arquivoSelecionado);
@@ -107,7 +108,7 @@ export const AddDocumento = ({
         <Field>
           <div className="title">
             <img src={folderIcon} alt="" />
-            <span> Documento </span>
+            <span>Documento</span>
           </div>
           {!arquivoSelecionado ? (
             <BtnAddFile type="file" onClick={handleFileSelect}>
@@ -121,12 +122,14 @@ export const AddDocumento = ({
           )}
         </Field>
       </Fields>
-      <BtnAddDocument onClick={() => handleAddDocument()}>
-        <div className="buttonAddDocument">
-          <img src={addAttachmentIcon} alt="" />
-          <span>ADICIONAR</span>
-        </div>
-      </BtnAddDocument>
+      {areFilled && (
+        <BtnAddDocument onClick={() => handleAddDocument()}>
+          <div className="buttonAddDocument">
+            <img src={addAttachmentIcon} alt="" />
+            <span>ADICIONAR</span>
+          </div>
+        </BtnAddDocument>
+      )}
     </Container>
   );
 };
