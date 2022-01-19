@@ -298,7 +298,6 @@ export default function Pessoa({ uuid }) {
                   <InputPersonalizado
                     texto={"Nome:"}
                     valorCampo={pessoa.nome}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) =>
                       handleOnSavePessoa(value, pessoa, "nome", index)
                     }
@@ -333,7 +332,6 @@ export default function Pessoa({ uuid }) {
                       <InputMonetarioPersonalizado
                         texto={`Renda aferida | ${renda.rendaTipo}:`}
                         valorCampo={renda.rendaAferida}
-                        iconeLabel={<IconTextNumber />}
                         onSave={(value) =>
                           api.alterarProcesso(`/renda/${renda.id}`, {
                             ...renda,
@@ -385,7 +383,6 @@ export default function Pessoa({ uuid }) {
                             .join("")
                         : ""
                     }
-                    iconeLabel={<IconPhone />}
                     onSave={(value) => {
                       const data = value.split("/").reverse().join("-");
                       handleOnSavePessoa(data, pessoa, "dataNascimento", index);
@@ -397,7 +394,6 @@ export default function Pessoa({ uuid }) {
                   <InputMaskPersonalizado
                     texto={"CPF"}
                     valorCampo={pessoa.cpf}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) => {
                       const data = value.replace(/[^0-9]/g, "");
                       handleOnSavePessoa(data, pessoa, "cpf", index);
@@ -409,7 +405,6 @@ export default function Pessoa({ uuid }) {
                   <InputMaskPersonalizado
                     texto={"RG"}
                     valorCampo={pessoa.rg}
-                    iconeLabel={<IconPhone />}
                     onSave={(value) => {
                       const data = value.replace(/[^0-9]/g, "");
                       handleOnSavePessoa(data, pessoa, "rg", index);
@@ -421,7 +416,6 @@ export default function Pessoa({ uuid }) {
                   <InputPersonalizado
                     texto={"Orgão Emissor:"}
                     valorCampo={pessoa.orgaoEmissorRg}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) =>
                       handleOnSavePessoa(
                         value.toUpperCase(),
@@ -436,7 +430,6 @@ export default function Pessoa({ uuid }) {
                   <InputPersonalizado
                     texto={"Nacionalidade:"}
                     valorCampo={pessoa.nacionalidade}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) =>
                       handleOnSavePessoa(value, pessoa, "nacionalidade", index)
                     }
@@ -446,7 +439,6 @@ export default function Pessoa({ uuid }) {
                   <InputPersonalizado
                     texto={"Escolaridade:"}
                     valorCampo={pessoa.escolaridade}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) =>
                       handleOnSavePessoa(value, pessoa, "escolaridade", index)
                     }
@@ -456,7 +448,6 @@ export default function Pessoa({ uuid }) {
                   <InputPersonalizado
                     texto={"Nome da mãe:"}
                     valorCampo={pessoa.nomeMae}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) =>
                       handleOnSavePessoa(value, pessoa, "nomeMae", index)
                     }
@@ -466,7 +457,6 @@ export default function Pessoa({ uuid }) {
                   <InputPersonalizado
                     texto={"Profissão:"}
                     valorCampo={pessoa.profissao}
-                    iconeLabel={<IconTextNumber />}
                     onSave={(value) =>
                       handleOnSavePessoa(value, pessoa, "profissao", index)
                     }
@@ -483,7 +473,6 @@ export default function Pessoa({ uuid }) {
                           <InputPersonalizado
                             texto={`Logradouro${helperText}:`}
                             valorCampo={endereco.logradouro}
-                            iconeLabel={<IconTextNumber />}
                             onSave={(value) =>
                               api.alterarProcesso(`endereco/${endereco.id}`, {
                                 logradouro: value,
@@ -494,7 +483,6 @@ export default function Pessoa({ uuid }) {
                           <InputPersonalizado
                             texto={`Numero${helperText}:`}
                             valorCampo={endereco.numero}
-                            iconeLabel={<IconTextNumber />}
                             onSave={(value) =>
                               api.alterarProcesso(`endereco/${endereco.id}`, {
                                 numero: value,
@@ -506,7 +494,6 @@ export default function Pessoa({ uuid }) {
                           <InputPersonalizado
                             texto={`Complemento${helperText}:`}
                             valorCampo={endereco.complemento}
-                            iconeLabel={<IconTextNumber />}
                             onSave={(value) =>
                               api.alterarProcesso(`endereco/${endereco.id}`, {
                                 complemento: value,
@@ -518,7 +505,6 @@ export default function Pessoa({ uuid }) {
                           <InputMaskPersonalizado
                             texto={`CEP${helperText}:`}
                             valorCampo={endereco.cep}
-                            iconeLabel={<IconTextNumber />}
                             onSave={(value) =>
                               api.alterarProcesso(`endereco/${endereco.id}`, {
                                 cep: value,
@@ -547,7 +533,6 @@ export default function Pessoa({ uuid }) {
                           <InputPersonalizado
                             texto={`Cidade${helperText}:`}
                             valorCampo={endereco.estado}
-                            iconeLabel={<IconTextNumber />}
                             onSave={(value) =>
                               api.alterarProcesso(`endereco/${endereco.id}`, {
                                 cidade: value,
@@ -559,7 +544,6 @@ export default function Pessoa({ uuid }) {
                           <InputPersonalizado
                             texto={`Bairro${helperText}:`}
                             valorCampo={endereco.estado}
-                            iconeLabel={<IconTextNumber />}
                             onSave={(value) =>
                               api.alterarProcesso(`endereco/${endereco.id}`, {
                                 bairro: value,
