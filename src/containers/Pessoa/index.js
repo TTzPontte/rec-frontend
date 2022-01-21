@@ -35,6 +35,7 @@ export default function Pessoa({ uuid }) {
   const [processo, setProcesso] = useState([]);
   const [envolvidos, setEnvolvidos] = useState([]);
   const [documentosProcesso, setDocumentosProcesso] = useState([]);
+  const [processoEnvolvidosTipo, setProcessoEnvolvidosTipo] = useState([]);
 
   const api = new Api();
 
@@ -64,15 +65,22 @@ export default function Pessoa({ uuid }) {
       })
     );
 
+    
     setDocumentosProcesso(documentos);
-
+    
     if (envolvidos.length > 0) setEnvolvidos(envolvidos);
   };
+  
+  const getProcessoEnvolvidosTipo = async () => {
+    await api.busca("/dm-processo-envolvidos-tipo", setProcessoEnvolvidosTipo);    
+  }
 
   const getEnvolvidosCallback = useCallback(getEnvolvidos, []);
+  const getProcessoEnvolvidosTipoCallback = useCallback(getProcessoEnvolvidosTipo, []);
 
   useEffect(() => {
     getEnvolvidosCallback();
+    getProcessoEnvolvidosTipoCallback();    
   }, [getEnvolvidosCallback]);
 
   const handleChangePessoa = (pessoa) => {
@@ -360,8 +368,11 @@ export default function Pessoa({ uuid }) {
               placeholder="Selecione..."
               style={{ width: 544 }}
             >
-              <Option value="Composição de renda">Composição de renda</Option>
-              <Option value="Tomador">Tomador</Option>
+              {processoEnvolvidosTipo?.length > 0 && processoEnvolvidosTipo.map((envolvidoTipo) => {              
+                  return (
+                    <Option key={envolvidoTipo.descricao} value={envolvidoTipo.descricao}>{envolvidoTipo.descricao}</Option>
+                  );
+              })}
             </Select>
           </DivModalSelectTipoEnvolvimento>
           <IconInputNomeRazaoSocial className="modalNovaPessoa_IconInputNomeRazaoSocial" />
@@ -437,8 +448,11 @@ export default function Pessoa({ uuid }) {
               placeholder="Selecione..."
               style={{ width: 544 }}
             >
-              <Option value="Composição de renda">Composição de renda</Option>
-              <Option value="Tomador">Tomador</Option>
+              {processoEnvolvidosTipo?.length > 0 && processoEnvolvidosTipo.map((envolvidoTipo) => {              
+                  return (
+                    <Option key={envolvidoTipo.descricao} value={envolvidoTipo.descricao}>{envolvidoTipo.descricao}</Option>
+                  );
+              })}
             </Select>
           </DivModalSelectTipoEnvolvimento>
           <IconInputNomeRazaoSocial className="modalNovaPessoa_IconInputNomeRazaoSocial" />

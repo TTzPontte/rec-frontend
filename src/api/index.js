@@ -13,13 +13,10 @@ class Api {
 
   async buscarProcessoByUuid(url) {
     const resposta = await this.service.get(url);
-    console.log("resposta");
-    console.log(resposta.data[0]);
     return resposta.data[0];
   }
 
   async salvarPessoaNoProcesso(dados) {
-    console.log(dados);
     let processo = null;
     try {
       processo = await this.buscarProcessoByUuid('/processo/'.concat(dados.processo + '/0/1'));
