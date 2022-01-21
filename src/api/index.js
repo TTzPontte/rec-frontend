@@ -85,8 +85,19 @@ class Api {
     return await this.service.post(endpoint, payload);
   }
 
-  async downloadFile(endpoint) {
-    return this.service.get(endpoint, { responseType: "blob" });
+  async downloadFile(endpoint, fileName) {
+    const { data: blob } = await this.service.get(endpoint, {
+      responseType: "blob",
+      transformRequest: [
+        (data, headers) => delete headers.common["Authorization"] && data,
+      ],
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    const elementDownload = document.createElement("a");
+    elementDownload.href = url;
+    elementDownload.setAttribute("download", fileName);
+    elementDownload.click();
   }
 
   async verifyTokenId({ tokenId }) {
