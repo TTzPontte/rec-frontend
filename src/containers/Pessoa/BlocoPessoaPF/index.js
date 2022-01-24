@@ -30,6 +30,24 @@ export const BlocoPessoaPF = ({
 
   const { pessoa } = envolvido;
 
+  const assignData = (object, key, data) => {
+    if (object[key].length === 0) object[key] = [data];
+  };
+
+  assignData(pessoa, "enderecos", {
+    logradouro: null,
+    numero: null,
+    complemento: null,
+    bairro: null,
+    cep: null,
+    tipo: null,
+  });
+
+  assignData(pessoa, "telefones", {
+    ddd: null,
+    numero: null,
+  });
+
   const handleOnSavePessoa = (key, newValue) => {
     if (!newValue) return;
 
