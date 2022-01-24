@@ -130,21 +130,6 @@ export const BlocoPessoaPF = ({
           }
         />
 
-        {pessoa.rendas?.length > 0 &&
-          pessoa.rendas.map((renda) => (
-            <InputMonetarioPersonalizado
-              texto={`Renda aferida | ${renda.rendaTipo}:`}
-              valorCampo={renda.rendaAferida}
-              onSave={(value) =>
-                api.alterarProcesso(`/renda/${renda.id}`, {
-                  ...renda,
-                  rendaAferida: Number(value.replace(/[^0-9]/g, "")),
-                })
-              }
-              idCampo={"nome"}
-            />
-          ))}
-
         <InputPersonalizado
           texto={"E-mail:"}
           valorCampo={pessoa.email}
