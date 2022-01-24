@@ -58,6 +58,28 @@ export const BlocoPessoaPF = ({
       .then(() => handleChangePessoa(pessoaAlterada));
   };
 
+  const handleOnSaveTelefone = (telefone, newValue) => {
+    const numeroCompleto = newValue.replace(/[^0-9]/g, "");
+    const ddd = numeroCompleto.slice(0, 2);
+    const numero = numeroCompleto.slice(2);
+
+    if (!telefone.id) {
+      api
+        .salvar("/telefone", {
+          ddd,
+          numero,
+          pessoa: { id: pessoa.id },
+        })
+        .then(({ data }) => (telefone.id = data.id));
+      return;
+    }
+
+    api.alterarProcesso(`telefone/${telefone.id}`, {
+      ddd,
+      numero,
+    });
+  };
+
   const handleGetDocumentsByPersonID = (pessoaId) =>
     Object.entries(
       groupBy(
@@ -120,25 +142,16 @@ export const BlocoPessoaPF = ({
           idCampo={"email"}
         />
 
-        {pessoa.telefones?.length > 0 &&
-          pessoa.telefones.map((telefone) => (
-            <InputMaskPersonalizado
-              texto={"Telefone"}
-              valorCampo={`${telefone.ddd} + ${telefone.numero}`}
-              iconeLabel={<IconPhone />}
-              onSave={(value) => {
-                const numeroCompleto = value.replace(/[^0-9]/g, "");
-                const ddd = numeroCompleto.slice(0, 2);
-                const numero = numeroCompleto.slice(2);
-                api.alterarProcesso(`telefone/${telefone.id}`, {
-                  ddd,
-                  numero,
-                });
-              }}
-              idCampo={"telefone"}
-              mask={"(99) 99999-9999"}
-            />
-          ))}
+        {pessoa.telefones.map((telefone) => (
+          <InputMaskPersonalizado
+            texto={"Telefone"}
+            valorCampo={`${telefone.ddd} + ${telefone.numero}`}
+            iconeLabel={<IconPhone />}
+            onSave={(value) => handleOnSaveTelefone(telefone, value)}
+            idCampo={"telefone"}
+            mask={"(99) 99999-9999"}
+          />
+        ))}
 
         <InputMaskPersonalizado
           texto={"Data de Nascimento"}
