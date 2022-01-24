@@ -7,7 +7,6 @@ import {
   DropDownDM,
   InputPersonalizado,
   InputMaskPersonalizado,
-  InputMonetarioPersonalizado,
   Documento,
   AddDocumento,
 } from "@iso/components";
@@ -30,6 +29,24 @@ export const BlocoPessoaPF = ({
 
   const { pessoa } = envolvido;
 
+  const assignData = (object, key, data) => {
+    if (object[key].length === 0) object[key] = [data];
+  };
+
+  assignData(pessoa, "enderecos", {
+    logradouro: null,
+    numero: null,
+    complemento: null,
+    bairro: null,
+    cep: null,
+    tipo: null,
+  });
+
+  assignData(pessoa, "telefones", {
+    ddd: null,
+    numero: null,
+  });
+
   const handleOnSavePessoa = (key, newValue) => {
     if (!newValue) return;
 
@@ -38,6 +55,33 @@ export const BlocoPessoaPF = ({
     api
       .alterarProcesso(`/pessoa/${pessoa.id}`, pessoaAlterada)
       .then(() => handleChangePessoa(pessoaAlterada));
+  };
+
+  const utilSaveApi = (endpoint, object, data) => {
+    api
+      .salvar(endpoint, { ...data, pessoa: { id: pessoa.id } })
+      .then(({ data }) => (object.id = data.id));
+  };
+
+  const handleOnSaveTelefone = (telefone, newValue) => {
+    const numeroCompleto = newValue.replace(/[^0-9]/g, "");
+    const [ddd, numero] = [numeroCompleto.slice(0, 2), numeroCompleto.slice(2)];
+    const data = { ddd, numero };
+
+    !telefone.id
+      ? utilSaveApi("/telefone", telefone, { ...data })
+      : api.alterarProcesso(`telefone/${telefone.id}`, { ...data });
+  };
+
+  const handleOnSaveEndereco = (endereco, key, newValue) => {
+    !endereco.id
+      ? utilSaveApi("/endereco", endereco, {
+          ...endereco,
+          [key]: newValue,
+        })
+      : api.alterarProcesso(`endereco/${endereco.id}`, {
+          [key]: newValue,
+        });
   };
 
   const handleGetDocumentsByPersonID = (pessoaId) =>
@@ -79,21 +123,6 @@ export const BlocoPessoaPF = ({
           }
         />
 
-        {pessoa.rendas?.length > 0 &&
-          pessoa.rendas.map((renda) => (
-            <InputMonetarioPersonalizado
-              texto={`Renda aferida | ${renda.rendaTipo}:`}
-              valorCampo={renda.rendaAferida}
-              onSave={(value) =>
-                api.alterarProcesso(`/renda/${renda.id}`, {
-                  ...renda,
-                  rendaAferida: Number(value.replace(/[^0-9]/g, "")),
-                })
-              }
-              idCampo={"nome"}
-            />
-          ))}
-
         <InputPersonalizado
           texto={"E-mail:"}
           valorCampo={pessoa.email}
@@ -102,25 +131,16 @@ export const BlocoPessoaPF = ({
           idCampo={"email"}
         />
 
-        {pessoa.telefones?.length > 0 &&
-          pessoa.telefones.map((telefone) => (
-            <InputMaskPersonalizado
-              texto={"Telefone"}
-              valorCampo={`${telefone.ddd} + ${telefone.numero}`}
-              iconeLabel={<IconPhone />}
-              onSave={(value) => {
-                const numeroCompleto = value.replace(/[^0-9]/g, "");
-                const ddd = numeroCompleto.slice(0, 2);
-                const numero = numeroCompleto.slice(2);
-                api.alterarProcesso(`telefone/${telefone.id}`, {
-                  ddd,
-                  numero,
-                });
-              }}
-              idCampo={"telefone"}
-              mask={"(99) 99999-9999"}
-            />
-          ))}
+        {pessoa.telefones.map((telefone) => (
+          <InputMaskPersonalizado
+            texto={"Telefone"}
+            valorCampo={`${telefone.ddd} + ${telefone.numero}`}
+            iconeLabel={<IconPhone />}
+            onSave={(value) => handleOnSaveTelefone(telefone, value)}
+            idCampo={"telefone"}
+            mask={"(99) 99999-9999"}
+          />
+        ))}
 
         <InputMaskPersonalizado
           texto={"Data de Nascimento"}
@@ -196,93 +216,76 @@ export const BlocoPessoaPF = ({
           idCampo={"profissao"}
         />
 
-        {pessoa.enderecos?.length > 0 &&
-          pessoa.enderecos.map((endereco) => {
-            const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
-            return (
-              <>
-                <InputPersonalizado
-                  texto={`Logradouro${helperText}:`}
-                  valorCampo={endereco.logradouro}
-                  onSave={(value) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      logradouro: value,
-                    })
-                  }
-                  idCampo={"enderecoLogradouro"}
-                />
-                <InputPersonalizado
-                  texto={`Numero${helperText}:`}
-                  valorCampo={endereco.numero}
-                  onSave={(value) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      numero: value,
-                    })
-                  }
-                  idCampo={"enderecoNumero"}
-                />
+        {pessoa.enderecos.map((endereco) => {
+          const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
+          return (
+            <>
+              <InputPersonalizado
+                texto={`Logradouro${helperText}:`}
+                valorCampo={endereco.logradouro}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "logradouro", value)
+                }
+                idCampo={"enderecoLogradouro"}
+              />
+              <InputPersonalizado
+                texto={`Numero${helperText}:`}
+                valorCampo={endereco.numero}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "numero", value)
+                }
+                idCampo={"enderecoNumero"}
+              />
 
-                <InputPersonalizado
-                  texto={`Complemento${helperText}:`}
-                  valorCampo={endereco.complemento}
-                  onSave={(value) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      complemento: value,
-                    })
-                  }
-                  idCampo={"enderecoComplemento"}
-                />
+              <InputPersonalizado
+                texto={`Complemento${helperText}:`}
+                valorCampo={endereco.complemento}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "complemento", value)
+                }
+                idCampo={"enderecoComplemento"}
+              />
 
-                <InputMaskPersonalizado
-                  texto={`CEP${helperText}:`}
-                  valorCampo={endereco.cep}
-                  onSave={(value) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      cep: value,
-                    })
-                  }
-                  idCampo={"enderecoCEP"}
-                  mask={"99999-999"}
-                />
+              <InputMaskPersonalizado
+                texto={`CEP${helperText}:`}
+                valorCampo={endereco.cep}
+                onSave={(value) => handleOnSaveEndereco(endereco, "cep", value)}
+                idCampo={"enderecoCEP"}
+                mask={"99999-999"}
+              />
 
-                <DropDownDM
-                  title={"Estado"}
-                  initialValue={endereco.estado}
-                  handleSaveItem={(descricao) =>
-                    api.addItemDM("dm-estado", { descricao })
-                  }
-                  handleGetItem={() => api.buscarTabelaDM("dm-estado")}
-                  handleSaveProcessInfo={async ({ descricao }) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      estado: descricao,
-                    })
-                  }
-                />
+              <DropDownDM
+                title={"Estado"}
+                initialValue={endereco.estado}
+                handleSaveItem={(descricao) =>
+                  api.addItemDM("dm-estado", { descricao })
+                }
+                handleGetItem={() => api.buscarTabelaDM("dm-estado")}
+                handleSaveProcessInfo={async ({ descricao }) =>
+                  handleOnSaveEndereco(endereco, "estado", descricao)
+                }
+              />
 
-                <InputPersonalizado
-                  texto={`Cidade${helperText}:`}
-                  valorCampo={endereco.estado}
-                  onSave={(value) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      cidade: value,
-                    })
-                  }
-                  idCampo={"enderecoCidade"}
-                />
+              <InputPersonalizado
+                texto={`Cidade${helperText}:`}
+                valorCampo={endereco.estado}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "cidade", value)
+                }
+                idCampo={"enderecoCidade"}
+              />
 
-                <InputPersonalizado
-                  texto={`Bairro${helperText}:`}
-                  valorCampo={endereco.estado}
-                  onSave={(value) =>
-                    api.alterarProcesso(`endereco/${endereco.id}`, {
-                      bairro: value,
-                    })
-                  }
-                  idCampo={"enderecoBairro"}
-                />
-              </>
-            );
-          })}
+              <InputPersonalizado
+                texto={`Bairro${helperText}:`}
+                valorCampo={endereco.bairro}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "bairro", value)
+                }
+                idCampo={"enderecoBairro"}
+              />
+            </>
+          );
+        })}
       </Content>
       <Content>
         <header>DOCUMENTOS</header>
