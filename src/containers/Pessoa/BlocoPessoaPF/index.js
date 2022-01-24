@@ -2,17 +2,18 @@ import React from "react";
 
 import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
 import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
+import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 import {
   DropDownDM,
   InputPersonalizado,
   InputMaskPersonalizado,
   Documento,
-  AddDocumento,
+  AddDocumento
 } from "@iso/components";
 
 import Api from "@iso/api";
-import { Content } from "./styles";
+import { Content, BtnAddNewDocument } from "./styles";
 import { useState } from "react";
 import { groupBy } from "@iso/utils/GroupBy";
 
@@ -309,11 +310,12 @@ export const BlocoPessoaPF = ({
           />
         </div>
         <div className="addFilePessoa">
-          <button
-            onClick={() => setIsVisibleAddDocument(!isVisibleAddDocument)}
-          >
-            Adicionar
-          </button>
+          <BtnAddNewDocument onClick={() => setIsVisibleAddDocument(!isVisibleAddDocument)}>
+          <div className="buttonAddDocument">
+            <img src={addAttachmentIcon} alt="" />
+            <span>ADICIONAR</span>
+          </div>
+        </BtnAddNewDocument>
         </div>
       </Content>
 
