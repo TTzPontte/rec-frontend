@@ -58,42 +58,37 @@ export const BlocoPessoaPF = ({
       .then(() => handleChangePessoa(pessoaAlterada));
   };
 
+  const utilSaveApi = (endpoint, object, data) => {
+    api
+      .salvar(endpoint, { ...data, pessoa: { id: pessoa.id } })
+      .then(({ data }) => (object.id = data.id));
+  };
+
   const handleOnSaveTelefone = (telefone, newValue) => {
     const numeroCompleto = newValue.replace(/[^0-9]/g, "");
     const ddd = numeroCompleto.slice(0, 2);
     const numero = numeroCompleto.slice(2);
 
-    if (!telefone.id) {
-      api
-        .salvar("/telefone", {
+    !telefone.id
+      ? utilSaveApi("/telefone", telefone, {
           ddd,
           numero,
-          pessoa: { id: pessoa.id },
         })
-        .then(({ data }) => (telefone.id = data.id));
-      return;
-    }
-
-    api.alterarProcesso(`telefone/${telefone.id}`, {
-      ddd,
-      numero,
-    });
+      : api.alterarProcesso(`telefone/${telefone.id}`, {
+          ddd,
+          numero,
+        });
   };
 
   const handleOnSaveEndereco = (endereco, key, newValue) => {
-    if (!endereco.id) {
-      api.salvar("/endereco", {
-        ...endereco,
-        [key]: newValue,
-        pessoa: {
-          id: pessoa.id,
-        },
-      });
-      return;
-    }
-    api.alterarProcesso(`endereco/${endereco.id}`, {
-      [key]: newValue,
-    });
+    !endereco.id
+      ? utilSaveApi("/endereco", endereco, {
+          ...endereco,
+          [key]: newValue,
+        })
+      : api.alterarProcesso(`endereco/${endereco.id}`, {
+          [key]: newValue,
+        });
   };
 
   const handleGetDocumentsByPersonID = (pessoaId) =>
