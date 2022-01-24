@@ -65,18 +65,12 @@ export const BlocoPessoaPF = ({
 
   const handleOnSaveTelefone = (telefone, newValue) => {
     const numeroCompleto = newValue.replace(/[^0-9]/g, "");
-    const ddd = numeroCompleto.slice(0, 2);
-    const numero = numeroCompleto.slice(2);
+    const [ddd, numero] = [numeroCompleto.slice(0, 2), numeroCompleto.slice(2)];
+    const data = { ddd, numero };
 
     !telefone.id
-      ? utilSaveApi("/telefone", telefone, {
-          ddd,
-          numero,
-        })
-      : api.alterarProcesso(`telefone/${telefone.id}`, {
-          ddd,
-          numero,
-        });
+      ? utilSaveApi("/telefone", telefone, { ...data })
+      : api.alterarProcesso(`telefone/${telefone.id}`, { ...data });
   };
 
   const handleOnSaveEndereco = (endereco, key, newValue) => {
