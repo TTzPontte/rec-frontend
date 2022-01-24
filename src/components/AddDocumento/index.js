@@ -125,8 +125,7 @@ export const AddDocumento = ({
       {areFilled && (
         <BtnAddDocument onClick={() => handleAddDocument()}>
           <div className="buttonAddDocument">
-            <img src={addAttachmentIcon} alt="" />
-            <span>ADICIONAR</span>
+            <span>SALVAR</span>
           </div>
         </BtnAddDocument>
       )}
