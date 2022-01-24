@@ -9,7 +9,7 @@ import {
   InputPersonalizado,
   InputMaskPersonalizado,
   Documento,
-  AddDocumento
+  AddDocumento,
 } from "@iso/components";
 
 import Api from "@iso/api";
@@ -310,12 +310,18 @@ export const BlocoPessoaPF = ({
           />
         </div>
         <div className="addFilePessoa">
-          <BtnAddNewDocument onClick={() => setIsVisibleAddDocument(!isVisibleAddDocument)}>
-          <div className="buttonAddDocument">
-            <img src={addAttachmentIcon} alt="" />
-            <span>ADICIONAR</span>
-          </div>
-        </BtnAddNewDocument>
+          {!isVisibleAddDocument ? (
+            <BtnAddNewDocument
+              onClick={() => setIsVisibleAddDocument(!isVisibleAddDocument)}
+            >
+              <div className="buttonAddDocument">
+                <img src={addAttachmentIcon} alt="" />
+                <span>ADICIONAR</span>
+              </div>
+            </BtnAddNewDocument>
+          ) : (
+            <div></div>
+          )}
         </div>
       </Content>
 
