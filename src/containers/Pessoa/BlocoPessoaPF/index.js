@@ -7,7 +7,6 @@ import {
   DropDownDM,
   InputPersonalizado,
   InputMaskPersonalizado,
-  InputMonetarioPersonalizado,
   Documento,
   AddDocumento,
 } from "@iso/components";
