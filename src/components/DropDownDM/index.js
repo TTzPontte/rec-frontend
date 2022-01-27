@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Container,
   Title,
@@ -32,12 +32,20 @@ export const DropDownDM = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingItem, setIsAddingItem] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [lastSave, setLastSave] = useState(initialValue);
+  const [lastSave, setLastSave] = useState("");
   const [selectedItem, setSelectedItem] = useState({
     id: 0,
     descricao: initialValue,
     isSave: false,
   });
+  
+  const setLastSaveCallback = useCallback(
+    () => setLastSave(initialValue),
+    [initialValue]
+  );
+  useEffect(() => {
+    setLastSaveCallback();
+  }, [setLastSaveCallback]);
 
   useEffect(() => {
     handleGetItem().then(({ data }) => setListItem(data));
