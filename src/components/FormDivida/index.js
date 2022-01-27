@@ -1,4 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import Api from "@iso/api";
+import { buildFileSelector } from "@iso/utils/BuildFileSelector";
+
 import {
   Container,
   Header,
@@ -6,36 +9,26 @@ import {
   Field,
   BtnAddFile,
 } from "./styled-component";
-import { ReactComponent as TrashDocument } from "../../assets/icon-trash.svg";
-import folderIcon from "../../assets/icon-folder.svg";
-import addAttachmentIcon from "../../assets/add-attachment.svg";
-import Api from "../../api";
 
-import { InputMonetarioPersonalizado } from "../InputMonetarioPersonalizado";
-import { DropDownDM } from "../DropDownDM";
-import { useEffect } from "react";
-import { useCallback } from "react";
+import { DropDownDM, InputMonetarioPersonalizado } from "@iso/components";
 
-function buildFileSelector() {
-  const fileSelector = document.createElement("input");
-  fileSelector.setAttribute("type", "file");
-  return fileSelector;
-}
+import { ReactComponent as TrashDocument } from "@iso/assets/icon-trash.svg";
+import folderIcon from "@iso/assets/icon-folder.svg";
+import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 export const FormDivida = ({
-  divida,
-  handleDeletarDivida,
-  handleAlterarDivida,
+  divida = {},
+  handleDeletarDivida = () => {},
+  handleAlterarDivida = () => {},
 }) => {
   const api = new Api();
 
   const [arquivo, setArquivo] = useState(null);
 
-  const handleGetAnexo = () => {
-    api.busca(`/pessoa-divida-anexo?pessoaDivida=${divida.id}`, (data) =>
-      setArquivo(data[0])
-    );
-  };
+  const handleGetAnexo = () => api.busca(
+    `/pessoa-divida-anexo?pessoaDivida=${divida.id}`,
+    (data) => setArquivo(data[0])
+  );
 
   const handleGetAnexoCallback = useCallback(handleGetAnexo, [divida.id]);
 
@@ -43,16 +36,14 @@ export const FormDivida = ({
     handleGetAnexoCallback();
   }, [handleGetAnexoCallback]);
 
-  const handleOnSaveDivida = (key, value, setState = () => {}) =>
+  const handleOnSaveDivida = (key, value) => {
     api
       .alterarProcesso(`/pessoa-divida/${divida.id}`, {
         ...divida,
         [key]: value,
       })
-      .then(() => {
-        setState(value);
-        handleAlterarDivida({ ...divida, [key]: value });
-      });
+      .then(() => handleAlterarDivida({ ...divida, [key]: value }));
+  };
 
   const handleFileSelect = async () => {
     const fileSelector = buildFileSelector();
@@ -64,7 +55,7 @@ export const FormDivida = ({
       formData.append("file", file);
       formData.append("nome", file.name);
       formData.append("anexoTipo", divida.dividaTipo);
-      formData.append("urlOrigem", "pontte");
+      formData.append("urlOrigem", window.location.hostname);
       formData.append("pessoaDividaId", divida.id);
 
       if (!!arquivo) await api.deletar(`/pessoa-divida-anexo/${arquivo?.id}`);
@@ -78,7 +69,7 @@ export const FormDivida = ({
     fileSelector.click();
   };
 
-  const excluirDivida = async () => {
+  const handleExcluirDivida = async () => {
     if (!!arquivo) await api.deletar(`/pessoa-divida-anexo/${arquivo?.id}`);
 
     api
@@ -88,13 +79,15 @@ export const FormDivida = ({
 
   return (
     <Container>
-      {console.log({ arquivo })}
       <Header>
         <div className="title">
           <img src={folderIcon} alt="" />
           <span>Dívida | {divida.dividaTipo}</span>
         </div>
-        <TrashDocument onClick={excluirDivida} style={{ cursor: "pointer" }} />
+        <TrashDocument
+          onClick={handleExcluirDivida}
+          style={{ cursor: "pointer" }}
+        />
       </Header>
       <Fields>
         <Field>
@@ -141,7 +134,7 @@ export const FormDivida = ({
             <span>Documento</span>
           </div>
           {!arquivo ? (
-            <BtnAddFile type="file" onClick={handleFileSelect}>
+            <BtnAddFile onClick={handleFileSelect}>
               <img src={addAttachmentIcon} alt="" />
               <span>Adicionar arquivo</span>
             </BtnAddFile>

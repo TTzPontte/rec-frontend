@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { Container, Header, File, BtnAddFile } from "./styles";
-import { ReactComponent as DeleteFile } from "../../assets/icon-delete.svg";
-import { ReactComponent as DownloadFile } from "../../assets/icon-download.svg";
-import addAttachmentIcon from "../../assets/add-attachment.svg";
-import folderIcon from "../../assets/icon-folder.svg";
-import jpgIcon from "../../assets/icon-jpg.svg";
-import Api from "../../api";
+import Api from "@iso/api";
 import FormData from "form-data";
+import { buildFileSelector } from "@iso/utils/BuildFileSelector";
 
-const buildFileSelector = () => {
-  const fileSelector = document.createElement("input");
-  fileSelector.setAttribute("type", "file");
-  return fileSelector;
-};
+import { Container, Header, File, BtnAddFile } from "./styled-component";
+
+import { ReactComponent as DeleteFile } from "@iso/assets/icon-delete.svg";
+import { ReactComponent as DownloadFile } from "@iso/assets/icon-download.svg";
+import addAttachmentIcon from "@iso/assets/add-attachment.svg";
+import folderIcon from "@iso/assets/icon-folder.svg";
+import jpgIcon from "@iso/assets/icon-jpg.svg";
 
 export const Documento = ({ title = "", files = [], pessoaId }) => {
   const [listFile, setListFile] = useState(files);

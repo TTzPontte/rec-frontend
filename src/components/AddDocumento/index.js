@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import Api from "../../api";
+import { buildFileSelector } from "@iso/utils/BuildFileSelector";
+import FormData from "form-data";
+
+import { DropDownDM, InputPersonalizado } from "@iso/components/";
+
 import {
   Container,
   Header,
@@ -7,20 +13,10 @@ import {
   BtnAddFile,
   BtnAddDocument,
 } from "./styles";
-import { DropDownDM } from "@iso/components/DropDownDM";
-import Api from "../../api";
-import { ReactComponent as TrashDocument } from "../../assets/icon-trash.svg";
-import folderIcon from "../../assets/icon-folder.svg";
-import addAttachmentIcon from "../../assets/add-attachment.svg";
-import { InputPersonalizado } from "@iso/components";
-import FormData from "form-data";
 
-function buildFileSelector() {
-  const fileSelector = document.createElement("input");
-  fileSelector.setAttribute("type", "file");
-  fileSelector.setAttribute("multiple", "multiple");
-  return fileSelector;
-}
+import { ReactComponent as TrashDocument } from "@iso/assets/icon-trash.svg";
+import folderIcon from "@iso/assets/icon-folder.svg";
+import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 export const AddDocumento = ({
   visible,
