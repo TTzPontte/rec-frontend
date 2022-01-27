@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input";
 import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
@@ -22,7 +22,16 @@ export const InputMonetarioPersonalizado = ({
   const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
   const [estiloIconeNOk, setEstiloIconeNOk] = useState("hidden");
   const [estiloIconeEditar, setEstiloIconeEditar] = useState("hidden");
-  const [textAlterado, setTextAlterado] = useState(valorCampo);
+  const [textAlterado, setTextAlterado] = useState("");
+
+  const setLastSaveCallback = useCallback(
+    () => setTextAlterado(valorCampo),
+    [valorCampo]
+  );
+
+  useEffect(() => {
+    setLastSaveCallback();
+  }, [setLastSaveCallback]);
 
   const habilitarDesabilitar = () => {
     if (editavel) {
@@ -77,8 +86,8 @@ export const InputMonetarioPersonalizado = ({
       </div>
       <div className="divInput">
         <CurrencyInput
-          decimalSeparator=","
-          thousandSeparator="."
+          decimalSeparator="."
+          thousandSeparator=""
           precision="2"
           prefix="R$"
           value={textAlterado}

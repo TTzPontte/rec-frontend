@@ -8,3 +8,4 @@ export * from "./InputMonetarioPersonalizado";
 export * from "./RadioPersonalizado";
 export * from "./SelectPersonalizado";
 export * from "./TextAreaPersonalizado";
+export * from "./FormDivida";

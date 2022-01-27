@@ -16,6 +16,7 @@ import Api from "@iso/api";
 import { Content, BtnAddNewDocument } from "./styles";
 import { useState } from "react";
 import { groupBy } from "@iso/utils/GroupBy";
+import { FormDivida } from "../../../components/FormDivida";
 
 export const BlocoPessoaPF = ({
   processo = {},
@@ -25,6 +26,7 @@ export const BlocoPessoaPF = ({
   handleAddListDocument = (document) => {},
 }) => {
   const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
+  const [dividasPessoa, setDividasPessoa] = useState(envolvido.pessoa.dividas);
 
   const api = new Api();
 
@@ -92,6 +94,35 @@ export const BlocoPessoaPF = ({
         "anexoTipo"
       )
     );
+
+  const handleCriarDivida = () => {
+    api
+      .salvar("/pessoa-divida", {
+        dividaTipo: null,
+        valor: null,
+        status: null,
+        quitar: true,
+        pessoa: {
+          id: pessoa.id,
+        },
+      })
+      .then(({ data: novaDivida }) =>
+        setDividasPessoa([...dividasPessoa, novaDivida])
+      );
+  };
+
+  const handleDeletarDivida = (id) => {
+    const teste = dividasPessoa.filter((divida) => divida.id !== id);
+    setDividasPessoa(teste);
+  };
+
+  const handleAlterarDivida = (dividaAlterada) => {
+    const teste = dividasPessoa.map((divida) =>
+      divida.id === dividaAlterada.id ? dividaAlterada : divida
+    );
+    console.log({ alterado: teste });
+    setDividasPessoa(teste);
+  };
 
   return (
     <>
@@ -327,6 +358,25 @@ export const BlocoPessoaPF = ({
 
       <Content>
         <header>DIVIDAS</header>
+        {dividasPessoa.map((divida) => {
+          return (
+            <FormDivida
+              divida={divida}
+              pessoa={pessoa}
+              handleDeletarDivida={handleDeletarDivida}
+              handleAlterarDivida={handleAlterarDivida}
+            />
+          );
+        })}
+
+        <div className="addFilePessoa">
+          <BtnAddNewDocument onClick={handleCriarDivida}>
+            <div className="buttonAddDocument">
+              <img src={addAttachmentIcon} alt="" />
+              <span>ADICIONAR</span>
+            </div>
+          </BtnAddNewDocument>
+        </div>
       </Content>
     </>
   );

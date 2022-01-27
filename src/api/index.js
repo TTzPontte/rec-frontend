@@ -6,7 +6,7 @@ class Api {
     this.service = AxiosCustom.getService();
   }
 
-  async busca(url, setDado) {
+  async busca(url, setDado=()=>{}) {
     const resposta = await this.service.get(url);
     setDado(resposta.data);
   }
