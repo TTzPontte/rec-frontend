@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "@iso/components/shared/template/ErrorBoundary";
 import { PUBLIC_ROUTE } from "./route.constants";
 import { PRIVATE_ROUTE } from "./route.constants";
-import Loader from "@iso/components/utility/loader";
+import Loader from "@iso/components/shared/template/utility/loader";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
 

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Route, useRouteMatch, Switch } from 'react-router-dom';
-import Loader from '@iso/components/utility/loader';
+import Loader from '@iso/components/shared/template/utility/loader';
 
 const routes = [
 	{

@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '@iso/components/template-components/uielements//button';
-import Input from '@iso/components/template-components/uielements//input';
+import Button from '@iso/components/shared/template/uielements//button';
+import Input from '@iso/components/shared/template/uielements//input';
 import Modal from '@iso/components/Feedback/Modal';
 import { notification } from '@iso/components';
 import {

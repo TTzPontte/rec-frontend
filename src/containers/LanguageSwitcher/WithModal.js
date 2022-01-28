@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '@iso/components/Feedback/Modal';
-import Button from '@iso/components/template-components/uielements//button';
+import Button from '@iso/components/shared/template/uielements//button';
 import actions from '@iso/redux/languageSwitcher/actions';
 import config from './config';
 

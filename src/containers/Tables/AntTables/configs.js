@@ -6,7 +6,7 @@ import {
   ImageCell,
   LinkCell,
   TextCell,
-} from '@iso/components/Tables/HelperCells';
+} from '@iso/components/shared/template/Tables/HelperCells';
 
 const renderCell = (object, type, key) => {
   const value = object[key];

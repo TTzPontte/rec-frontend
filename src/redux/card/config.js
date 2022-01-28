@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeleteCell } from '@iso/components/Tables/HelperCells';
+import { DeleteCell } from '@iso/components/shared/template/Tables/HelperCells';
 function createColumns(editColumn, deleteColumn) {
   return [
     {

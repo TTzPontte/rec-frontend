@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Actions from '@iso/redux/themeSwitcher/actions';
-import Switcher from '@iso/components/ThemeSwitcher/ThemeSwitcher';
+import Switcher from '@iso/components/shared/template/ThemeSwitcher/ThemeSwitcher';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import Themes from './config';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import IntlMessages from '@iso/components/shared/template/utility/intlMessages';
 import ThemeSwitcherStyle from './ThemeSwitcher.styles';
 
 const { changeTheme } = Actions;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Image from '@iso/assets/images/rob.png';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import IntlMessages from '@iso/components/shared/template/utility/intlMessages';
 import FourZeroFourStyleWrapper from './404.styles';
 
 export default function() {

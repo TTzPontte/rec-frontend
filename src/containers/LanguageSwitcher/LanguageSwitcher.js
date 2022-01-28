@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import IntlMessages from '@iso/components/shared/template/utility/intlMessages';
 import actions from '@iso/redux/languageSwitcher/actions';
 import config from './config';
 

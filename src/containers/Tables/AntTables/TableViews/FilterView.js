@@ -1,6 +1,6 @@
 import React from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { FilterDropdown } from '@iso/components/Tables/HelperCells';
+import { FilterDropdown } from '@iso/components/shared/template/Tables/HelperCells';
 import TableWrapper from '../AntTables.styles';
 
 export default function (props) {

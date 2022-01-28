@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Layout } from 'antd';
 import options from './options';
 import Scrollbars from '@iso/components/utility/customScrollBar';
-import Menu from '@iso/components/template-components/uielements//menu';
+import Menu from '@iso/components/shared/template/uielements//menu';
 import appActions from '@iso/redux/app/actions';
 import Logo from '@iso/components/utility/logo';
 import SidebarWrapper from './Sidebar.styles';

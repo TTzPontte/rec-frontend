@@ -3,7 +3,7 @@ import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
 
-import Collapse from "@iso/components/template-components/uielements//collapse";
+import Collapse from "@iso/components/shared/template/uielements//collapse";
 import { Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import Api from "../../api";

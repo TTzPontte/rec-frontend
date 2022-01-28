@@ -1,4 +1,4 @@
-import Radio, { RadioGroup } from "@iso/components/template-components/uielements//radio";
+import Radio, { RadioGroup } from "@iso/components/shared/template/uielements//radio";
 import React, { useState } from "react";
 import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";

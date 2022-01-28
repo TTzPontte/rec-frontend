@@ -3,7 +3,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import IntlMessages from '@iso/components/utility/intlMessages';
 import Scrollbar from '@iso/components/utility/customScrollBar';
-import Popover from '@iso/components/template-components/uielements//popover';
+import Popover from '@iso/components/shared/template/uielements//popover';
 import SingleCart from '@iso/components/Cart/SingleCartModal';
 import ecommerceAction from '@iso/redux/ecommerce/actions';
 import TopbarDropdownWrapper from './TopbarDropdown.styles';

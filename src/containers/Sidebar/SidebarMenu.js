@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-import Menu from '@iso/components/template-components/uielements//menu';
+import Menu from '@iso/components/shared/template/uielements//menu';
 import IntlMessages from '@iso/components/utility/intlMessages';
 const SubMenu = Menu.SubMenu;
 
