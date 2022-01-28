@@ -5,10 +5,10 @@ import { store } from "./redux/store";
 import Routes from "./router";
 import AppProvider from "./AppProvider";
 import Amplify from "@aws-amplify/auth";
-import awsConfig from "./config/amplify.config";
+import { amplify } from "./config/aws/";
 import initBootAuthenticated from "./redux/auth/boot";
 
-Amplify.configure(awsConfig);
+Amplify.configure(amplify.config);
 
 initBootAuthenticated();
 

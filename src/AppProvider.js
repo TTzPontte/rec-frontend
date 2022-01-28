@@ -3,8 +3,8 @@ import { ConfigProvider } from 'antd';
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import themes from '@iso/config/theme/theme.config';
-import AppLocale from '@iso/config/translation';
+import themes from '@iso/config/shared/template/theme/theme.config';
+import AppLocale from '@iso/config/shared/template/translation';
 
 export default function AppProvider({ children }) {
   const { locale } = useSelector(state => state.LanguageSwitcher.language);

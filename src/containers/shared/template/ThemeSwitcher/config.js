@@ -1,4 +1,4 @@
-import { themeConfig } from '@iso/config/theme/theme.config';
+import { themeConfig } from '@iso/config/shared/template/theme/theme.config';
 const changeThemes = {
   id: 'changeThemes',
   label: 'themeSwitcher',

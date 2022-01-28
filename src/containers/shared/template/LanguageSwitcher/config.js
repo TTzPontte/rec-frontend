@@ -1,4 +1,4 @@
-import language from '@iso/config/language.config';
+import language from '@iso/config/shared/template/language.config';
 
 import englishLang from '@iso/assets/images/flag/uk.svg';
 import chineseLang from '@iso/assets/images/flag/china.svg';

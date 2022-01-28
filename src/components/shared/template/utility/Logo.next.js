@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import siteConfig from '@iso/config/site.config';
+import siteConfig from '@iso/config/shared/template/site.config';
 
 export default function({ collapsed }) {
   return (

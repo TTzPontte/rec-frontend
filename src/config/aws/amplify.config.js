@@ -6,7 +6,7 @@ const {
   REACT_APP_USER_POOL_REDIRECT_SIGN_OUT,
 } = process.env;
 
-const config = {
+export const config = {
   region: "us-east-1",
   userPoolId: REACT_APP_USER_POOL_ID,
   userPoolWebClientId: REACT_APP_USER_POOL_WEB_CLIENT_ID,
@@ -25,4 +25,6 @@ const config = {
   },
 };
 
-export default config;
+export const amplify = {
+  config,
+};

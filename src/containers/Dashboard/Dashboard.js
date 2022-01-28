@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
 import appActions from "@iso/redux/shared/template/app/actions";
 import ThemeSwitcher from "@iso/containers/shared/template/ThemeSwitcher/ThemeSwitcher";
-import siteConfig from "@iso/config/site.config";
+import siteConfig from "@iso/config/shared/template/site.config";
 import DashboardRoutes from "./dashboard.routes"; 
 import Home from "@iso/containers/Home";
 import SideNavigation from "./components/SideNavigation";
