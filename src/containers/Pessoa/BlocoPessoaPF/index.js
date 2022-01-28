@@ -12,7 +12,7 @@ import {
   FormRenda,
 } from "@iso/components";
 
-import { Content, BtnAddNewDocument } from "./styles";
+import { Content, BtnAddNewDocument } from "./styled-components";
 
 import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
 import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
@@ -254,11 +254,16 @@ export const BlocoPessoaPF = ({
           idCampo={"nacionalidade"}
         />
 
-        <InputPersonalizado
-          texto={"Escolaridade:"}
-          valorCampo={pessoa.escolaridade}
-          onSave={(value) => handleOnSavePessoa("escolaridade", value)}
-          idCampo={"escolaridade"}
+        <DropDownDM
+          title={"Escolaridade:"}
+          initialValue={pessoa.escolaridade}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-escolaridade", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-escolaridade")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("escolaridade", descricao)
+          }
         />
 
         <InputPersonalizado
@@ -273,6 +278,30 @@ export const BlocoPessoaPF = ({
           valorCampo={pessoa.profissao}
           onSave={(value) => handleOnSavePessoa("profissao", value)}
           idCampo={"profissao"}
+        />
+
+        <DropDownDM
+          title={"Estado Civil:"}
+          initialValue={pessoa.estadoCivil}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-estado-civil", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-estado-civil")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("estadoCivil", descricao)
+          }
+        />
+
+        <DropDownDM
+          title={"Regime de União:"}
+          initialValue={pessoa.regimeComunhao}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-regime-uniao", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-regime-uniao")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("regimeComunhao", descricao)
+          }
         />
 
         {pessoa.enderecos.map((endereco) => {
@@ -316,22 +345,19 @@ export const BlocoPessoaPF = ({
               <DropDownDM
                 title={"Estado"}
                 initialValue={endereco.estado}
-                handleSaveItem={(descricao) =>
-                  api.addItemDM("dm-estado", { descricao })
-                }
                 handleGetItem={() => api.buscarTabelaDM("dm-estado")}
                 handleSaveProcessInfo={async ({ descricao }) =>
                   handleOnSaveEndereco(endereco, "estado", descricao)
                 }
               />
 
-              <InputPersonalizado
-                texto={`Cidade${helperText}:`}
-                valorCampo={endereco.estado}
-                onSave={(value) =>
-                  handleOnSaveEndereco(endereco, "cidade", value)
+              <DropDownDM
+                title={"Cidade"}
+                initialValue={endereco.cidade}
+                handleGetItem={() => api.buscarTabelaDM("dm-cidade")}
+                handleSaveProcessInfo={async ({ descricao }) =>
+                  handleOnSaveEndereco(endereco, "cidade", descricao)
                 }
-                idCampo={"enderecoCidade"}
               />
 
               <InputPersonalizado
