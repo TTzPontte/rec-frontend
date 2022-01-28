@@ -9,3 +9,4 @@ export * from "./RadioPersonalizado";
 export * from "./SelectPersonalizado";
 export * from "./TextAreaPersonalizado";
 export * from "./FormDivida";
+export * from "./FormRenda";

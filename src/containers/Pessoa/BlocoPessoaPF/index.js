@@ -1,8 +1,6 @@
-import React from "react";
-
-import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
-import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
-import addAttachmentIcon from "@iso/assets/add-attachment.svg";
+import React, { useState } from "react";
+import Api from "@iso/api";
+import { groupBy } from "@iso/utils/GroupBy";
 
 import {
   DropDownDM,
@@ -10,13 +8,15 @@ import {
   InputMaskPersonalizado,
   Documento,
   AddDocumento,
+  FormDivida,
+  FormRenda,
 } from "@iso/components";
 
-import Api from "@iso/api";
 import { Content, BtnAddNewDocument } from "./styles";
-import { useState } from "react";
-import { groupBy } from "@iso/utils/GroupBy";
-import { FormDivida } from "../../../components/FormDivida";
+
+import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
+import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
+import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 export const BlocoPessoaPF = ({
   processo = {},
@@ -27,6 +27,7 @@ export const BlocoPessoaPF = ({
 }) => {
   const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
   const [dividasPessoa, setDividasPessoa] = useState(envolvido.pessoa.dividas);
+  const [rendasPessoa, setRendasPessoa] = useState(envolvido.pessoa.rendas);
 
   const api = new Api();
 
@@ -111,17 +112,43 @@ export const BlocoPessoaPF = ({
       );
   };
 
+  const handleCriarRenda = () => {
+    api
+      .salvar("/renda", {
+        rendaTipo: "...",
+        rendaInformada: null,
+        rendaAferida: null,
+        pessoa: {
+          id: pessoa.id,
+        },
+      })
+      .then(({ data: novaRenda }) =>
+        setRendasPessoa([...rendasPessoa, novaRenda])
+      );
+  };
+
   const handleDeletarDivida = (id) => {
-    const teste = dividasPessoa.filter((divida) => divida.id !== id);
-    setDividasPessoa(teste);
+    setDividasPessoa(dividasPessoa.filter((divida) => divida.id !== id));
   };
 
   const handleAlterarDivida = (dividaAlterada) => {
-    const teste = dividasPessoa.map((divida) =>
-      divida.id === dividaAlterada.id ? dividaAlterada : divida
+    setDividasPessoa(
+      dividasPessoa.map((divida) =>
+        divida.id === dividaAlterada.id ? dividaAlterada : divida
+      )
     );
-    console.log({ alterado: teste });
-    setDividasPessoa(teste);
+  };
+
+  const handleDeletarRenda = (id) => {
+    setRendasPessoa(rendasPessoa.filter((divida) => divida.id !== id));
+  };
+
+  const handleAlterarRenda = (rendaAlterada) => {
+    setRendasPessoa(
+      rendasPessoa.map((renda) =>
+        renda.id === rendaAlterada.id ? rendaAlterada : renda
+      )
+    );
   };
 
   return (
@@ -353,6 +380,29 @@ export const BlocoPessoaPF = ({
           ) : (
             <div></div>
           )}
+        </div>
+      </Content>
+
+      <Content>
+        <header>RENDAS</header>
+        {rendasPessoa.map((renda) => {
+          return (
+            <FormRenda
+              renda={renda}
+              pessoa={pessoa}
+              handleDeletarRenda={handleDeletarRenda}
+              handleAlterarRenda={handleAlterarRenda}
+            />
+          );
+        })}
+
+        <div className="addFilePessoa">
+          <BtnAddNewDocument onClick={handleCriarRenda}>
+            <div className="buttonAddDocument">
+              <img src={addAttachmentIcon} alt="" />
+              <span>ADICIONAR</span>
+            </div>
+          </BtnAddNewDocument>
         </div>
       </Content>
 
