@@ -254,13 +254,6 @@ export const BlocoPessoaPF = ({
           idCampo={"nacionalidade"}
         />
 
-        <InputPersonalizado
-          texto={"Escolaridade:"}
-          valorCampo={pessoa.escolaridade}
-          onSave={(value) => handleOnSavePessoa("escolaridade", value)}
-          idCampo={"escolaridade"}
-        />
-
         <DropDownDM
           title={"Escolaridade:"}
           initialValue={pessoa.escolaridade}
