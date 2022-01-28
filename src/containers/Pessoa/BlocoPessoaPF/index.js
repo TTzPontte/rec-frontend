@@ -280,6 +280,18 @@ export const BlocoPessoaPF = ({
           idCampo={"profissao"}
         />
 
+        <DropDownDM
+          title={"Estado Civil:"}
+          initialValue={pessoa.estadoCivil}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-estado-civil", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-estado-civil")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("estadoCivil", descricao)
+          }
+        />
+
         {pessoa.enderecos.map((endereco) => {
           const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
           return (
