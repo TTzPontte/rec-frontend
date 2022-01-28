@@ -22,7 +22,7 @@ export default function AppRouter({operacao}) {
 	useEffect(() => {
 		console.log('operacao');
 		console.log(operacao);
-    }, []);
+    }, [operacao]);
 
 
 	return (

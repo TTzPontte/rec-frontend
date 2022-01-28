@@ -14,7 +14,7 @@ export const SelectPersonalizado = ({
   handleChange,
   idCampo,
 }) => {
-  const [estiloInput, setEstiloInput] = useState("selectdDesabilitado");
+  const [estiloInput] = useState("selectdDesabilitado");
   const [desabilitarCampo, setDesabilitarCampo] = useState(true);
   const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
   const [estiloIconeNOk, setEstiloIconeNOk] = useState("hidden");
@@ -43,7 +43,7 @@ export const SelectPersonalizado = ({
   };
 
   const handleMouseOver = () => {
-    if (estiloIconeEditar == "hidden") {
+    if (estiloIconeEditar === "hidden") {
       setEstiloIconeEditar("iconeEditar");
     } else {
       setEstiloIconeEditar("hidden");

@@ -15,7 +15,7 @@ const { Header } = Layout;
 export default function Topbar({ uiid }) {
   const customizedTheme = useSelector(state => state.ThemeSwitcher.topbarTheme);
   const { collapsed, openDrawer } = useSelector(state => state.App);
-  const { onSearchChange, onPrev, onNext } = useContext(SearchEventContext);
+  const { onSearchChange } = useContext(SearchEventContext);
   
   const isCollapsed = collapsed && !openDrawer;
   const styling = {

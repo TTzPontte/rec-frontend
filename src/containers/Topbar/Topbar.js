@@ -27,7 +27,7 @@ const styleLogoPontte = {
 export default function Topbar() {
 
   const Auth = useSelector((state) => state.Auth)
-  const [user, setUser] = useState(Auth.profile);
+  const [user] = useState(Auth.profile);
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
 

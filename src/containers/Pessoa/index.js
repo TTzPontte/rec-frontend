@@ -81,7 +81,7 @@ export default function Pessoa({ uuid }) {
   useEffect(() => {
     getEnvolvidosCallback();
     getProcessoEnvolvidosTipoCallback();    
-  }, [getEnvolvidosCallback]);
+  }, [getEnvolvidosCallback, getProcessoEnvolvidosTipoCallback]);
 
   const handleChangePessoa = (pessoa) => {
     setEnvolvidos(
@@ -95,8 +95,7 @@ export default function Pessoa({ uuid }) {
     );
   };
 
-  const handleAddEnvolvidos = (envolvido) =>
-    setEnvolvidos([...envolvidos, envolvido]);
+  // const handleAddEnvolvidos = (envolvido) => setEnvolvidos([...envolvidos, envolvido]);
 
   const handleAddListDocument = (item) => {
     setDocumentosProcesso([...documentosProcesso, item]);
@@ -288,7 +287,6 @@ export default function Pessoa({ uuid }) {
           width={260}
           height={222}
           visible={isModalNovaPessoaVisible}
-          closable
           onOk={handleOk}
           onCancel={handleCancel}
           footer={null}
@@ -342,7 +340,6 @@ export default function Pessoa({ uuid }) {
         width={648}
         height={480}
         visible={isModalNovaPessoaPFVisible}
-        closable
         onOk={handlePFOk}
         onCancel={handlePFCancel}
         footer={null}
@@ -422,7 +419,6 @@ export default function Pessoa({ uuid }) {
         width={648}
         height={480}
         visible={isModalNovaPessoaPJVisible}
-        closable
         onOk={handlePJOk}
         onCancel={handlePJCancel}
         footer={null}

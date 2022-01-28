@@ -24,7 +24,7 @@ export const TextAreaPersonalizado = ({
   const habilitarDesabilitar = () => {
     setDesabilitarCampo(!desabilitarCampo);
 
-    if (estiloInput == "desabilitado semRelize textarea") {
+    if (estiloInput === "desabilitado semRelize textarea") {
       setEstiloInput("semRelize");
     } else {
       setEstiloInput("desabilitado semRelize textarea");
@@ -44,7 +44,7 @@ export const TextAreaPersonalizado = ({
   };
 
   const handleMouseOver = () => {
-    if (estiloIconeEditar == "hidden") {
+    if (estiloIconeEditar === "hidden") {
       setEstiloIconeEditar("iconeEditar");
     } else {
       setEstiloIconeEditar("hidden");

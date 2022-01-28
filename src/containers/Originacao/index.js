@@ -19,8 +19,8 @@ import { Container } from "../style";
 import "./style.css";
 
 export default function Originacao({ uuid }) {
-  const [tiposOperacao, setTiposOperacao] = useState([1, 2]);
-  const [formulaAmortizacao, setFormulaAmortizacao] = useState([
+  const [tiposOperacao] = useState([1, 2]);
+  const [formulaAmortizacao] = useState([
     "SAC",
     "PRICE",
   ]);
@@ -67,7 +67,7 @@ export default function Originacao({ uuid }) {
       setValuesConsultor(response.consultor);
     }
     findByUuid();
-  }, []);
+  }, [api, uuid]);
 
   const { Panel } = Collapse;
   const rowStyle = {
@@ -202,7 +202,7 @@ export default function Originacao({ uuid }) {
     console.log(valor);
   };
 
-  var onlyMonetario = (str) => str.replace(/[\R$.]/g, "");
+  var onlyMonetario = (str) => str.replace(/[$.]/g, "");
 
   // const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 

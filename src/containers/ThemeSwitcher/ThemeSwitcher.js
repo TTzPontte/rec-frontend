@@ -4,11 +4,10 @@ import Actions from '@iso/redux/themeSwitcher/actions';
 import Switcher from '@iso/components/ThemeSwitcher/ThemeSwitcher';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import Themes from './config';
-import bucketSVG from '@iso/assets/images/bucket.svg';
 import IntlMessages from '@iso/components/utility/intlMessages';
 import ThemeSwitcherStyle from './ThemeSwitcher.styles';
 
-const { switchActivation, changeTheme } = Actions;
+const { changeTheme } = Actions;
 
 export default function ThemeSwitcher() {
   const { isActivated, topbarTheme, sidebarTheme, layoutTheme } = useSelector(

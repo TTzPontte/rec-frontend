@@ -45,7 +45,7 @@ export const RadioPersonalizado = ({
   };
 
   const handleMouseOver = () => {
-    if (estiloIconeEditar == "hidden") {
+    if (estiloIconeEditar === "hidden") {
       setEstiloIconeEditar("iconeEditar");
     } else {
       setEstiloIconeEditar("hidden");
@@ -61,12 +61,6 @@ export const RadioPersonalizado = ({
 
   const handleCancel = () => {
     habilitarDesabilitar();
-  };
-
-  const radioStyle = {
-    display: "block",
-    height: "30px",
-    lineHeight: "30px",
   };
 
   return (
