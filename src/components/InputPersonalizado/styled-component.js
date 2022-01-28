@@ -62,6 +62,7 @@ export const AreaInput = styled.div`
     font: normal normal normal 14px "Lato", sans-serif !important;
     border: 0 !important;
     color: rgb(151, 151, 151) !important;
+    background-color: white !important;
   }
 
   .jpdTQc.ant-input {

@@ -4,18 +4,17 @@ import { Layout } from "antd";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
 import appActions from "@iso/redux/shared/template/app/actions";
 import ThemeSwitcher from "@iso/containers/shared/template/ThemeSwitcher/ThemeSwitcher";
-import siteConfig from "@iso/config/shared/template/site.config";
-import DashboardRoutes from "./dashboard.routes"; 
+import { DashboardRoutes } from "./dashboard.routes";
 import Home from "@iso/containers/Home";
 import { SideNavigation, Topbar } from "./components";
 import { DashboardContainer, DashboardGlobalStyles } from "./styled-component";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 const { toggleAll } = appActions;
+
 const styles = {
   layout: { flexDirection: "row", overflowX: "hidden" },
   content: {
-    //padding: '70px 0 0',
     flexShrink: "0",
     background: "#f1f3f6",
     position: "relative",
@@ -39,19 +38,11 @@ export default function Dashboard() {
     dispatch(toggleAll(width, height));
   }, [width, height, dispatch]);
 
-  const handleOperacao = (e) => {
-    console.log("---------------------------------------------------------");
-    console.log(e);
-    console.log("---------------------------------------------------------");
-    setOperacao(e);
-  };
+  const handleOperacao = (e) => setOperacao(e);
 
   return (
     <DashboardContainer>
       <DashboardGlobalStyles />
-      {/* <Layout style={{ height: height }}>
-        <Topbar operacao={operacao}/> */}
-
       {!operacao && (
         <Layout
           className="isoContentMainLayout"
@@ -61,14 +52,12 @@ export default function Dashboard() {
         >
           <Content className="isomorphicContent" style={styles.content}>
             <Home handleOperacao={handleOperacao} />
-            {/* <Button onClick={handleOperacao} >teste</Button> */}
           </Content>
         </Layout>
       )}
 
       {operacao && (
         <Layout style={{ height: height }}>
-          {/* <Topbar operacao={operacao} /> */}
           <Layout style={styles.layout}>
             <SideNavigation handleOperacao={handleOperacao} />
             <Layout
@@ -78,13 +67,13 @@ export default function Dashboard() {
               }}
             >
               <Topbar uuid={operacao.uuid} />
+
               <Content className="isomorphicContent" style={styles.content}>
                 <DashboardRoutes operacao={operacao} />
               </Content>
-              <Footer style={styles.footer}>{siteConfig.footerText}</Footer>
+              
             </Layout>
           </Layout>
-
           <ThemeSwitcher />
         </Layout>
       )}

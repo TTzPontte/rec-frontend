@@ -1,11 +1,10 @@
 import { Layout } from "antd";
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
-import TopbarWrapper from "./Topbar.styles";
+import TopbarWrapper from "./styled-component";
 import { ReactComponent as IconCheck32x32 } from "@iso/assets/Icon-check-32x32.svg";
-import Input from "@iso/components/shared/template/uielements//input";
+import Input from "@iso/components/shared/template/uielements/input";
 import { Col, Row } from "antd";
-import "./style.css";
 import { SearchEventContext } from "react-ctrl-f";
 
 const { Header } = Layout;
@@ -70,7 +69,7 @@ export const Topbar = ({ uuid }) => {
       >
         <Row style={rowStyle} gutter={gutter} justify="start">
           <Col sm={15} md={15} xs={15} style={colStyle}>
-            <h1>ID #{uuid}</h1>
+            <span className="headerID">ID {uuid}</span>
           </Col>
 
           <Col sm={5} md={5} xs={5} style={colStyle2}>

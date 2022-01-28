@@ -1,30 +1,31 @@
-import { ReactComponent as IconDropdown } from "@iso/assets/icon-dropdown.svg";
-import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
-import { ReactComponent as IconTextNumber } from "@iso/assets/icon-text_number.svg";
-import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
-
-import Collapse from "@iso/components/shared/template/uielements//collapse";
-import { Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import Api from "@iso/api";
+
 import {
   InputPersonalizado,
   InputMaskPersonalizado,
   InputMonetarioPersonalizado,
   RadioPersonalizado,
   SelectPersonalizado,
-  TextAreaPersonalizado
+  TextAreaPersonalizado,
+  CollapsePersonalizado,
 } from "@iso/components";
-import { Container } from "./styled-components";
+
+import { Col, Row } from "antd";
+import { Container, Header } from "./styled-components";
 import "./style.css";
+
+import { ReactComponent as IconDropdown } from "@iso/assets/icon-dropdown.svg";
+import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
+import { ReactComponent as IconTextNumber } from "@iso/assets/icon-text_number.svg";
+import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
 
 export default function Originacao({ uuid }) {
   const [tiposOperacao] = useState([1, 2]);
-  const [mesAnoSemPagarLista] = useState([1,2,3,4,5,6,7,8,9,10,11,12]);
-  const [formulaAmortizacao] = useState([
-    "SAC",
-    "PRICE",
+  const [mesAnoSemPagarLista] = useState([
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
   ]);
+  const [formulaAmortizacao] = useState(["SAC", "PRICE"]);
   const [values, setValues] = React.useState(null);
   const [valuesSimulacao, setValuesSimulacao] = React.useState(null);
   const [valuesConsultorParceiro, setValuesConsultorParceiro] =
@@ -41,7 +42,11 @@ export default function Originacao({ uuid }) {
 
       let valorInformadoImovel = 0;
       if (response.patrimonios) {
-        response.patrimonios.map( (arg) => (valorInformadoImovel = arg.patrimonio.valorInformado + valorInformadoImovel) );
+        response.patrimonios.map(
+          (arg) =>
+            (valorInformadoImovel =
+              arg.patrimonio.valorInformado + valorInformadoImovel)
+        );
       } else {
         response.patrimonios = {};
       }
@@ -68,10 +73,9 @@ export default function Originacao({ uuid }) {
       setValuesConsultor(response.consultor);
     }
     findByUuid();
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
-  const { Panel } = Collapse;
   const rowStyle = {
     width: "100%",
   };
@@ -213,82 +217,77 @@ export default function Originacao({ uuid }) {
     values && (
       <Container>
         {values && valuesConsultor && valuesConsultorParceiro && (
-          <Collapse
-            expandIconPosition="right"
-            defaultActiveKey={["1"]}
-            className="fundoRoxo"
+          <CollapsePersonalizado
+            title={`PARCEIRO | CRÉDITO BOM DEMAIS`}
+            startOpen={true}
           >
-            <Panel header="PARCEIRO | CRÉDITO BOM DEMAIS" key="1">
-              <div className="pontilhado">
-                <div className="conteudo">
-                  <h2>INFORMAÇÕES PESSOAIS</h2>
-                  <Row style={rowStyle} gutter={gutter} justify="start">
-                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                      <InputPersonalizado
-                        texto="Nome da empresa parceira"
-                        valorCampo={valuesConsultorParceiro.nome}
-                        iconeLabel={<IconTextNumber />}
-                        onSave={onSave}
-                        handleChange={handleInputChangeConsultorParceiro}
-                        idCampo="nome"
-                        editavel={false}
-                      />
-                    </Col>
-                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                      <InputPersonalizado
-                        texto="Email do parceiro"
-                        valorCampo={valuesConsultorParceiro.contato}
-                        iconeLabel={<IconEmail />}
-                        onSave={onSave}
-                        handleChange={handleInputChangeConsultorParceiro}
-                        idCampo="contato"
-                        editavel={false}
-                      />
-                    </Col>
-                  </Row>
-                  <Row style={rowStyle} gutter={gutter} justify="start">
-                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                      <InputPersonalizado
-                        texto="Nome do parceiro"
-                        valorCampo={valuesConsultor.nome}
-                        iconeLabel={<IconTextNumber />}
-                        onSave={onSave}
-                        handleChange={handleInputChangeConsultor}
-                        idCampo="nome"
-                        editavel={false}
-                      />
-                    </Col>
-                    <Col sm={18} md={12} xs={12} style={colStyle}>
-                      <InputMaskPersonalizado
-                        texto="Telefone"
-                        valorCampo={
-                          valuesConsultorParceiro.telefoneRepresentanteLegal
-                        }
-                        iconeLabel={<IconPhone />}
-                        onSave={onSave}
-                        handleChange={handleInputChangeConsultorParceiro}
-                        idCampo="telefone"
-                        mask="+ 99 (99) 99999-9999"
-                        editavel={false}
-                      />
-                    </Col>
-                  </Row>
-                </div>
+            <div className="pontilhado">
+              <div className="conteudo">
+                <Header>INFORMAÇÕES PESSOAIS</Header>
+                <Row style={rowStyle} gutter={gutter} justify="start">
+                  <Col sm={18} md={12} xs={12} style={colStyle}>
+                    <InputPersonalizado
+                      texto="Nome da empresa parceira"
+                      valorCampo={valuesConsultorParceiro.nome}
+                      iconeLabel={<IconTextNumber />}
+                      onSave={onSave}
+                      handleChange={handleInputChangeConsultorParceiro}
+                      idCampo="nome"
+                      editavel={false}
+                    />
+                  </Col>
+                  <Col sm={18} md={12} xs={12} style={colStyle}>
+                    <InputPersonalizado
+                      texto="Email do parceiro"
+                      valorCampo={valuesConsultorParceiro.contato}
+                      iconeLabel={<IconEmail />}
+                      onSave={onSave}
+                      handleChange={handleInputChangeConsultorParceiro}
+                      idCampo="contato"
+                      editavel={false}
+                    />
+                  </Col>
+                </Row>
+                <Row style={rowStyle} gutter={gutter} justify="start">
+                  <Col sm={18} md={12} xs={12} style={colStyle}>
+                    <InputPersonalizado
+                      texto="Nome do parceiro"
+                      valorCampo={valuesConsultor.nome}
+                      iconeLabel={<IconTextNumber />}
+                      onSave={onSave}
+                      handleChange={handleInputChangeConsultor}
+                      idCampo="nome"
+                      editavel={false}
+                    />
+                  </Col>
+                  <Col sm={18} md={12} xs={12} style={colStyle}>
+                    <InputMaskPersonalizado
+                      texto="Telefone"
+                      valorCampo={
+                        valuesConsultorParceiro.telefoneRepresentanteLegal
+                      }
+                      iconeLabel={<IconPhone />}
+                      onSave={onSave}
+                      handleChange={handleInputChangeConsultorParceiro}
+                      idCampo="telefone"
+                      mask="+ 99 (99) 99999-9999"
+                      editavel={false}
+                    />
+                  </Col>
+                </Row>
               </div>
-            </Panel>
-          </Collapse>
+            </div>
+          </CollapsePersonalizado>
         )}
         <br />
         {valuesSimulacao && (
-          <Collapse
-            expandIconPosition="right"
-            defaultActiveKey={["1"]}
-            className="fundoRoxo"
-          >
-            <Panel background="purple" header="OPERAÇÃO | HOME EQUITY" key="1">
+         <CollapsePersonalizado
+         title={`OPERAÇÃO | HOME EQUITY`}
+         startOpen={true}
+       >
               <div className="pontilhado">
                 <div className="conteudo">
-                  <h2>INFORMAÇÕES DA OPERAÇÃO</h2>
+                  <Header>INFORMAÇÕES DA OPERAÇÃO</Header>
                   <Row style={rowStyle} gutter={gutter} justify="start">
                     <Col sm={18} md={12} xs={12} style={colStyle}>
                       <SelectPersonalizado
@@ -422,8 +421,7 @@ export default function Originacao({ uuid }) {
                   <Col sm={18} md={12} xs={12} style={colStyle}></Col>
                 </div>
               </div>
-            </Panel>
-          </Collapse>
+          </CollapsePersonalizado>
         )}
       </Container>
     )
