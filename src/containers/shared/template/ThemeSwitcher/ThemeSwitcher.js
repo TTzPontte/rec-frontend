@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Actions from '@iso/redux/themeSwitcher/actions';
+import Actions from '@iso/redux/shared/template/themeSwitcher/actions';
 import Switcher from '@iso/components/shared/template/ThemeSwitcher/ThemeSwitcher';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import Themes from './config';

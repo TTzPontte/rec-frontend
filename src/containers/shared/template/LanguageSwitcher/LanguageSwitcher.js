@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IntlMessages from '@iso/components/shared/template/utility/intlMessages';
-import actions from '@iso/redux/languageSwitcher/actions';
+import actions from '@iso/redux/shared/template/languageSwitcher/actions';
 import config from './config';
 
 const { changeLanguage } = actions;
