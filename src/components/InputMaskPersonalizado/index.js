@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
+
+import {
+  Container,
+  Header,
+  Content,
+  AreaInput,
+  AreaSaveChanged,
+} from "./styled-component";
+
 import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
@@ -16,80 +25,47 @@ export const InputMaskPersonalizado = ({
   mask,
   editavel = true,
 }) => {
-  const [estiloInput, setEstiloInput] = useState("desabilitado inputMaskClass");
-  const [desabilitarCampo, setDesabilitarCampo] = useState(true);
-  const [estiloIconeOk, setEstiloIconeOk] = useState("hidden");
-  const [estiloIconeNOk, setEstiloIconeNOk] = useState("hidden");
-  const [estiloIconeEditar, setEstiloIconeEditar] = useState("hidden");
-  const [valor, setValor] = useState(valorCampo);
+  const [isEditable, setIsEditable] = useState(false);
+  const [textAlterado, setTextAlterado] = useState("");
 
-  const habilitarDesabilitar = () => {
-    if (editavel) {
-      setDesabilitarCampo(!desabilitarCampo);
-
-      if (estiloInput === "desabilitado inputMaskClass") {
-        setEstiloInput("inputMaskClass");
-      } else {
-        setEstiloInput("desabilitado inputMaskClass");
-      }
-
-      if (estiloIconeNOk === "hidden") {
-        setEstiloIconeNOk("iconeCinza");
-      } else {
-        setEstiloIconeNOk("hidden");
-      }
-
-      if (estiloIconeOk === "hidden") {
-        setEstiloIconeOk("iconeVerde");
-      } else {
-        setEstiloIconeOk("hidden");
-      }
-    }
-  };
-
-  const handleMouseOver = () => {
-    if (estiloIconeEditar === "hidden") {
-      setEstiloIconeEditar("iconeEditar");
-    } else {
-      setEstiloIconeEditar("hidden");
-    }
-  };
+  const habilitarDesabilitar = () => editavel && setIsEditable(!isEditable);
 
   const handleOk = () => {
-    onSave(valor);
+    onSave(textAlterado);
     habilitarDesabilitar();
   };
 
-  const handleCancel = () => {
-    habilitarDesabilitar();
-  };
+  const handleCancel = () => habilitarDesabilitar();
 
   return (
-    <div>
-      <div
-        className="hoverAzul labelInput"
-        onClick={habilitarDesabilitar}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOver}
-      >
-        {iconeLabel} {texto} <IconPencilEdit className={estiloIconeEditar} />
-      </div>
-      <div className="divInput">
-        <InputMask
-          onChange={({ target: { value } }) => {
-            handleChange({ target: { id: idCampo, value } });
-            setValor(value);
-          }}
-          bordered={desabilitarCampo}
-          className={estiloInput}
-          disabled={desabilitarCampo}
-          id={idCampo}
-          value={valor}
-          mask={mask}
-        />
-      </div>
-      <CheckConfirmSecondary className={estiloIconeOk} onClick={handleOk} />{" "}
-      <CloseSecondary className={estiloIconeNOk} onClick={handleCancel} />
-    </div>
+    <Container>
+      <Header onClick={habilitarDesabilitar}>
+        {iconeLabel}
+        <span>{texto}</span>
+        <IconPencilEdit className="iconPencilEdit" />
+      </Header>
+      <Content>
+        <AreaInput isEditable={isEditable}>
+          <InputMask
+            onChange={({ target: { value } }) => {
+              handleChange({ target: { id: idCampo, value } });
+              setTextAlterado(value);
+            }}
+            className="inputMask"
+            bordered={!isEditable}
+            disabled={!isEditable}
+            id={idCampo}
+            value={textAlterado}
+            mask={mask}
+          />
+        </AreaInput>
+        {isEditable && (
+          <AreaSaveChanged>
+            <CheckConfirmSecondary onClick={handleOk} />
+            <CloseSecondary onClick={handleCancel} />
+          </AreaSaveChanged>
+        )}
+      </Content>
+    </Container>
   );
 };
