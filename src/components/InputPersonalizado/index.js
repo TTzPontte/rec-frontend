@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Container,
@@ -27,6 +27,15 @@ export const InputPersonalizado = ({
 }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [textAlterado, setTextAlterado] = useState("");
+
+  const setLastSaveCallback = useCallback(
+    () => setTextAlterado(valorCampo),
+    [valorCampo]
+  );
+
+  useEffect(() => {
+    setLastSaveCallback();
+  }, [setLastSaveCallback]);
 
   const habilitarDesabilitar = () => editavel && setIsEditable(!isEditable);
 

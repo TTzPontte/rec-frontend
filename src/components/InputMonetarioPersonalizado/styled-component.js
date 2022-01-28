@@ -58,17 +58,17 @@ export const AreaInput = styled.div`
     color: #3b3349;
   }
 
-  .inputMask:disabled {
+  .inputMonetario:disabled {
     font: normal normal normal 14px "Lato", sans-serif !important;
     border: 0 !important;
     color: rgb(151, 151, 151) !important;
     background-color: white !important;
   }
 
-  .inputMask {
+  .inputMonetario{
     font: normal normal normal 14px "Lato", sans-serif !important;
     border: 0 !important;
-    width: 368px !important;
+    width: 340px !important;
     margin-left: 10px;
   }
 `;

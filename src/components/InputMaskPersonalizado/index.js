@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 
 import {
@@ -13,7 +13,6 @@ import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-conf
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.svg";
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
-import "./style.css";
 
 export const InputMaskPersonalizado = ({
   texto,
@@ -27,6 +26,15 @@ export const InputMaskPersonalizado = ({
 }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [textAlterado, setTextAlterado] = useState("");
+
+  const setLastSaveCallback = useCallback(
+    () => setTextAlterado(valorCampo),
+    [valorCampo]
+  );
+
+  useEffect(() => {
+    setLastSaveCallback();
+  }, [setLastSaveCallback]);
 
   const habilitarDesabilitar = () => editavel && setIsEditable(!isEditable);
 

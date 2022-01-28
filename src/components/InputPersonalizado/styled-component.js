@@ -34,7 +34,7 @@ export const Content = styled.div`
 `;
 
 export const AreaInput = styled.div`
-  width: 368px;
+  width: 340px;
   height: 40px;
 
   display: flex;
