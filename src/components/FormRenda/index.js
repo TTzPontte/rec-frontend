@@ -73,6 +73,14 @@ export const FormRenda = ({
     api.deletar(`/renda/${renda.id}`).then(() => handleDeletarRenda(renda.id));
   };
 
+  const handleDownloadDocument = () => {
+    const url = arquivo.url;
+    const lastElement = (arr) => arr[arr.length - 1];
+    const filename = lastElement(url.split("/"));
+
+    api.downloadFile(url, filename);
+  };
+
   return (
     <Container>
       <Header>
@@ -131,7 +139,7 @@ export const FormRenda = ({
               <span>Adicionar arquivo</span>
             </BtnAddFile>
           ) : (
-            <span className="textFileSelected" onClick={handleFileSelect}>
+            <span className="textFileSelected" onClick={handleDownloadDocument}>
               {arquivo?.fileName ?? arquivo?.nome}
             </span>
           )}

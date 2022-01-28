@@ -25,10 +25,10 @@ export const FormDivida = ({
 
   const [arquivo, setArquivo] = useState(null);
 
-  const handleGetAnexo = () => api.busca(
-    `/pessoa-divida-anexo?pessoaDivida=${divida.id}`,
-    (data) => setArquivo(data[0])
-  );
+  const handleGetAnexo = () =>
+    api.busca(`/pessoa-divida-anexo?pessoaDivida=${divida.id}`, (data) =>
+      setArquivo(data[0])
+    );
 
   const handleGetAnexoCallback = useCallback(handleGetAnexo, [divida.id]);
 
@@ -75,6 +75,15 @@ export const FormDivida = ({
     api
       .deletar(`/pessoa-divida/${divida.id}`)
       .then(() => handleDeletarDivida(divida.id));
+  };
+
+  const handleDownloadDocument = () => {
+    console.log(arquivo);
+    const url = arquivo.url;
+    const lastElement = (arr) => arr[arr.length - 1];
+    const filename = lastElement(url.split("/"));
+
+    api.downloadFile(url, filename);
   };
 
   return (
@@ -139,7 +148,7 @@ export const FormDivida = ({
               <span>Adicionar arquivo</span>
             </BtnAddFile>
           ) : (
-            <span className="textFileSelected" onClick={handleFileSelect}>
+            <span className="textFileSelected" onClick={handleDownloadDocument}>
               {arquivo?.fileName ?? arquivo?.nome}
             </span>
           )}
