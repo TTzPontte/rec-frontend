@@ -345,22 +345,19 @@ export const BlocoPessoaPF = ({
               <DropDownDM
                 title={"Estado"}
                 initialValue={endereco.estado}
-                handleSaveItem={(descricao) =>
-                  api.addItemDM("dm-estado", { descricao })
-                }
                 handleGetItem={() => api.buscarTabelaDM("dm-estado")}
                 handleSaveProcessInfo={async ({ descricao }) =>
                   handleOnSaveEndereco(endereco, "estado", descricao)
                 }
               />
 
-              <InputPersonalizado
-                texto={`Cidade${helperText}:`}
-                valorCampo={endereco.estado}
-                onSave={(value) =>
-                  handleOnSaveEndereco(endereco, "cidade", value)
+              <DropDownDM
+                title={"Cidade"}
+                initialValue={endereco.cidade}
+                handleGetItem={() => api.buscarTabelaDM("dm-cidade")}
+                handleSaveProcessInfo={async ({ descricao }) =>
+                  handleOnSaveEndereco(endereco, "cidade", descricao)
                 }
-                idCampo={"enderecoCidade"}
               />
 
               <InputPersonalizado
