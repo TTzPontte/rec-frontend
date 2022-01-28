@@ -1,7 +1,7 @@
 import Modal from '@iso/components/shared/template/Feedback/Modal';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 
 const TopbarSearchModal = styled(Modal)`
   &.ant-modal {

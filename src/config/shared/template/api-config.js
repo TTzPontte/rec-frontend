@@ -1,5 +1,5 @@
 import axios from 'axios';
-import history from '@iso/lib/helpers/history';
+import history from '@iso/lib/shared/template/helpers/history';
 const api = axios.create({
   //LOCAL
   baseURL: 'http://localhost:8081',

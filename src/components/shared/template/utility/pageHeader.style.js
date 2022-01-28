@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const WDComponentTitleWrapper = styled.h1`
   font-size: 19px;
   font-weight: 500;

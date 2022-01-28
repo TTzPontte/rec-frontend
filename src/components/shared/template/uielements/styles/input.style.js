@@ -4,7 +4,7 @@ import {
   transition,
   borderRadius,
   boxShadow,
-} from '@iso/lib/helpers/style_utils';
+} from '@iso/lib/shared/template/helpers/style_utils';
 
 const InputWrapper = (ComponentName) => styled(ComponentName)`
   &.ant-input {

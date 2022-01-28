@@ -1,4 +1,4 @@
-import { isServer } from '@iso/lib/helpers/isServer';
+import { isServer } from '@iso/lib/shared/template/helpers/isServer';
 
 const productDatas = [];
 function getInitData() {

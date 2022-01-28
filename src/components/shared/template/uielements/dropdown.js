@@ -1,6 +1,6 @@
 import { Dropdown, Menu } from 'antd';
 import DropdownWrapper, { DropdownMenus } from './styles/dropdown.style';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const WDDropdowns = DropdownWrapper(Dropdown);
 const Dropdowns = WithDirection(WDDropdowns);
 

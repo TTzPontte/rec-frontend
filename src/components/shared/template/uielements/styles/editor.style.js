@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { palette, font } from 'styled-theme';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const QuillEditor = styled.div`
   .ql-editor {
     min-height: 215px;

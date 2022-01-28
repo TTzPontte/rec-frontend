@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import { transition, borderRadius } from '@iso/lib/helpers/style_utils';
-import WithDirection from '@iso/lib/helpers/rtl';
+import { transition, borderRadius } from '@iso/lib/shared/template/helpers/style_utils';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 
 const FiveZeroZeroStyleWrapper = styled.div`
   width: 100%;

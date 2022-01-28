@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const WDContentHolderWrapper = styled.div`
   margin-top: 10px;
   -webkit-overflow-scrolling: touch;

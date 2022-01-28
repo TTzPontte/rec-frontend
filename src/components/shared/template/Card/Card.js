@@ -7,7 +7,7 @@ import isoModal from '../Feedback/Modal';
 import { CardInfoWrapper, InfoFormWrapper } from './CardModal.style';
 import { InputWrapper } from '../uielements/styles/input.style';
 import Modals from './Modal.style';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const WDModal = Modals(isoModal);
 const Modal = WithDirection(WDModal);
 

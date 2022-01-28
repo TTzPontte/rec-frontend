@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Layout } from "antd";
-import useWindowSize from "@iso/lib/hooks/useWindowSize";
+import useWindowSize from "@iso/lib/shared/template/hooks/useWindowSize";
 import appActions from "@iso/redux/shared/template/app/actions";
 import ThemeSwitcher from "@iso/containers/shared/template/ThemeSwitcher/ThemeSwitcher";
 import { DashboardRoutes } from "./dashboard.routes";

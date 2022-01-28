@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from 'antd';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const AntAlert = props => <Alert {...props} />;
 
 const Alerts = styled(AntAlert)`

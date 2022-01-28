@@ -5,8 +5,8 @@ import {
   transition,
   boxShadow,
   borderRadius,
-} from '@iso/lib/helpers/style_utils';
-import WithDirection from '@iso/lib/helpers/rtl';
+} from '@iso/lib/shared/template/helpers/style_utils';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 
 const TableWrapper = styled(Table)`
   overflow: hidden;

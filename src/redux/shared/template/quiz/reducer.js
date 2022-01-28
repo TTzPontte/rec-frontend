@@ -1,5 +1,5 @@
 import quizActions from './actions';
-import { arrayEqual } from '@iso/lib/helpers/utility';
+import { arrayEqual } from '@iso/lib/shared/template/helpers/utility';
 const initialState = {
   quizes: {},
   questions: {},

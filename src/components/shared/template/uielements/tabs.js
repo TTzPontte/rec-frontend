@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
 import AntTab from './styles/tab.style';
-import WithDirection from '@iso/lib/helpers/rtl';
+import WithDirection from '@iso/lib/shared/template/helpers/rtl';
 const WDTabs = AntTab(Tabs);
 const TabPane = Tabs.TabPane;
 const isoTabs = WithDirection(WDTabs);

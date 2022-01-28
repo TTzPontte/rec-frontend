@@ -4,8 +4,8 @@ import {
   transition,
   borderRadius,
   boxShadow,
-} from "@iso/lib/helpers/style_utils";
-import WithDirection from "@iso/lib/helpers/rtl";
+} from "@iso/lib/shared/template/helpers/style_utils";
+import WithDirection from "@iso/lib/shared/template/helpers/rtl";
 
 const TopbarWrapper = styled.div`
 

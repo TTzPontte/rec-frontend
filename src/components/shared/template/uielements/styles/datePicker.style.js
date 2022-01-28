@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import { transition, borderRadius } from '@iso/lib/helpers/style_utils';
+import { transition, borderRadius } from '@iso/lib/shared/template/helpers/style_utils';
 
 const AntDatePicker = (ComponentName) => styled(ComponentName)`
   &.ant-picker {

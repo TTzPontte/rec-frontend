@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from '../uielements/input';
 import Button from '../uielements/button';
-import { stringToPosetiveInt } from '@iso/lib/helpers/utility';
+import { stringToPosetiveInt } from '@iso/lib/shared/template/helpers/utility';
 import Table from './TableStyle';
 
 const viewColumns = [

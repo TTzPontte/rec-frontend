@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import { borderRadius } from '@iso/lib/helpers/style_utils';
+import { borderRadius } from '@iso/lib/shared/template/helpers/style_utils';
 
 const PopoverWrapper = ComponentName => styled(ComponentName)`
   display: inline-block;
