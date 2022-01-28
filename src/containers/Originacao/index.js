@@ -20,6 +20,7 @@ import "./style.css";
 
 export default function Originacao({ uuid }) {
   const [tiposOperacao] = useState([1, 2]);
+  const [mesAnoSemPagarLista] = useState([1,2,3,4,5,6,7,8,9,10,11,12]);
   const [formulaAmortizacao] = useState([
     "SAC",
     "PRICE",
@@ -67,7 +68,7 @@ export default function Originacao({ uuid }) {
       setValuesConsultor(response.consultor);
     }
     findByUuid();
-  }, [api, uuid]);
+  }, []);
 
   const { Panel } = Collapse;
   const rowStyle = {
@@ -202,7 +203,7 @@ export default function Originacao({ uuid }) {
     console.log(valor);
   };
 
-  var onlyMonetario = (str) => str.replace(/[$.]/g, "");
+  var onlyMonetario = (str) => str.replace(/[\R$.]/g, "");
 
   // const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
@@ -326,7 +327,7 @@ export default function Originacao({ uuid }) {
                         texto="Mês do ano sem pagar"
                         valorCampo={valuesSimulacao.mesAnoSemPagar}
                         iconeLabel={<IconDropdown />}
-                        lista={tiposOperacao}
+                        lista={mesAnoSemPagarLista}
                         onSave={onSave}
                         handleChange={handleInputChangeSimulacao}
                         idCampo="mesAnoSemPagar"
