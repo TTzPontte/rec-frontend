@@ -12,7 +12,7 @@ import {
   FormRenda,
 } from "@iso/components";
 
-import { Content, BtnAddNewDocument } from "./styles";
+import { Container, Content, BtnAddNewDocument } from "./styles";
 
 import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
 import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
@@ -373,7 +373,11 @@ export const BlocoPessoaPF = ({
               onClick={() => setIsVisibleAddDocument(!isVisibleAddDocument)}
             >
               <div className="buttonAddDocument">
-                <img src={addAttachmentIcon} alt="" />
+                <img
+                  src={addAttachmentIcon}
+                  alt="Imagem do botão de adicionar novo item"
+                  style={{ cursor: "pointer" }}
+                />
                 <span>ADICIONAR</span>
               </div>
             </BtnAddNewDocument>
@@ -399,7 +403,11 @@ export const BlocoPessoaPF = ({
         <div className="addFilePessoa">
           <BtnAddNewDocument onClick={handleCriarRenda}>
             <div className="buttonAddDocument">
-              <img src={addAttachmentIcon} alt="" />
+              <img
+                src={addAttachmentIcon}
+                alt="Imagem do botão de adicionar novo item"
+                style={{ cursor: "pointer" }}
+              />
               <span>ADICIONAR</span>
             </div>
           </BtnAddNewDocument>
@@ -422,7 +430,11 @@ export const BlocoPessoaPF = ({
         <div className="addFilePessoa">
           <BtnAddNewDocument onClick={handleCriarDivida}>
             <div className="buttonAddDocument">
-              <img src={addAttachmentIcon} alt="" />
+              <img
+                src={addAttachmentIcon}
+                alt="Imagem do botão de adicionar novo item"
+                style={{ cursor: "pointer" }}
+              />
               <span>ADICIONAR</span>
             </div>
           </BtnAddNewDocument>

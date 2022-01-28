@@ -28,4 +28,6 @@ export const Container = styled.div`
     padding-left: 30px;
     padding-right: 40px;
   }
+
+  min-width: 1000px !important;
 `;
