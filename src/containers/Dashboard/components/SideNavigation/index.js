@@ -12,7 +12,7 @@ import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 
 import { Container, Header, UserInfo, Nav, Footer } from "./styled-components";
 
-const SideNavigation = ({ handleOperacao }) => {
+export const SideNavigation = ({ handleOperacao }) => {
   const { profile } = useSelector((state) => state.Auth);
 
   return (
@@ -87,5 +87,3 @@ const SideNavigation = ({ handleOperacao }) => {
     </Container>
   );
 };
-
-export default SideNavigation;

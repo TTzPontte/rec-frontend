@@ -12,7 +12,7 @@ import { PUBLIC_ROUTE } from "./route.constants";
 import { PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/shared/template/utility/loader";
 
-const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
+const Dashboard = lazy(() => import("./containers/Dashboard"));
 
 const publicRoutes = [
   {

@@ -7,9 +7,8 @@ import ThemeSwitcher from "@iso/containers/shared/template/ThemeSwitcher/ThemeSw
 import siteConfig from "@iso/config/shared/template/site.config";
 import DashboardRoutes from "./dashboard.routes"; 
 import Home from "@iso/containers/Home";
-import SideNavigation from "./components/SideNavigation";
-import TopbarPesquisar from "./components/TopbarPesquisar/Topbar";
-import { DashboardContainer, DashboardGlobalStyles } from "./dashboard.styles";
+import { SideNavigation, Topbar } from "./components";
+import { DashboardContainer, DashboardGlobalStyles } from "./styled-component";
 
 const { Content, Footer } = Layout;
 const { toggleAll } = appActions;
@@ -78,7 +77,7 @@ export default function Dashboard() {
                 height: appHeight,
               }}
             >
-              <TopbarPesquisar uiid={operacao.uuid} />
+              <Topbar uuid={operacao.uuid} />
               <Content className="isomorphicContent" style={styles.content}>
                 <DashboardRoutes operacao={operacao} />
               </Content>
