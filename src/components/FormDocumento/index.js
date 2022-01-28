@@ -3,7 +3,7 @@ import Api from "../../api";
 import { buildFileSelector } from "@iso/utils/BuildFileSelector";
 import FormData from "form-data";
 
-import { DropDownDM, InputPersonalizado } from "@iso/components/";
+import { DropDownDM } from "@iso/components/";
 
 import {
   Container,
@@ -18,7 +18,7 @@ import { ReactComponent as TrashDocument } from "@iso/assets/icon-trash.svg";
 import folderIcon from "@iso/assets/icon-folder.svg";
 import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
-export const AddDocumento = ({
+export const FormDocumento = ({
   visible,
   setVisible = () => {},
   initualValue = "",
@@ -26,7 +26,6 @@ export const AddDocumento = ({
   setListDocuments,
 }) => {
   const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
-  const [nomeDocumento, setNomeDocumento] = useState(null);
   const [tipoDocumento, setTipoDocumento] = useState(null);
   const areFilled = !!arquivoSelecionado && !!tipoDocumento;
 
@@ -47,7 +46,7 @@ export const AddDocumento = ({
 
     const data = new FormData();
     data.append("file", arquivoSelecionado);
-    data.append("nome", nomeDocumento || arquivoSelecionado.name);
+    data.append("nome", arquivoSelecionado.name);
     data.append("anexoTipo", tipoDocumento);
     data.append("urlOrigem", "");
     data.append("pessoaId", pessoaId);
@@ -57,7 +56,6 @@ export const AddDocumento = ({
     if (resultado.status === 201) {
       setListDocuments(resultado.data);
       setVisible(false);
-      setNomeDocumento(null);
       setArquivoSelecionado(null);
       setTipoDocumento(null);
     }
@@ -70,7 +68,7 @@ export const AddDocumento = ({
       <Header>
         <div className="title">
           <img src={folderIcon} alt="" />
-          <span> Novo Documento </span>
+          <span> Novo Tipo de Documento </span>
         </div>
         <TrashDocument
           onClick={handleDestroyForm}
@@ -94,14 +92,6 @@ export const AddDocumento = ({
           />
         </Field>
         <Field>
-          <InputPersonalizado
-            texto={"Nome:"}
-            valorCampo={arquivoSelecionado?.name || ""}
-            onSave={(value) => setNomeDocumento(value)}
-            idCampo={"nome"}
-          />
-        </Field>
-        <Field>
           <div className="title">
             <img src={folderIcon} alt="" />
             <span>Documento</span>
@@ -118,13 +108,11 @@ export const AddDocumento = ({
           )}
         </Field>
       </Fields>
-      {areFilled && (
-        <BtnAddDocument onClick={() => handleAddDocument()}>
-          <div className="buttonAddDocument">
-            <span>SALVAR</span>
-          </div>
-        </BtnAddDocument>
-      )}
+      <BtnAddDocument disable={areFilled} onClick={handleAddDocument}>
+        <div className="buttonAddDocument">
+          <span>SALVAR</span>
+        </div>
+      </BtnAddDocument>
     </Container>
   );
 };

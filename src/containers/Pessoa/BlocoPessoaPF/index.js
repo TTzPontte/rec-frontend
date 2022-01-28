@@ -7,12 +7,12 @@ import {
   InputPersonalizado,
   InputMaskPersonalizado,
   Documento,
-  AddDocumento,
+  FormDocumento,
   FormDivida,
   FormRenda,
 } from "@iso/components";
 
-import { Container, Content, BtnAddNewDocument } from "./styles";
+import { Content, BtnAddNewDocument } from "./styles";
 
 import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
 import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
@@ -360,7 +360,7 @@ export const BlocoPessoaPF = ({
           )
         )}
         <div>
-          <AddDocumento
+          <FormDocumento
             visible={isVisibleAddDocument}
             setVisible={setIsVisibleAddDocument}
             pessoaId={envolvido.pessoa.id}
