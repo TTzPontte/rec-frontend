@@ -8,7 +8,7 @@ import {
   AreaSaveChanged,
 } from "./styled-component";
 
-import Input from "@iso/components/uielements/input";
+import Input from "@iso/components/template-components/uielements//input";
 
 import { ReactComponent as CheckConfirmSecondary } from "@iso/assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "@iso/assets/close-secondary.svg";

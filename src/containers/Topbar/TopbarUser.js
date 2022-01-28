@@ -1,5 +1,5 @@
 import React from 'react';
-import Popover from '@iso/components/uielements/popover';
+import Popover from '@iso/components/template-components/uielements//popover';
 import userpic from '@iso/assets/images/user.png';
 
 

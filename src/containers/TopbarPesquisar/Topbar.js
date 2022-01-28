@@ -3,7 +3,7 @@ import React, {useContext} from 'react';
 import { useSelector } from 'react-redux';
 import TopbarWrapper from './Topbar.styles';
 import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';
-import Input from '@iso/components/uielements/input';
+import Input from '@iso/components/template-components/uielements//input';
 import { Col, Row } from 'antd';
 import './style.css';
 import {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from '../uielements/input';
+import Input from '../template-components/uielements/input';
 import { CheckOutlined, EditOutlined } from '@ant-design/icons';
 
 export default function (props) {

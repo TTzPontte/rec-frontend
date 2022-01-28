@@ -1,7 +1,7 @@
 import React from 'react';
 import TableWrapper, { CustomizedTableWrapper } from '../AntTables.styles';
-import Switch from '@iso/components/uielements/switch';
-import Form from '@iso/components/uielements/form';
+import Switch from '@iso/components/template-components/uielements//switch';
+import Form from '@iso/components/template-components/uielements//form';
 const FormItem = Form.Item;
 
 const expandedRowRender = record => (

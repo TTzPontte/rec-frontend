@@ -1,4 +1,4 @@
-import Select, { SelectOption } from "@iso/components/uielements/select";
+import Select, { SelectOption } from "@iso/components/template-components/uielements//select";
 import React, { useState } from "react";
 import { ReactComponent as CheckConfirmSecondary } from "../../assets/check-confirm-secondary.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";

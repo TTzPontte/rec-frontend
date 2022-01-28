@@ -1,5 +1,5 @@
 import React from "react";
-import Collapse from "@iso/components/uielements/collapse";
+import Collapse from "@iso/components/template-components/uielements//collapse";
 import { Container } from "./styles";
 
 export const CollapsePersonalizado = ({

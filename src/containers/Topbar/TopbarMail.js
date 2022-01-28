@@ -3,7 +3,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import IntlMessages from '@iso/components/utility/intlMessages';
 import Scrollbar from '@iso/components/utility/customScrollBar';
-import Popover from '@iso/components/uielements/popover';
+import Popover from '@iso/components/template-components/uielements//popover';
 import TopbarDropdownWrapper from './TopbarDropdown.styles';
 
 const demoMails = [

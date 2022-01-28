@@ -1,5 +1,5 @@
 import React from 'react';
-import Tabs, { TabPane } from '@iso/components/uielements/tabs';
+import Tabs, { TabPane } from '@iso/components/template-components/uielements//tabs';
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
 import TableDemoStyle from './Demo.styles';
 import fakeData from '../data';
