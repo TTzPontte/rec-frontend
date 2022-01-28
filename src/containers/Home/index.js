@@ -16,7 +16,7 @@ import {
   } from './styled-components';
 import { ReactComponent as IconCheck32x32 } from '../../assets/Icon-check-32x32.svg';  
 import Api from '../../api';
-import Topbar from "../Topbar/Topbar";
+import Topbar from "../shared/template/Topbar/Topbar";
 
 export default function Home({ handleOperacao }) {
 
@@ -33,12 +33,12 @@ export default function Home({ handleOperacao }) {
         .concat(processosSearch.take), setProcessosSearch);
     }
 
-    function handleTextBuscaFn(evento: any) {
+    function handleTextBuscaFn(evento) {
         setTextoBusca(evento.target.value);
     }
     const handleTextBusca = useCallback(handleTextBuscaFn, []);
     
-    async function handleSubmitFn(evento: any) {
+    async function handleSubmitFn(evento) {
         evento.preventDefault();
         await search();
     }

@@ -14,9 +14,9 @@ import {
   TextoUserEmail,
   SairStyle,
 } from './Topbar.styles';
-import { ReactComponent as SvgLogoPontte } from '../../assets/logo-pontte.svg';
+import { ReactComponent as SvgLogoPontte } from '@iso/assets/logo-pontte.svg';
 
-import { ReactComponent as IconLogOut } from '../../assets/Log_out.svg';  
+import { ReactComponent as IconLogOut } from '@iso/assets/Log_out.svg';  
 
 const styleLogoPontte = {
   width: '160px',

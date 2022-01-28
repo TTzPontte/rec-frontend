@@ -7,7 +7,7 @@ import {
   Message,
   Logo,
   Form,
-} from "./SignIn.styles";
+} from "./styled-components";
 import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 import { ReactComponent as IconHeart } from "@iso/assets/icon-heart.svg";
 import LogoGoogle from "@iso/assets/logo-google.svg";
@@ -15,7 +15,7 @@ import { logInAct } from "@iso/redux/auth/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
-export default function SignIn() {
+export default function Login() {
   const history = useHistory();
   const Auth = useSelector(({ Auth }) => Auth);
 

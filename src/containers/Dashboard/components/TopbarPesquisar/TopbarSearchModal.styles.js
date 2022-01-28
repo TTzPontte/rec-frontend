@@ -1,4 +1,4 @@
-import Modal from '@iso/components/Feedback/Modal';
+import Modal from '@iso/components/shared/template/Feedback/Modal';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import WithDirection from '@iso/lib/helpers/rtl';

@@ -13,5 +13,4 @@ export const PRIVATE_ROUTE = {
   DASHBOARD: '/',
   RECONCILIATION: "/reconciliation",
   INCOMING_FILE_RECONCILIATION: "/incomingFileReconciliation",
-  
 };

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { CollapsePersonalizado } from "@iso/components";
-import { BlocoPessoaPF } from "./BlocoPessoaPF";
+import { BlocoPessoaPF } from "./components";
 import { Button, Input, Modal, Select } from "antd";
 
 import {
@@ -24,8 +24,8 @@ import {
 import "./style.css";
 
 import { ReactComponent as IconNovaPessoa } from "@iso/assets/button-add.svg";
-import { ReactComponent as IconInputNomeRazaoSocial } from "../../assets/Icon-type-14x14.svg";
-import { ReactComponent as IconInputCpfCnpj } from "../../assets/Icon-doc-14x14.svg";
+import { ReactComponent as IconInputNomeRazaoSocial } from "@iso/assets/Icon-type-14x14.svg";
+import { ReactComponent as IconInputCpfCnpj } from "@iso/assets/Icon-doc-14x14.svg";
 
 import Api from "@iso/api";
 

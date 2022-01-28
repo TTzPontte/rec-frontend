@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import iconOrigination from "../../assets/icon-originacao.svg";
-import iconPeople from "../../assets/icon-pessoas.svg";
-import iconProposal from "../../assets/icon-proposta.svg";
-import iconImmobile from "../../assets/icon-imovel.svg";
-import iconContract from "../../assets/icon-contrato.svg";
-import iconHome from "../../assets/icon-home.svg";
+import iconOrigination from "@iso/assets/icon-originacao.svg";
+import iconPeople from "@iso/assets/icon-pessoas.svg";
+import iconProposal from "@iso/assets/icon-proposta.svg";
+import iconImmobile from "@iso/assets/icon-imovel.svg";
+import iconContract from "@iso/assets/icon-contrato.svg";
+import iconHome from "@iso/assets/icon-home.svg";
 import { ReactComponent as SvgLogoPontte } from "@iso/assets/logo-pontte.svg";
 
 import { Container, Header, UserInfo, Nav, Footer } from "./styled-components";

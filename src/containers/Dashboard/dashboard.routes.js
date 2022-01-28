@@ -6,12 +6,12 @@ const routes = [
 	{
 		path: 'originacao',
 		exact: 'originacao',
-		component: lazy(() => import('../Originacao')),
+		component: lazy(() => import('./Pages/Originacao')),
 	},
 	{
 		path: 'pessoas',
 		exact: 'pessoas',
-		component: lazy(() => import('../Pessoa')),
+		component: lazy(() => import('./Pages/Pessoa')),
 	},
 ];
 

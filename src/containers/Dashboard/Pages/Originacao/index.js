@@ -1,12 +1,12 @@
-import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
-import { ReactComponent as IconPhone } from "../../assets/icon-phone-14x14.svg";
-import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
-import { ReactComponent as IconEmail } from "../../assets/icon-email-14x14.svg";
+import { ReactComponent as IconDropdown } from "@iso/assets/icon-dropdown.svg";
+import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
+import { ReactComponent as IconTextNumber } from "@iso/assets/icon-text_number.svg";
+import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
 
 import Collapse from "@iso/components/shared/template/uielements//collapse";
 import { Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
-import Api from "../../api";
+import Api from "@iso/api";
 import {
   InputPersonalizado,
   InputMaskPersonalizado,
@@ -15,7 +15,7 @@ import {
   SelectPersonalizado,
   TextAreaPersonalizado
 } from "@iso/components";
-import { Container } from "../style";
+import { Container } from "./styled-components";
 import "./style.css";
 
 export default function Originacao({ uuid }) {
