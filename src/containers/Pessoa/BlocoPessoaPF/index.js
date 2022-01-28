@@ -292,6 +292,18 @@ export const BlocoPessoaPF = ({
           }
         />
 
+        <DropDownDM
+          title={"Regime de União:"}
+          initialValue={pessoa.regimeComunhao}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-regime-uniao", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-regime-uniao")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("regimeComunhao", descricao)
+          }
+        />
+
         {pessoa.enderecos.map((endereco) => {
           const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
           return (

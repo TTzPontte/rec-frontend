@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 40px;
+  height: 100px;
 
   .description {
     font: normal normal normal 14px "Lato", sans-serif;
