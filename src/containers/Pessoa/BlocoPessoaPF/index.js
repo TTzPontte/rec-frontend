@@ -12,7 +12,7 @@ import {
   FormRenda,
 } from "@iso/components";
 
-import { Content, BtnAddNewDocument } from "./styles";
+import { Content, BtnAddNewDocument } from "./styled-components";
 
 import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
 import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
@@ -259,6 +259,18 @@ export const BlocoPessoaPF = ({
           valorCampo={pessoa.escolaridade}
           onSave={(value) => handleOnSavePessoa("escolaridade", value)}
           idCampo={"escolaridade"}
+        />
+
+        <DropDownDM
+          title={"Escolaridade:"}
+          initialValue={pessoa.escolaridade}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-escolaridade", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-escolaridade")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("escolaridade", descricao)
+          }
         />
 
         <InputPersonalizado
