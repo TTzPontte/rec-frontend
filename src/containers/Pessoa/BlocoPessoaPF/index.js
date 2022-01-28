@@ -7,7 +7,7 @@ import {
   InputPersonalizado,
   InputMaskPersonalizado,
   Documento,
-  AddDocumento,
+  FormDocumento,
   FormDivida,
   FormRenda,
 } from "@iso/components";
@@ -360,7 +360,7 @@ export const BlocoPessoaPF = ({
           )
         )}
         <div>
-          <AddDocumento
+          <FormDocumento
             visible={isVisibleAddDocument}
             setVisible={setIsVisibleAddDocument}
             pessoaId={envolvido.pessoa.id}

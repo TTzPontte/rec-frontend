@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Api from "../../api";
 import { buildFileSelector } from "@iso/utils/BuildFileSelector";
 import FormData from "form-data";
 
-import { DropDownDM, InputPersonalizado } from "@iso/components/";
+import { DropDownDM } from "@iso/components/";
 
 import {
   Container,
@@ -18,19 +18,33 @@ import { ReactComponent as TrashDocument } from "@iso/assets/icon-trash.svg";
 import folderIcon from "@iso/assets/icon-folder.svg";
 import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
-export const AddDocumento = ({
+export const FormDocumento = ({
   visible,
   setVisible = () => {},
   initualValue = "",
   pessoaId,
   setListDocuments,
 }) => {
+  const api = new Api();
+
   const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
-  const [nomeDocumento, setNomeDocumento] = useState(null);
   const [tipoDocumento, setTipoDocumento] = useState(null);
+
   const areFilled = !!arquivoSelecionado && !!tipoDocumento;
 
-  const api = new Api();
+  const getTypeDocument = useCallback(
+    () => setTipoDocumento(initualValue),
+    [initualValue]
+  );
+
+  useEffect(() => {
+    getTypeDocument();
+  }, [getTypeDocument]);
+
+  const handleReset = () => {
+    setTipoDocumento(null);
+    setArquivoSelecionado(null);
+  };
 
   const handleFileSelect = () => {
     const fileSelector = buildFileSelector();
@@ -47,7 +61,7 @@ export const AddDocumento = ({
 
     const data = new FormData();
     data.append("file", arquivoSelecionado);
-    data.append("nome", nomeDocumento || arquivoSelecionado.name);
+    data.append("nome", arquivoSelecionado.name);
     data.append("anexoTipo", tipoDocumento);
     data.append("urlOrigem", "");
     data.append("pessoaId", pessoaId);
@@ -55,22 +69,23 @@ export const AddDocumento = ({
     const resultado = await api.salvar("pessoa-anexo", data);
 
     if (resultado.status === 201) {
-      setListDocuments(resultado.data);
       setVisible(false);
-      setNomeDocumento(null);
-      setArquivoSelecionado(null);
-      setTipoDocumento(null);
+      setListDocuments(resultado.data);
+      handleReset()
     }
   };
 
-  const handleDestroyForm = () => setVisible(false);
+  const handleDestroyForm = () => {
+    setVisible(false);
+    handleReset()
+  };
 
   return (
     <Container visible={visible}>
       <Header>
         <div className="title">
           <img src={folderIcon} alt="" />
-          <span> Novo Documento </span>
+          <span> Novo Tipo de Documento </span>
         </div>
         <TrashDocument
           onClick={handleDestroyForm}
@@ -81,7 +96,7 @@ export const AddDocumento = ({
         <Field>
           <DropDownDM
             title={"Tipo"}
-            initialValue={initualValue}
+            initialValue={tipoDocumento}
             handleSaveItem={(descricao) =>
               api.addItemDM("dm-pessoa-anexo-tipo", { descricao })
             }
@@ -91,14 +106,6 @@ export const AddDocumento = ({
             handleSaveProcessInfo={({ descricao }) =>
               setTipoDocumento(descricao)
             }
-          />
-        </Field>
-        <Field>
-          <InputPersonalizado
-            texto={"Nome:"}
-            valorCampo={arquivoSelecionado?.name || ""}
-            onSave={(value) => setNomeDocumento(value)}
-            idCampo={"nome"}
           />
         </Field>
         <Field>
@@ -118,13 +125,11 @@ export const AddDocumento = ({
           )}
         </Field>
       </Fields>
-      {areFilled && (
-        <BtnAddDocument onClick={() => handleAddDocument()}>
-          <div className="buttonAddDocument">
-            <span>SALVAR</span>
-          </div>
-        </BtnAddDocument>
-      )}
+      <BtnAddDocument disable={areFilled} onClick={handleAddDocument}>
+        <div className="buttonAddDocument">
+          <span>SALVAR</span>
+        </div>
+      </BtnAddDocument>
     </Container>
   );
 };

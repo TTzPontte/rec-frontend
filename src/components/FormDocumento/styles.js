@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 445px;
-  max-width: 470px;
+  height: 300px;
+  max-width: 460px;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #e8e8ef;
   display: ${(props) => (props.visible ? "block" : "none")};
@@ -32,7 +32,6 @@ export const Header = styled.div`
 `;
 
 export const Fields = styled.div`
-  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
