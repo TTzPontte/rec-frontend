@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Api from "../../api";
 import { buildFileSelector } from "@iso/utils/BuildFileSelector";
 import FormData from "form-data";
@@ -25,11 +25,26 @@ export const FormDocumento = ({
   pessoaId,
   setListDocuments,
 }) => {
+  const api = new Api();
+
   const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
   const [tipoDocumento, setTipoDocumento] = useState(null);
+
   const areFilled = !!arquivoSelecionado && !!tipoDocumento;
 
-  const api = new Api();
+  const getTypeDocument = useCallback(
+    () => setTipoDocumento(initualValue),
+    [initualValue]
+  );
+
+  useEffect(() => {
+    getTypeDocument();
+  }, [getTypeDocument]);
+
+  const handleReset = () => {
+    setTipoDocumento(null);
+    setArquivoSelecionado(null);
+  };
 
   const handleFileSelect = () => {
     const fileSelector = buildFileSelector();
@@ -54,14 +69,16 @@ export const FormDocumento = ({
     const resultado = await api.salvar("pessoa-anexo", data);
 
     if (resultado.status === 201) {
-      setListDocuments(resultado.data);
       setVisible(false);
-      setArquivoSelecionado(null);
-      setTipoDocumento(null);
+      setListDocuments(resultado.data);
+      handleReset()
     }
   };
 
-  const handleDestroyForm = () => setVisible(false);
+  const handleDestroyForm = () => {
+    setVisible(false);
+    handleReset()
+  };
 
   return (
     <Container visible={visible}>
@@ -79,7 +96,7 @@ export const FormDocumento = ({
         <Field>
           <DropDownDM
             title={"Tipo"}
-            initialValue={initualValue}
+            initialValue={tipoDocumento}
             handleSaveItem={(descricao) =>
               api.addItemDM("dm-pessoa-anexo-tipo", { descricao })
             }
