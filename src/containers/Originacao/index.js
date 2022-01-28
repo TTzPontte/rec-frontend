@@ -68,6 +68,7 @@ export default function Originacao({ uuid }) {
       setValuesConsultor(response.consultor);
     }
     findByUuid();
+  // eslint-disable-next-line
   }, []);
 
   const { Panel } = Collapse;
@@ -203,6 +204,7 @@ export default function Originacao({ uuid }) {
     console.log(valor);
   };
 
+  // eslint-disable-next-line
   var onlyMonetario = (str) => str.replace(/[\R$.]/g, "");
 
   // const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");

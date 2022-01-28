@@ -60,6 +60,7 @@ export default function Topbar() {
           </UserInfoDiv>
           <UserImageDiv>
             <section>
+              {/* eslint-disable-next-line */}
               <a onClick={showModal}>
                 <UserImage src={user.picture} alt={user.name} />
               </a> 
