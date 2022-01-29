@@ -209,7 +209,7 @@ export default function Originacao({ uuid }) {
   };
 
   // eslint-disable-next-line
-  var onlyMonetario = (str) => str.replace(/[\R$.]/g, "");
+  var onlyMonetario = (str) => str.replace(/[\R$,]/g, "");
 
   // const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
