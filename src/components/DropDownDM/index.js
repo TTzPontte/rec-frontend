@@ -11,7 +11,7 @@ import {
   InputAddItem,
   AreaDropDown,
   AreaSaveChanged,
-} from "./styles";
+} from "./styled-components";
 import { ReactComponent as CheckConfirm } from "../../assets/check-confirm.svg";
 import { ReactComponent as CloseSecondary } from "../../assets/close-secondary.svg";
 import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";

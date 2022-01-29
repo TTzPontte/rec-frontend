@@ -80,7 +80,7 @@ export const Header = styled.div`
 `;
 
 export const List = styled.ul`
-  width: 368px;
+  width: 341px;
   height: 125px;
   position: absolute;
   overflow: auto;
