@@ -10,18 +10,15 @@ import { SearchEventContext } from "react-ctrl-f";
 const { Header } = Layout;
 
 export const Topbar = ({ uuid }) => {
-  const customizedTheme = useSelector(
-    (state) => state.ThemeSwitcher.topbarTheme
-  );
   const { collapsed, openDrawer } = useSelector((state) => state.App);
   const { onSearchChange } = useContext(SearchEventContext);
 
   const isCollapsed = collapsed && !openDrawer;
   const styling = {
-    background: customizedTheme.backgroundColor,
     position: "fixed",
     width: "100%",
-    height: 70,
+    height: 61,
+    background: "linear-gradient(90deg, #f9f9f9 2%, #fff 45%, #fefefe 96%)"
   };
 
   const rowStyle = {
@@ -35,11 +32,13 @@ export const Topbar = ({ uuid }) => {
     marginBottom: "5px",
     alignItems: "center",
   };
+
   const colStyle2 = {
     display: "flex",
     marginBottom: "5px",
     alignItems: "center",
     borderLeft: "1px solid #E1DFDF",
+    height: 61
   };
 
   const inputStyled = {
@@ -69,7 +68,7 @@ export const Topbar = ({ uuid }) => {
       >
         <Row style={rowStyle} gutter={gutter} justify="start">
           <Col sm={15} md={15} xs={15} style={colStyle}>
-            <span className="headerID">ID {uuid}</span>
+            <span className="headerID">ID #{uuid}</span>
           </Col>
 
           <Col sm={5} md={5} xs={5} style={colStyle2}>
