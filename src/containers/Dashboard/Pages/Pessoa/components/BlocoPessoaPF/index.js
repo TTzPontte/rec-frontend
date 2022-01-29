@@ -159,7 +159,6 @@ export const BlocoPessoaPF = ({
           texto={"Nome:"}
           valorCampo={pessoa.nome}
           onSave={(value) => handleOnSavePessoa("nome", value)}
-          idCampo={"nome"}
         />
 
         <DropDownDM
@@ -187,7 +186,6 @@ export const BlocoPessoaPF = ({
           valorCampo={pessoa.email}
           iconeLabel={<IconEmail />}
           onSave={(value) => handleOnSavePessoa("email", value)}
-          idCampo={"email"}
         />
 
         {pessoa.telefones.map((telefone) => (
@@ -196,7 +194,6 @@ export const BlocoPessoaPF = ({
             valorCampo={`${telefone.ddd} + ${telefone.numero}`}
             iconeLabel={<IconPhone />}
             onSave={(value) => handleOnSaveTelefone(telefone, value)}
-            idCampo={"telefone"}
             mask={"(99) 99999-9999"}
           />
         ))}
@@ -212,7 +209,6 @@ export const BlocoPessoaPF = ({
             const data = value.split("/").reverse().join("-");
             handleOnSavePessoa("dataNascimento", data);
           }}
-          idCampo={"dataNascimento"}
           mask={"99/99/9999"}
         />
 
@@ -223,7 +219,6 @@ export const BlocoPessoaPF = ({
             const data = value.replace(/[^0-9]/g, "");
             handleOnSavePessoa("cpf", data);
           }}
-          idCampo={"CPF"}
           mask={"999.999.999-99"}
         />
 
@@ -234,7 +229,6 @@ export const BlocoPessoaPF = ({
             const data = value.replace(/[^0-9]/g, "");
             handleOnSavePessoa("rg", data);
           }}
-          idCampo={"RG"}
           mask={"99999999-9"}
         />
 
@@ -244,14 +238,12 @@ export const BlocoPessoaPF = ({
           onSave={(value) =>
             handleOnSavePessoa("orgaoEmissorRg", value.toUpperCase())
           }
-          idCampo={"orgaoEmissorRg"}
         />
 
         <InputPersonalizado
           texto={"Nacionalidade:"}
           valorCampo={pessoa.nacionalidade}
           onSave={(value) => handleOnSavePessoa("nacionalidade", value)}
-          idCampo={"nacionalidade"}
         />
 
         <DropDownDM
@@ -270,14 +262,18 @@ export const BlocoPessoaPF = ({
           texto={"Nome da mãe:"}
           valorCampo={pessoa.nomeMae}
           onSave={(value) => handleOnSavePessoa("nomeMae", value)}
-          idCampo={"nomeMae"}
+        />
+
+        <InputPersonalizado
+          texto={"Nome da pai:"}
+          valorCampo={pessoa.nomePai}
+          onSave={(value) => handleOnSavePessoa("nomePai", value)}
         />
 
         <InputPersonalizado
           texto={"Profissão:"}
           valorCampo={pessoa.profissao}
           onSave={(value) => handleOnSavePessoa("profissao", value)}
-          idCampo={"profissao"}
         />
 
         <DropDownDM
@@ -314,7 +310,6 @@ export const BlocoPessoaPF = ({
                 onSave={(value) =>
                   handleOnSaveEndereco(endereco, "logradouro", value)
                 }
-                idCampo={"enderecoLogradouro"}
               />
               <InputPersonalizado
                 texto={`Numero${helperText}:`}
@@ -322,7 +317,6 @@ export const BlocoPessoaPF = ({
                 onSave={(value) =>
                   handleOnSaveEndereco(endereco, "numero", value)
                 }
-                idCampo={"enderecoNumero"}
               />
 
               <InputPersonalizado
@@ -331,14 +325,12 @@ export const BlocoPessoaPF = ({
                 onSave={(value) =>
                   handleOnSaveEndereco(endereco, "complemento", value)
                 }
-                idCampo={"enderecoComplemento"}
               />
 
               <InputMaskPersonalizado
                 texto={`CEP${helperText}:`}
                 valorCampo={endereco.cep}
                 onSave={(value) => handleOnSaveEndereco(endereco, "cep", value)}
-                idCampo={"enderecoCEP"}
                 mask={"99999-999"}
               />
 
@@ -366,7 +358,6 @@ export const BlocoPessoaPF = ({
                 onSave={(value) =>
                   handleOnSaveEndereco(endereco, "bairro", value)
                 }
-                idCampo={"enderecoBairro"}
               />
             </>
           );
