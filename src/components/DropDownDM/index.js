@@ -20,9 +20,9 @@ import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
 import addAttachmentIcon from "../../assets/add-attachment.svg";
 
 export const DropDownDM = ({
-  handleGetItem = async () => {},
-  handleSaveItem = async () => {},
-  handleSaveProcessInfo = async () => {},
+  handleGetItem ,
+  handleSaveItem,
+  handleSaveProcessInfo,
   iconLabel = <IconDropdown />,
   title = "",
   initialValue = "Selecione",
@@ -38,7 +38,7 @@ export const DropDownDM = ({
     descricao: initialValue,
     isSave: false,
   });
-  
+
   const setLastSaveCallback = useCallback(
     () => setLastSave(initialValue),
     [initialValue]
@@ -107,12 +107,11 @@ export const DropDownDM = ({
             </Header>
 
             <List isOpen={isOpen}>
-              {listItem.length > 0 &&
-                listItem.map((item) => (
-                  <Item key={item.id} onClick={() => handleSelectedItem(item)}>
-                    <span> {item.descricao} </span>
-                  </Item>
-                ))}
+              {listItem.map((item) => (
+                <Item key={item.id} onClick={() => handleSelectedItem(item)}>
+                  <span> {item.descricao} </span>
+                </Item>
+              ))}
 
               {handleSaveItem ? (
                 <SubAreaAddItem>
