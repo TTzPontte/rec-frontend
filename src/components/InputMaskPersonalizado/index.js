@@ -15,13 +15,13 @@ import { ReactComponent as IconPencilEdit } from "../../assets/icon-pencil_edit.
 import { ReactComponent as IconTextNumber } from "../../assets/icon-text_number.svg";
 
 export const InputMaskPersonalizado = ({
-  texto,
-  valorCampo,
+  texto = "",
+  valorCampo = "",
   iconeLabel = <IconTextNumber />,
-  onSave,
+  onSave = () => {},
   handleChange = () => {},
-  idCampo,
-  mask,
+  idCampo = "",
+  mask = "",
   editavel = true,
 }) => {
   const [isEditable, setIsEditable] = useState(false);
@@ -60,10 +60,9 @@ export const InputMaskPersonalizado = ({
               setTextAlterado(value);
             }}
             className="inputMask"
-            bordered={!isEditable}
             disabled={!isEditable}
             id={idCampo}
-            value={textAlterado}
+            value={textAlterado || ""}
             mask={mask}
           />
         </AreaInput>
