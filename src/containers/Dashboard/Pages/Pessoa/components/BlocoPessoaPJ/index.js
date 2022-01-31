@@ -1,0 +1,462 @@
+import React, { useState } from "react";
+import Api from "@iso/api";
+import { groupBy } from "@iso/utils/GroupBy";
+
+import {
+  DropDownDM,
+  InputPersonalizado,
+  InputMaskPersonalizado,
+  Documento,
+  FormDocumento,
+  FormDivida,
+  FormRenda,
+} from "@iso/components";
+
+import { Content, BtnAddNewDocument } from "./styled-components";
+
+import { ReactComponent as IconPhone } from "@iso/assets/icon-phone-14x14.svg";
+import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
+import addAttachmentIcon from "@iso/assets/add-attachment.svg";
+
+export const BlocoPessoaPJ = ({
+  processo = {},
+  envolvido = {},
+  handleChangePessoa = () => {},
+  documentosProcesso = [],
+  handleAddListDocument = (document) => {},
+}) => {
+  const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
+  const [dividasPessoa, setDividasPessoa] = useState(envolvido.pessoa.dividas);
+  const [rendasPessoa, setRendasPessoa] = useState(envolvido.pessoa.rendas);
+
+  const api = new Api();
+
+  const { pessoa } = envolvido;
+
+  const assignData = (object, key, data) => {
+    if (object[key].length === 0) object[key] = [data];
+  };
+
+  assignData(pessoa, "enderecos", {
+    logradouro: null,
+    numero: null,
+    complemento: null,
+    bairro: null,
+    cep: null,
+    tipo: null,
+  });
+
+  assignData(pessoa, "telefones", {
+    ddd: null,
+    numero: null,
+  });
+
+  const handleOnSavePessoa = (key, newValue) => {
+    if (!newValue) return;
+
+    const pessoaAlterada = { ...pessoa, [key]: newValue };
+
+    api
+      .alterarProcesso(`/pessoa/${pessoa.id}`, pessoaAlterada)
+      .then(() => handleChangePessoa(pessoaAlterada));
+  };
+
+  const utilSaveApi = (endpoint, object, data) => {
+    api
+      .salvar(endpoint, { ...data, pessoa: { id: pessoa.id } })
+      .then(({ data }) => (object.id = data.id));
+  };
+
+  const handleOnSaveTelefone = (telefone, newValue) => {
+    const numeroCompleto = newValue.replace(/[^0-9]/g, "");
+    const [ddd, numero] = [numeroCompleto.slice(0, 2), numeroCompleto.slice(2)];
+    const data = { ddd, numero };
+
+    !telefone.id
+      ? utilSaveApi("/telefone", telefone, { ...data })
+      : api.alterarProcesso(`telefone/${telefone.id}`, { ...data });
+  };
+
+  const handleOnSaveEndereco = (endereco, key, newValue) => {
+    !endereco.id
+      ? utilSaveApi("/endereco", endereco, {
+          ...endereco,
+          [key]: newValue,
+        })
+      : api.alterarProcesso(`endereco/${endereco.id}`, {
+          [key]: newValue,
+        });
+  };
+
+  const handleGetDocumentsByPersonID = (pessoaId) =>
+    Object.entries(
+      groupBy(
+        documentosProcesso.filter((d) => d.pessoa.id === pessoaId),
+        "anexoTipo"
+      )
+    );
+
+  const handleCriarDivida = () => {
+    api
+      .salvar("/pessoa-divida", {
+        dividaTipo: null,
+        valor: null,
+        status: null,
+        quitar: true,
+        pessoa: {
+          id: pessoa.id,
+        },
+      })
+      .then(({ data: novaDivida }) =>
+        setDividasPessoa([...dividasPessoa, novaDivida])
+      );
+  };
+
+  const handleCriarRenda = () => {
+    api
+      .salvar("/renda", {
+        rendaTipo: "...",
+        rendaInformada: null,
+        rendaAferida: null,
+        pessoa: {
+          id: pessoa.id,
+        },
+      })
+      .then(({ data: novaRenda }) =>
+        setRendasPessoa([...rendasPessoa, novaRenda])
+      );
+  };
+
+  const handleDeletarDivida = (id) => {
+    setDividasPessoa(dividasPessoa.filter((divida) => divida.id !== id));
+  };
+
+  const handleAlterarDivida = (dividaAlterada) => {
+    setDividasPessoa(
+      dividasPessoa.map((divida) =>
+        divida.id === dividaAlterada.id ? dividaAlterada : divida
+      )
+    );
+  };
+
+  const handleDeletarRenda = (id) => {
+    setRendasPessoa(rendasPessoa.filter((divida) => divida.id !== id));
+  };
+
+  const handleAlterarRenda = (rendaAlterada) => {
+    setRendasPessoa(
+      rendasPessoa.map((renda) =>
+        renda.id === rendaAlterada.id ? rendaAlterada : renda
+      )
+    );
+  };
+
+  return (
+    <>
+      <Content>
+        <header>INFORMAÇÕES DA PESSOA JURÍDICA</header>
+        <InputPersonalizado
+          texto={"Razão Social:"}
+          valorCampo={pessoa.razaoSocial}
+          onSave={(value) => handleOnSavePessoa("razaoSocial", value)}
+        />
+
+        <DropDownDM
+          title={"Papel na operação"}
+          initialValue={envolvido.tipo}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-processo-tipo", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-processo-tipo")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            api.alterarProcesso(`/processo-envolvidos/${envolvido.id}`, {
+              tipo: descricao,
+              pessoa: {
+                id: pessoa.id,
+              },
+              processo: {
+                id: processo.id,
+              },
+            })
+          }
+        />
+
+        <InputPersonalizado
+          texto={"E-mail:"}
+          valorCampo={pessoa.email}
+          iconeLabel={<IconEmail />}
+          onSave={(value) => handleOnSavePessoa("email", value)}
+        />
+
+        {pessoa.telefones.map((telefone) => (
+          <InputMaskPersonalizado
+            texto={"Telefone"}
+            valorCampo={`${telefone.ddd} + ${telefone.numero}`}
+            iconeLabel={<IconPhone />}
+            onSave={(value) => handleOnSaveTelefone(telefone, value)}
+            mask={"(99) 99999-9999"}
+          />
+        ))}
+
+        <InputMaskPersonalizado
+          texto={"Data de Nascimento"}
+          valorCampo={
+            pessoa.dataNascimento
+              ? pessoa.dataNascimento.slice(0, 10).split("-").reverse().join("")
+              : ""
+          }
+          onSave={(value) => {
+            const data = value.split("/").reverse().join("-");
+            handleOnSavePessoa("dataNascimento", data);
+          }}
+          mask={"99/99/9999"}
+        />
+
+        <InputMaskPersonalizado
+          texto={"CPF"}
+          valorCampo={pessoa.cpf}
+          onSave={(value) => {
+            const data = value.replace(/[^0-9]/g, "");
+            handleOnSavePessoa("cpf", data);
+          }}
+          mask={"999.999.999-99"}
+        />
+
+        <InputMaskPersonalizado
+          texto={"RG"}
+          valorCampo={pessoa.rg}
+          onSave={(value) => {
+            const data = value.replace(/[^0-9]/g, "");
+            handleOnSavePessoa("rg", data);
+          }}
+          mask={"99999999-9"}
+        />
+
+        <InputPersonalizado
+          texto={"Orgão Emissor:"}
+          valorCampo={pessoa.orgaoEmissorRg}
+          onSave={(value) =>
+            handleOnSavePessoa("orgaoEmissorRg", value.toUpperCase())
+          }
+        />
+
+        <InputPersonalizado
+          texto={"Nacionalidade:"}
+          valorCampo={pessoa.nacionalidade}
+          onSave={(value) => handleOnSavePessoa("nacionalidade", value)}
+        />
+
+        <DropDownDM
+          title={"Escolaridade:"}
+          initialValue={pessoa.escolaridade}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-escolaridade", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-escolaridade")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("escolaridade", descricao)
+          }
+        />
+
+        <InputPersonalizado
+          texto={"Nome da mãe:"}
+          valorCampo={pessoa.nomeMae}
+          onSave={(value) => handleOnSavePessoa("nomeMae", value)}
+        />
+
+        <InputPersonalizado
+          texto={"Nome da pai:"}
+          valorCampo={pessoa.nomePai}
+          onSave={(value) => handleOnSavePessoa("nomePai", value)}
+        />
+
+        <InputPersonalizado
+          texto={"Profissão:"}
+          valorCampo={pessoa.profissao}
+          onSave={(value) => handleOnSavePessoa("profissao", value)}
+        />
+
+        <DropDownDM
+          title={"Estado Civil:"}
+          initialValue={pessoa.estadoCivil}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-estado-civil", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-estado-civil")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("estadoCivil", descricao)
+          }
+        />
+
+        <DropDownDM
+          title={"Regime de União:"}
+          initialValue={pessoa.regimeComunhao}
+          handleSaveItem={(descricao) =>
+            api.addItemDM("dm-regime-uniao", { descricao })
+          }
+          handleGetItem={() => api.buscarTabelaDM("dm-regime-uniao")}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSavePessoa("regimeComunhao", descricao)
+          }
+        />
+
+        {pessoa.enderecos.map((endereco) => {
+          const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
+          return (
+            <>
+              <InputPersonalizado
+                texto={`Logradouro${helperText}:`}
+                valorCampo={endereco.logradouro}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "logradouro", value)
+                }
+              />
+              <InputPersonalizado
+                texto={`Numero${helperText}:`}
+                valorCampo={endereco.numero}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "numero", value)
+                }
+              />
+
+              <InputPersonalizado
+                texto={`Complemento${helperText}:`}
+                valorCampo={endereco.complemento}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "complemento", value)
+                }
+              />
+
+              <InputMaskPersonalizado
+                texto={`CEP${helperText}:`}
+                valorCampo={endereco.cep}
+                onSave={(value) => handleOnSaveEndereco(endereco, "cep", value)}
+                mask={"99999-999"}
+              />
+
+              <DropDownDM
+                title={"Estado"}
+                initialValue={endereco.estado}
+                handleGetItem={() => api.buscarTabelaDM("dm-estado")}
+                handleSaveProcessInfo={async ({ descricao }) =>
+                  handleOnSaveEndereco(endereco, "estado", descricao)
+                }
+              />
+
+              <DropDownDM
+                title={"Cidade"}
+                initialValue={endereco.cidade}
+                handleGetItem={() => api.buscarTabelaDM("dm-cidade")}
+                handleSaveProcessInfo={async ({ descricao }) =>
+                  handleOnSaveEndereco(endereco, "cidade", descricao)
+                }
+              />
+
+              <InputPersonalizado
+                texto={`Bairro${helperText}:`}
+                valorCampo={endereco.bairro}
+                onSave={(value) =>
+                  handleOnSaveEndereco(endereco, "bairro", value)
+                }
+              />
+            </>
+          );
+        })}
+      </Content>
+      <Content>
+        <header>DOCUMENTOS</header>
+        {handleGetDocumentsByPersonID(envolvido.pessoa.id).map(
+          ([title, files]) => (
+            <div className="documentoPessoa">
+              <Documento
+                title={title}
+                files={files}
+                pessoaId={envolvido.pessoa.id}
+              />
+            </div>
+          )
+        )}
+        <div>
+          <FormDocumento
+            visible={isVisibleAddDocument}
+            setVisible={setIsVisibleAddDocument}
+            pessoaId={envolvido.pessoa.id}
+            setListDocuments={handleAddListDocument}
+          />
+        </div>
+        <div className="addFilePessoa">
+          {!isVisibleAddDocument ? (
+            <BtnAddNewDocument
+              onClick={() => setIsVisibleAddDocument(!isVisibleAddDocument)}
+            >
+              <div className="buttonAddDocument">
+                <img
+                  src={addAttachmentIcon}
+                  alt="Imagem do botão de adicionar novo item"
+                  style={{ cursor: "pointer" }}
+                />
+                <span>ADICIONAR</span>
+              </div>
+            </BtnAddNewDocument>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      </Content>
+
+      <Content>
+        <header>RENDAS</header>
+        {rendasPessoa.map((renda) => {
+          return (
+            <FormRenda
+              renda={renda}
+              pessoa={pessoa}
+              handleDeletarRenda={handleDeletarRenda}
+              handleAlterarRenda={handleAlterarRenda}
+            />
+          );
+        })}
+
+        <div className="addFilePessoa">
+          <BtnAddNewDocument onClick={handleCriarRenda}>
+            <div className="buttonAddDocument">
+              <img
+                src={addAttachmentIcon}
+                alt="Imagem do botão de adicionar novo item"
+                style={{ cursor: "pointer" }}
+              />
+              <span>ADICIONAR</span>
+            </div>
+          </BtnAddNewDocument>
+        </div>
+      </Content>
+
+      <Content>
+        <header>DIVIDAS</header>
+        {dividasPessoa.map((divida) => {
+          return (
+            <FormDivida
+              divida={divida}
+              pessoa={pessoa}
+              handleDeletarDivida={handleDeletarDivida}
+              handleAlterarDivida={handleAlterarDivida}
+            />
+          );
+        })}
+
+        <div className="addFilePessoa">
+          <BtnAddNewDocument onClick={handleCriarDivida}>
+            <div className="buttonAddDocument">
+              <img
+                src={addAttachmentIcon}
+                alt="Imagem do botão de adicionar novo item"
+                style={{ cursor: "pointer" }}
+              />
+              <span>ADICIONAR</span>
+            </div>
+          </BtnAddNewDocument>
+        </div>
+      </Content>
+    </>
+  );
+};

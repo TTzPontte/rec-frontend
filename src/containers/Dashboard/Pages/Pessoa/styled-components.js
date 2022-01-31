@@ -7,9 +7,7 @@ export const Container = styled.div`
 `;
 
 export const DivNovaPessoa = styled.div`
-    position: fixed;
-    right: 20px;
-    bottom: 0;
+    float: right;
 `;
 
 export const DivModalNovaPessoa = styled.div`

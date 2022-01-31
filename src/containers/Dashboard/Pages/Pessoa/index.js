@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { CollapsePersonalizado } from "@iso/components";
-import { BlocoPessoaPF } from "./components";
+import { BlocoPessoaPF, BlocoPessoaPJ } from "./components";
 import { Button, Input, Modal, Select } from "antd";
 
 import {
@@ -65,22 +65,24 @@ export default function Pessoa({ uuid }) {
       })
     );
 
-    
     setDocumentosProcesso(documentos);
-    
+
     if (envolvidos.length > 0) setEnvolvidos(envolvidos);
   };
-  
+
   const getProcessoEnvolvidosTipo = async () => {
-    await api.busca("/dm-processo-envolvidos-tipo", setProcessoEnvolvidosTipo);    
-  }
+    await api.busca("/dm-processo-envolvidos-tipo", setProcessoEnvolvidosTipo);
+  };
 
   const getEnvolvidosCallback = useCallback(getEnvolvidos, []);
-  const getProcessoEnvolvidosTipoCallback = useCallback(getProcessoEnvolvidosTipo, []);
+  const getProcessoEnvolvidosTipoCallback = useCallback(
+    getProcessoEnvolvidosTipo,
+    []
+  );
 
   useEffect(() => {
     getEnvolvidosCallback();
-    getProcessoEnvolvidosTipoCallback();    
+    getProcessoEnvolvidosTipoCallback();
   }, [getEnvolvidosCallback, getProcessoEnvolvidosTipoCallback]);
 
   const handleChangePessoa = (pessoa) => {
@@ -102,7 +104,8 @@ export default function Pessoa({ uuid }) {
   };
 
   // Modal PF e PJ
-  const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] = useState(false);
+  const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] =
+    useState(false);
   const novaPessoaHandle = (e) => {
     showModal();
   };
@@ -120,10 +123,15 @@ export default function Pessoa({ uuid }) {
   //
 
   // Modal PF
-  const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] = useState(false);
-  const [valuesPF, setValuesPF] = React.useState({ processo: uuid, pessoaTipo: "PF", });
+  const [isModalNovaPessoaPFVisible, setIsModalNovaPessoaPFVisible] =
+    useState(false);
+  const [valuesPF, setValuesPF] = React.useState({
+    processo: uuid,
+    pessoaTipo: "PF",
+  });
   const [errosPF, setErrosPF] = React.useState(null);
-  const [buttonConcluirPFState, setButtonConcluirPFState] = React.useState(true);
+  const [buttonConcluirPFState, setButtonConcluirPFState] =
+    React.useState(true);
 
   const enableButtonConcluirPF = () => {
     if (
@@ -177,18 +185,22 @@ export default function Pessoa({ uuid }) {
 
   const handlePFConcluir = async () => {
     let response = await api.salvarPessoaNoProcesso(valuesPF);
-    if (typeof response !== 'object' && typeof response === 'string') {
-        setErrosPF(response);
+    if (typeof response !== "object" && typeof response === "string") {
+      setErrosPF(response);
     } else {
-        getEnvolvidos();
-        handlePFCancel();
+      getEnvolvidos();
+      handlePFCancel();
     }
   };
   //
 
   // Modal PJ
-  const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] = useState(false);
-  const [valuesPJ, setValuesPJ] = useState({processo: uuid, pessoaTipo: "PJ",});
+  const [isModalNovaPessoaPJVisible, setIsModalNovaPessoaPJVisible] =
+    useState(false);
+  const [valuesPJ, setValuesPJ] = useState({
+    processo: uuid,
+    pessoaTipo: "PJ",
+  });
   const [errosPJ, setErrosPJ] = React.useState(null);
   const [buttonConcluirPJState, setButtonConcluirPJState] = useState(true);
 
@@ -244,28 +256,36 @@ export default function Pessoa({ uuid }) {
 
   const handlePJConcluir = async () => {
     let response = await api.salvarPessoaNoProcesso(valuesPJ);
-    if (typeof response !== 'object' && typeof response === 'string') {
-        setErrosPJ(response);
+    if (typeof response !== "object" && typeof response === "string") {
+      setErrosPJ(response);
     } else {
-        getEnvolvidos();
-        handlePJCancel();
+      getEnvolvidos();
+      handlePJCancel();
     }
   };
   // end Modals
 
   return (
     <Container>
-      {envolvidos?.length > 0 &&
-        envolvidos.map((envolvido) => {
-          const { pessoa } = envolvido;
+      {envolvidos.map((envolvido, index) => {
+        const { pessoa } = envolvido;
 
-          return (
-            pessoa && (
-              <CollapsePersonalizado
-                title={`PESSOA  |  ${pessoa["razaoSocial"] || pessoa["nome"]}`}
-                key={envolvido.id}
-                startOpen={false}
-              >
+        return (
+          pessoa && (
+            <CollapsePersonalizado
+              title={`PESSOA  |  ${pessoa["razaoSocial"] || pessoa["nome"]}`}
+              key={envolvido.id}
+              startOpen={index === 0 ? true : false}
+            >
+              {!!pessoa.cnpj ? (
+                <BlocoPessoaPJ
+                  processo={processo}
+                  envolvido={envolvido}
+                  handleChangePessoa={handleChangePessoa}
+                  documentosProcesso={documentosProcesso}
+                  handleAddListDocument={handleAddListDocument}
+                />
+              ) : (
                 <BlocoPessoaPF
                   processo={processo}
                   envolvido={envolvido}
@@ -273,10 +293,11 @@ export default function Pessoa({ uuid }) {
                   documentosProcesso={documentosProcesso}
                   handleAddListDocument={handleAddListDocument}
                 />
-              </CollapsePersonalizado>
-            )
-          );
-        })}
+              )}
+            </CollapsePersonalizado>
+          )
+        );
+      })}
       <DivNovaPessoa>
         <IconNovaPessoa
           onClick={novaPessoaHandle}
@@ -309,7 +330,7 @@ export default function Pessoa({ uuid }) {
                   borderStyle: "solid",
                   borderColor: "#d3d3d3",
                   fontSize: "15px",
-                  color: "#5C3B6B",                  
+                  color: "#5C3B6B",
                 }}
               >
                 Pessoa física
@@ -326,7 +347,7 @@ export default function Pessoa({ uuid }) {
                   borderStyle: "solid",
                   borderColor: "#d3d3d3",
                   fontSize: "15px",
-                  color: "#5C3B6B",                  
+                  color: "#5C3B6B",
                 }}
               >
                 Pessoa jurídica
@@ -365,11 +386,17 @@ export default function Pessoa({ uuid }) {
               placeholder="Selecione..."
               style={{ width: 544 }}
             >
-              {processoEnvolvidosTipo?.length > 0 && processoEnvolvidosTipo.map((envolvidoTipo) => {              
+              {processoEnvolvidosTipo?.length > 0 &&
+                processoEnvolvidosTipo.map((envolvidoTipo) => {
                   return (
-                    <Option key={envolvidoTipo.descricao} value={envolvidoTipo.descricao}>{envolvidoTipo.descricao}</Option>
+                    <Option
+                      key={envolvidoTipo.descricao}
+                      value={envolvidoTipo.descricao}
+                    >
+                      {envolvidoTipo.descricao}
+                    </Option>
                   );
-              })}
+                })}
             </Select>
           </DivModalSelectTipoEnvolvimento>
           <IconInputNomeRazaoSocial className="modalNovaPessoa_IconInputNomeRazaoSocial" />
@@ -394,7 +421,9 @@ export default function Pessoa({ uuid }) {
               style={{ width: 544, height: 40 }}
             />
           </DivModalInputCPF>
-          <div style={{marginLeft: '28px', marginTop: '10px'}}><span style={{color: 'red'}}>{errosPF}</span></div>
+          <div style={{ marginLeft: "28px", marginTop: "10px" }}>
+            <span style={{ color: "red" }}>{errosPF}</span>
+          </div>
           <div style={{ marginTop: "10px" }}>
             <Button
               onClick={handlePFCancel}
@@ -444,11 +473,17 @@ export default function Pessoa({ uuid }) {
               placeholder="Selecione..."
               style={{ width: 544 }}
             >
-              {processoEnvolvidosTipo?.length > 0 && processoEnvolvidosTipo.map((envolvidoTipo) => {              
+              {processoEnvolvidosTipo?.length > 0 &&
+                processoEnvolvidosTipo.map((envolvidoTipo) => {
                   return (
-                    <Option key={envolvidoTipo.descricao} value={envolvidoTipo.descricao}>{envolvidoTipo.descricao}</Option>
+                    <Option
+                      key={envolvidoTipo.descricao}
+                      value={envolvidoTipo.descricao}
+                    >
+                      {envolvidoTipo.descricao}
+                    </Option>
                   );
-              })}
+                })}
             </Select>
           </DivModalSelectTipoEnvolvimento>
           <IconInputNomeRazaoSocial className="modalNovaPessoa_IconInputNomeRazaoSocial" />
@@ -473,7 +508,9 @@ export default function Pessoa({ uuid }) {
               style={{ width: 544, height: 40 }}
             />
           </DivModalInputCPF>
-          <div style={{marginLeft: '28px', marginTop: '10px'}}><span style={{color: 'red'}}>{errosPJ}</span></div>
+          <div style={{ marginLeft: "28px", marginTop: "10px" }}>
+            <span style={{ color: "red" }}>{errosPJ}</span>
+          </div>
           <div style={{ marginTop: "10px" }}>
             <Button
               onClick={handlePJCancel}

@@ -1,1 +1,2 @@
-export * from './BlocoPessoaPF'
+export * from "./BlocoPessoaPF";
+export * from "./BlocoPessoaPJ";
