@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import Api from "@iso/api";
 import { groupBy } from "@iso/utils/GroupBy";
 
@@ -314,7 +314,7 @@ export const BlocoPessoaPF = ({
         {pessoa.enderecos.map((endereco, index) => {
           const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
           return (
-            <div key={endereco.uuid || index}>
+            <Fragment key={endereco.uuid || index}>
               <InputPersonalizado
                 texto={`Logradouro${helperText}:`}
                 valorCampo={endereco.logradouro}
@@ -370,7 +370,7 @@ export const BlocoPessoaPF = ({
                   handleOnSaveEndereco(endereco, "bairro", value)
                 }
               />
-            </div>
+            </Fragment>
           );
         })}
       </Content>
