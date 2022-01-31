@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import Api from "@iso/api";
 import { groupBy } from "@iso/utils/GroupBy";
 
@@ -52,6 +52,7 @@ export const BlocoPessoaPJ = ({
   }, [getDocumentoCallback]);
 
   const assignData = (object, key, data) => {
+    console.log(object[key].length === 0);
     if (object[key].length === 0) object[key] = [data];
   };
 
@@ -164,11 +165,11 @@ export const BlocoPessoaPJ = ({
   return (
     <>
       <Content>
-        <header>INFORMAÇÕES DA PESSOA</header>
+        <header>INFORMAÇÕES DA PESSOA JURÍDICA</header>
         <InputPersonalizado
-          texto={"Nome:"}
-          valorCampo={pessoa.nome}
-          onSave={(value) => handleOnSavePessoa("nome", value)}
+          texto={"Razão Social:"}
+          valorCampo={pessoa.razaoSocial}
+          onSave={(value) => handleOnSavePessoa("razaoSocial", value)}
         />
 
         <DropDownDM
@@ -191,8 +192,74 @@ export const BlocoPessoaPJ = ({
           }
         />
 
+        <InputMaskPersonalizado
+          texto={"CNPJ"}
+          valorCampo={pessoa.cnpj}
+          onSave={(value) => {
+            const data = value.replace(/[^0-9]/g, "");
+            handleOnSavePessoa("cnpj", data);
+          }}
+          mask={"99.999.999/9999-99"}
+        />
+
         <InputPersonalizado
-          texto={"E-mail:"}
+          texto={"Ramo de Atividade"}
+          valorCampo={pessoa.ramoAtividade}
+          onSave={(value) => handleOnSavePessoa("ramoAtividade", value)}
+        />
+
+        <InputPersonalizado
+          texto={"Incricão Estadual"}
+          valorCampo={pessoa.inscricaoEstadual}
+          onSave={(value) => handleOnSavePessoa("inscricaoEstadual", value)}
+        />
+
+        <InputPersonalizado
+          texto={"Numero de Funcionários *"}
+          valorCampo={pessoa.numeroFuncionarios}
+          onSave={(value) => handleOnSavePessoa("numeroFuncionarios", value)}
+        />
+
+        <InputPersonalizado
+          texto={"Socios *"}
+          valorCampo={pessoa.socios}
+          onSave={(value) => handleOnSavePessoa("socios", value)}
+        />
+
+        <InputPersonalizado
+          texto={"Representantes *"}
+          valorCampo={pessoa.representantes}
+          onSave={(value) => handleOnSavePessoa("representantes", value)}
+        />
+
+        <InputMaskPersonalizado
+          texto={"Data de Constituição"}
+          valorCampo={
+            pessoa.dataConstituicao
+              ? pessoa.dataConstituicao
+                  .slice(0, 10)
+                  .split("-")
+                  .reverse()
+                  .join("")
+              : ""
+          }
+          onSave={(value) => {
+            const data = value.split("/").reverse().join("-");
+            handleOnSavePessoa("dataConstituicao", data);
+          }}
+          mask={"99/99/9999"}
+        />
+
+        <InputPersonalizado
+          texto={"Registro Junta Comercial"}
+          valorCampo={pessoa.registroJuntaComercial}
+          onSave={(value) =>
+            handleOnSavePessoa("registroJuntaComercial", value)
+          }
+        />
+
+        <InputPersonalizado
+          texto={"Email"}
           valorCampo={pessoa.email}
           iconeLabel={<IconEmail />}
           onSave={(value) => handleOnSavePessoa("email", value)}
@@ -205,116 +272,14 @@ export const BlocoPessoaPJ = ({
             iconeLabel={<IconPhone />}
             onSave={(value) => handleOnSaveTelefone(telefone, value)}
             mask={"(99) 99999-9999"}
-            key={`telefonePF_${index}`}
+            key={`telefonePJ_${index}`}
           />
         ))}
-
-        <InputMaskPersonalizado
-          texto={"Data de Nascimento"}
-          valorCampo={
-            pessoa.dataNascimento
-              ? pessoa.dataNascimento.slice(0, 10).split("-").reverse().join("")
-              : ""
-          }
-          onSave={(value) => {
-            const data = value.split("/").reverse().join("-");
-            handleOnSavePessoa("dataNascimento", data);
-          }}
-          mask={"99/99/9999"}
-        />
-
-        <InputMaskPersonalizado
-          texto={"CPF"}
-          valorCampo={pessoa.cpf}
-          onSave={(value) => {
-            const data = value.replace(/[^0-9]/g, "");
-            handleOnSavePessoa("cpf", data);
-          }}
-          mask={"999.999.999-99"}
-        />
-
-        <InputMaskPersonalizado
-          texto={"RG"}
-          valorCampo={pessoa.rg}
-          onSave={(value) => {
-            const data = value.replace(/[^0-9]/g, "");
-            handleOnSavePessoa("rg", data);
-          }}
-          mask={"99999999-9"}
-        />
-
-        <InputPersonalizado
-          texto={"Orgão Emissor:"}
-          valorCampo={pessoa.orgaoEmissorRg}
-          onSave={(value) =>
-            handleOnSavePessoa("orgaoEmissorRg", value.toUpperCase())
-          }
-        />
-
-        <InputPersonalizado
-          texto={"Nacionalidade:"}
-          valorCampo={pessoa.nacionalidade}
-          onSave={(value) => handleOnSavePessoa("nacionalidade", value)}
-        />
-
-        <DropDownDM
-          title={"Escolaridade:"}
-          initialValue={pessoa.escolaridade}
-          handleSaveItem={(descricao) =>
-            api.addItemDM("dm-escolaridade", { descricao })
-          }
-          handleGetItem={() => api.buscarTabelaDM("dm-escolaridade")}
-          handleSaveProcessInfo={async ({ descricao }) =>
-            handleOnSavePessoa("escolaridade", descricao)
-          }
-        />
-
-        <InputPersonalizado
-          texto={"Nome da mãe:"}
-          valorCampo={pessoa.nomeMae}
-          onSave={(value) => handleOnSavePessoa("nomeMae", value)}
-        />
-
-        <InputPersonalizado
-          texto={"Nome da pai:"}
-          valorCampo={pessoa.nomePai}
-          onSave={(value) => handleOnSavePessoa("nomePai", value)}
-        />
-
-        <InputPersonalizado
-          texto={"Profissão:"}
-          valorCampo={pessoa.profissao}
-          onSave={(value) => handleOnSavePessoa("profissao", value)}
-        />
-
-        <DropDownDM
-          title={"Estado Civil:"}
-          initialValue={pessoa.estadoCivil}
-          handleSaveItem={(descricao) =>
-            api.addItemDM("dm-estado-civil", { descricao })
-          }
-          handleGetItem={() => api.buscarTabelaDM("dm-estado-civil")}
-          handleSaveProcessInfo={async ({ descricao }) =>
-            handleOnSavePessoa("estadoCivil", descricao)
-          }
-        />
-
-        <DropDownDM
-          title={"Regime de União:"}
-          initialValue={pessoa.regimeComunhao}
-          handleSaveItem={(descricao) =>
-            api.addItemDM("dm-regime-uniao", { descricao })
-          }
-          handleGetItem={() => api.buscarTabelaDM("dm-regime-uniao")}
-          handleSaveProcessInfo={async ({ descricao }) =>
-            handleOnSavePessoa("regimeComunhao", descricao)
-          }
-        />
 
         {pessoa.enderecos.map((endereco, index) => {
           const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
           return (
-            <div key={endereco.uuid || index}>
+            <Fragment key={endereco.uuid || index}>
               <InputPersonalizado
                 texto={`Logradouro${helperText}:`}
                 valorCampo={endereco.logradouro}
@@ -370,7 +335,7 @@ export const BlocoPessoaPJ = ({
                   handleOnSaveEndereco(endereco, "bairro", value)
                 }
               />
-            </div>
+            </Fragment>
           );
         })}
       </Content>
