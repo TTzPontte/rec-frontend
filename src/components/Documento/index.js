@@ -55,8 +55,8 @@ export const Documento = ({ title = "", files = [], pessoaId }) => {
         <img src={folderIcon} alt="" />
         <span> {title} </span>
       </Header>
-      {listFile.map((file) => (
-        <File>
+      {listFile.map((file, index) => (
+        <File key={index}>
           <div className="filename">
             <img src={jpgIcon} alt="" />
             <div>{file.nome}</div>

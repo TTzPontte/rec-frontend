@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Api from "@iso/api";
 import { groupBy } from "@iso/utils/GroupBy";
 
@@ -25,13 +25,31 @@ export const BlocoPessoaPF = ({
   documentosProcesso = [],
   handleAddListDocument = (document) => {},
 }) => {
-  const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
-  const [dividasPessoa, setDividasPessoa] = useState(envolvido.pessoa.dividas);
-  const [rendasPessoa, setRendasPessoa] = useState(envolvido.pessoa.rendas);
-
   const api = new Api();
 
   const { pessoa } = envolvido;
+
+  const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
+  const [dividasPessoa, setDividasPessoa] = useState(envolvido.pessoa.dividas);
+  const [rendasPessoa, setRendasPessoa] = useState(envolvido.pessoa.rendas);
+  const [documentosPessoa, setDocumentosPessoa] = useState([]);
+
+  const getDocumentoCallback = useCallback(
+    () =>
+      setDocumentosPessoa(
+        Object.entries(
+          groupBy(
+            documentosProcesso.filter((d) => d.pessoa.id === pessoa.id),
+            "anexoTipo"
+          )
+        )
+      ),
+    [documentosProcesso, pessoa.id]
+  );
+
+  useEffect(() => {
+    getDocumentoCallback();
+  }, [getDocumentoCallback]);
 
   const assignData = (object, key, data) => {
     if (object[key].length === 0) object[key] = [data];
@@ -87,14 +105,6 @@ export const BlocoPessoaPF = ({
           [key]: newValue,
         });
   };
-
-  const handleGetDocumentsByPersonID = (pessoaId) =>
-    Object.entries(
-      groupBy(
-        documentosProcesso.filter((d) => d.pessoa.id === pessoaId),
-        "anexoTipo"
-      )
-    );
 
   const handleCriarDivida = () => {
     api
@@ -188,13 +198,14 @@ export const BlocoPessoaPF = ({
           onSave={(value) => handleOnSavePessoa("email", value)}
         />
 
-        {pessoa.telefones.map((telefone) => (
+        {pessoa.telefones.map((telefone, index) => (
           <InputMaskPersonalizado
             texto={"Telefone"}
             valorCampo={`${telefone.ddd} + ${telefone.numero}`}
             iconeLabel={<IconPhone />}
             onSave={(value) => handleOnSaveTelefone(telefone, value)}
             mask={"(99) 99999-9999"}
+            key={`telefonePF_${index}`}
           />
         ))}
 
@@ -300,10 +311,10 @@ export const BlocoPessoaPF = ({
           }
         />
 
-        {pessoa.enderecos.map((endereco) => {
+        {pessoa.enderecos.map((endereco, index) => {
           const helperText = !!endereco.tipo ? ` | ${endereco.tipo}` : "";
           return (
-            <>
+            <div key={endereco.uuid || index}>
               <InputPersonalizado
                 texto={`Logradouro${helperText}:`}
                 valorCampo={endereco.logradouro}
@@ -359,23 +370,22 @@ export const BlocoPessoaPF = ({
                   handleOnSaveEndereco(endereco, "bairro", value)
                 }
               />
-            </>
+            </div>
           );
         })}
       </Content>
+
       <Content>
         <header>DOCUMENTOS</header>
-        {handleGetDocumentsByPersonID(envolvido.pessoa.id).map(
-          ([title, files]) => (
-            <div className="documentoPessoa">
-              <Documento
-                title={title}
-                files={files}
-                pessoaId={envolvido.pessoa.id}
-              />
-            </div>
-          )
-        )}
+        {documentosPessoa.map(([title, files], index) => (
+          <div className="documentoPessoa" key={`documento_${index}`}>
+            <Documento
+              title={title}
+              files={files}
+              pessoaId={envolvido.pessoa.id}
+            />
+          </div>
+        ))}
         <div>
           <FormDocumento
             visible={isVisibleAddDocument}
@@ -413,6 +423,7 @@ export const BlocoPessoaPF = ({
               pessoa={pessoa}
               handleDeletarRenda={handleDeletarRenda}
               handleAlterarRenda={handleAlterarRenda}
+              key={renda.uuid}
             />
           );
         })}
@@ -440,6 +451,7 @@ export const BlocoPessoaPF = ({
               pessoa={pessoa}
               handleDeletarDivida={handleDeletarDivida}
               handleAlterarDivida={handleAlterarDivida}
+              key={divida.uuid}
             />
           );
         })}

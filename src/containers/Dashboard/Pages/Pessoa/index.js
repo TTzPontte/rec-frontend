@@ -286,7 +286,7 @@ export default function Pessoa({ uuid }) {
                   handleAddListDocument={handleAddListDocument}
                 />
               ) : (
-                <BlocoPessoaPF
+                <BlocoPessoaPF 
                   processo={processo}
                   envolvido={envolvido}
                   handleChangePessoa={handleChangePessoa}
