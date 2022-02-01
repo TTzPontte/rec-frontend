@@ -51,3 +51,33 @@ export const Content = styled.div`
   border-left: solid 4px #5c3b6b;
   border-radius: 5px;
 `;
+
+export const BtnAdd = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  font: normal normal normal 16px/20px;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  border: 0;
+
+  span {
+    padding: 10px;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    color: #2c3faa;
+  }
+
+  .buttonAddDocument {
+    width: 131px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #c3c3d5;
+    border-radius: 4px;
+  }
+`;
