@@ -33,6 +33,7 @@ export const BlocoPessoaPJ = ({
   const [dividasPessoa, setDividasPessoa] = useState(envolvido.pessoa.dividas);
   const [rendasPessoa, setRendasPessoa] = useState(envolvido.pessoa.rendas);
   const [documentosPessoa, setDocumentosPessoa] = useState([]);
+  const [cidades, setCidades] = useState([]);
 
   const getDocumentoCallback = useCallback(
     () =>
@@ -52,7 +53,6 @@ export const BlocoPessoaPJ = ({
   }, [getDocumentoCallback]);
 
   const assignData = (object, key, data) => {
-    console.log(object[key].length === 0);
     if (object[key].length === 0) object[key] = [data];
   };
 
@@ -160,6 +160,13 @@ export const BlocoPessoaPJ = ({
         renda.id === rendaAlterada.id ? rendaAlterada : renda
       )
     );
+  };
+
+  const handleGetCidadesByStateCallback = async (estadoNome) => {
+    const { data } = await api.buscarTabelaDM(
+      `dm-cidade?estado[descricao]=${estadoNome}`
+    );
+    setCidades(data);
   };
 
   return (
@@ -314,15 +321,21 @@ export const BlocoPessoaPJ = ({
                 title={"Estado"}
                 initialValue={endereco.estado}
                 handleGetItem={() => api.buscarTabelaDM("dm-estado")}
-                handleSaveProcessInfo={async ({ descricao }) =>
-                  handleOnSaveEndereco(endereco, "estado", descricao)
-                }
+                handleSaveProcessInfo={async ({ descricao }) => {
+                  handleGetCidadesByStateCallback(descricao);
+                  handleOnSaveEndereco(endereco, "estado", descricao);
+                }}
               />
 
               <DropDownDM
                 title={"Cidade"}
                 initialValue={endereco.cidade}
-                handleGetItem={() => api.buscarTabelaDM("dm-cidade")}
+                handleGetItem={() => {
+                  if (cidades.length === 0)
+                    handleGetCidadesByStateCallback(endereco.estado);
+
+                  return Promise.resolve({ data: cidades });
+                }}
                 handleSaveProcessInfo={async ({ descricao }) =>
                   handleOnSaveEndereco(endereco, "cidade", descricao)
                 }
