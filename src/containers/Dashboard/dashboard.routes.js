@@ -11,6 +11,10 @@ const routes = [
     path: "pessoas",
     component: lazy(() => import("./Pages/Pessoa")),
   },
+  {
+    path: "imovel",
+    component: lazy(() => import("./Pages/Imovel")),
+  },
 ];
 
 export const DashboardRoutes = ({ operacao }) => {
