@@ -18,32 +18,22 @@ import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 export const FormDivida = ({
   divida = {},
-  handleDeletarDivida = () => {},
-  handleAlterarDivida = () => {},
+  handleGetAnexo = () => {},
+  handleSaveDocumentoDivida = () => {},
+  handleOnSaveDivida = () => {},
+  handleExcluirDivida = () => {},
 }) => {
   const api = new Api();
 
   const [arquivo, setArquivo] = useState(null);
 
-  const handleGetAnexo = () =>
-    api.busca(`/pessoa-divida-anexo?pessoaDivida=${divida.id}`, (data) =>
-      setArquivo(data[0])
-    );
-
-  const handleGetAnexoCallback = useCallback(handleGetAnexo, [divida.id]);
+  const handleGetAnexoCallback = useCallback(async () => {
+    handleGetAnexo(divida).then(({data}) => setArquivo(data[0]));
+  }, [divida, handleGetAnexo]);
 
   useEffect(() => {
     handleGetAnexoCallback();
   }, [handleGetAnexoCallback]);
-
-  const handleOnSaveDivida = (key, value) => {
-    api
-      .alterarProcesso(`/pessoa-divida/${divida.id}`, {
-        ...divida,
-        [key]: value,
-      })
-      .then(() => handleAlterarDivida({ ...divida, [key]: value }));
-  };
 
   const handleFileSelect = async () => {
     const fileSelector = buildFileSelector();
@@ -51,30 +41,12 @@ export const FormDivida = ({
     fileSelector.addEventListener("change", async (e) => {
       const file = e.target.files[0];
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("nome", file.name);
-      formData.append("anexoTipo", divida.dividaTipo);
-      formData.append("urlOrigem", window.location.hostname);
-      formData.append("pessoaDividaId", divida.id);
+      const anexo = handleSaveDocumentoDivida(file, divida.dividaTipo);
 
-      if (!!arquivo) await api.deletar(`/pessoa-divida-anexo/${arquivo?.id}`);
-
-      const resultado = await api.salvar("/pessoa-divida-anexo", formData);
-
-      if (resultado.status === 201)
-        setArquivo({ ...resultado.data, fileName: file.name });
+      if (!!anexo) setArquivo({ ...anexo, fileName: file.name });
     });
 
     fileSelector.click();
-  };
-
-  const handleExcluirDivida = async () => {
-    if (!!arquivo) await api.deletar(`/pessoa-divida-anexo/${arquivo?.id}`);
-
-    api
-      .deletar(`/pessoa-divida/${divida.id}`)
-      .then(() => handleDeletarDivida(divida.id));
   };
 
   const handleDownloadDocument = () => {
@@ -94,7 +66,7 @@ export const FormDivida = ({
           <span>Dívida | {divida.dividaTipo}</span>
         </div>
         <TrashDocument
-          onClick={handleExcluirDivida}
+          onClick={() => handleExcluirDivida(arquivo, divida)}
           style={{ cursor: "pointer" }}
         />
       </Header>

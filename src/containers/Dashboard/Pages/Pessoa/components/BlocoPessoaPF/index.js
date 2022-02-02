@@ -138,18 +138,6 @@ export const BlocoPessoaPF = ({
       );
   };
 
-  const handleDeletarDivida = (id) => {
-    setDividasPessoa(dividasPessoa.filter((divida) => divida.id !== id));
-  };
-
-  const handleAlterarDivida = (dividaAlterada) => {
-    setDividasPessoa(
-      dividasPessoa.map((divida) =>
-        divida.id === dividaAlterada.id ? dividaAlterada : divida
-      )
-    );
-  };
-
   const handleDeletarRenda = (id) => {
     setRendasPessoa(rendasPessoa.filter((divida) => divida.id !== id));
   };
@@ -171,17 +159,15 @@ export const BlocoPessoaPF = ({
 
   const handleSaveDocumentoPessoa = async (arquivo, tipoArquivo) => {
     try {
-      const data = new FormData();
+      const formData = new FormData();
 
-      console.log({ arquivo });
+      formData.append("file", arquivo);
+      formData.append("nome", arquivo.name);
+      formData.append("anexoTipo", tipoArquivo);
+      formData.append("urlOrigem", "");
+      formData.append("pessoaId", pessoa.id);
 
-      data.append("file", arquivo);
-      data.append("nome", arquivo.name);
-      data.append("anexoTipo", tipoArquivo);
-      data.append("urlOrigem", "");
-      data.append("pessoaId", pessoa.id);
-
-      const { data: documento } = await api.salvar("pessoa-anexo", data);
+      const { data: documento } = await api.salvar("pessoa-anexo", formData);
 
       handleAddListDocument(documento);
 
@@ -200,6 +186,62 @@ export const BlocoPessoaPF = ({
 
   const handleSaveTipoPessoaAnexo = (descricao) =>
     api.addItemDM("dm-pessoa-anexo-tipo", { descricao });
+
+  // Handles Divida
+
+  const handleSaveDocumentoDivida = async (divida, arquivo, tipoArquivo) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("file", arquivo);
+      formData.append("nome", arquivo.name);
+      formData.append("anexoTipo", tipoArquivo);
+      formData.append("urlOrigem", window.location.hostname);
+      formData.append("pessoaDividaId", divida.id);
+
+      const { data: documento } = await api.salvar(
+        "/pessoa-divida-anexo",
+        formData
+      );
+
+      return documento;
+    } catch (error) {
+      console.log({ error });
+      return;
+    }
+  };
+
+  const handleExcluirDivida = async (arquivo, divida) => {
+    if (!!arquivo) await api.deletar(`/pessoa-divida-anexo/${arquivo.id}`);
+
+    api
+      .deletar(`/pessoa-divida/${divida.id}`)
+      .then(() =>
+        setDividasPessoa(
+          dividasPessoa.filter((dividaPessoa) => dividaPessoa.id !== divida.id)
+        )
+      );
+  };
+
+  const handleAlterarDivida = (dividaAlterada) => {
+    setDividasPessoa(
+      dividasPessoa.map((divida) =>
+        divida.id === dividaAlterada.id ? dividaAlterada : divida
+      )
+    );
+  };
+
+  const handleOnSaveDivida = (divida, key, value) => {
+    api
+      .alterarProcesso(`/pessoa-divida/${divida.id}`, {
+        ...divida,
+        [key]: value,
+      })
+      .then(() => handleAlterarDivida({ ...divida, [key]: value }));
+  };
+
+  const handleGetAnexoDivida = (divida) =>
+    api.buscarProcesso(`/pessoa-divida-anexo?pessoaDivida=${divida.id}`);
 
   return (
     <>
@@ -497,9 +539,14 @@ export const BlocoPessoaPF = ({
           return (
             <FormDivida
               divida={divida}
-              pessoa={pessoa}
-              handleDeletarDivida={handleDeletarDivida}
-              handleAlterarDivida={handleAlterarDivida}
+              handleGetAnexo={() => handleGetAnexoDivida(divida)}
+              handleSaveDocumentoDivida={(arq, tipo) =>
+                handleSaveDocumentoDivida(divida, arq, tipo)
+              }
+              handleOnSaveDivida={(key, value) =>
+                handleOnSaveDivida(divida, key, value)
+              }
+              handleExcluirDivida={handleExcluirDivida}
               key={divida.uuid}
             />
           );
