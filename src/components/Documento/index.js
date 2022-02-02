@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Api from "@iso/api";
-import FormData from "form-data";
 import { buildFileSelector } from "@iso/utils/BuildFileSelector";
 
 import { Container, Header, File, BtnAddFile } from "./styled-component";
@@ -11,7 +10,12 @@ import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 import folderIcon from "@iso/assets/icon-folder.svg";
 import jpgIcon from "@iso/assets/icon-jpg.svg";
 
-export const Documento = ({ title = "", files = [], pessoaId }) => {
+export const Documento = ({
+  title,
+  files,
+  handleSaveDocumento,
+  handleDeleteDocumento,
+}) => {
   const [listFile, setListFile] = useState(files);
 
   const api = new Api();
@@ -25,27 +29,24 @@ export const Documento = ({ title = "", files = [], pessoaId }) => {
   };
 
   const handleDeleteFile = async (id) => {
-    const { status } = await api.deletar(`pessoa-anexo/${id}`);
-    if (status === 200) setListFile(listFile.filter((file) => file.id !== id));
+    handleDeleteDocumento(id).then(() =>
+      setListFile(listFile.filter((file) => file.id !== id))
+    );
   };
 
-  const handleFileSelect = (anexoTipo, pessoaId) => {
+  const handleFileSelect = (anexoTipo) => {
     const fileSelector = buildFileSelector();
 
     fileSelector.addEventListener("change", async (e) => {
       const file = e.target.files[0];
 
-      const data = new FormData();
-      data.append("file", file);
-      data.append("nome", file.name);
-      data.append("anexoTipo", anexoTipo);
-      data.append("urlOrigem", "");
-      data.append("pessoaId", pessoaId);
+      console.log({ original: file });
 
-      const resultado = await api.salvar("pessoa-anexo", data);
+      const anexo = await handleSaveDocumento(file, anexoTipo);
 
-      if (resultado.status === 201) setListFile([...listFile, resultado.data]);
+      setListFile([...listFile, anexo]);
     });
+
     fileSelector.click();
   };
 
@@ -73,7 +74,7 @@ export const Documento = ({ title = "", files = [], pessoaId }) => {
           </div>
         </File>
       ))}
-      <BtnAddFile onClick={() => handleFileSelect(title, pessoaId)}>
+      <BtnAddFile onClick={() => handleFileSelect(title)}>
         <img src={addAttachmentIcon} alt="" />
         <span>Adicionar arquivo</span>
       </BtnAddFile>

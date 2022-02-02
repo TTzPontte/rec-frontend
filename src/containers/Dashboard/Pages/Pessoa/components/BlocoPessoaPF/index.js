@@ -169,6 +169,30 @@ export const BlocoPessoaPF = ({
     setCidades(data);
   };
 
+  const handleSaveDocumentoPessoa = async (arquivo, tipoArquivo) => {
+    try {
+      const data = new FormData();
+
+      console.log({ arquivo });
+
+      data.append("file", arquivo);
+      data.append("nome", arquivo.name);
+      data.append("anexoTipo", tipoArquivo);
+      data.append("urlOrigem", "");
+      data.append("pessoaId", pessoa.id);
+
+      const { data: anexo } = await api.salvar("pessoa-anexo", data);
+
+      return anexo;
+    } catch (error) {
+      console.log({ error });
+      return;
+    }
+  };
+
+  const handleDeleteDocumentoPessoa = async (pessoaAnexoId) =>
+    api.deletar(`pessoa-anexo/${pessoaAnexoId}`);
+
   return (
     <>
       <Content>
@@ -396,7 +420,8 @@ export const BlocoPessoaPF = ({
             <Documento
               title={title}
               files={files}
-              pessoaId={envolvido.pessoa.id}
+              handleSaveDocumento={handleSaveDocumentoPessoa}
+              handleDeleteDocumento={handleDeleteDocumentoPessoa}
             />
           </div>
         ))}
