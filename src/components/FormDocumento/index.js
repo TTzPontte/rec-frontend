@@ -22,10 +22,10 @@ export const FormDocumento = ({
   visible,
   setVisible = () => {},
   initualValue = "",
-  pessoaId,
-  setListDocuments,
+  handleSaveDocumento,
+  handleGetTipoDM,
+  handleSaveTipoDM,
 }) => {
-  const api = new Api();
 
   const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
   const [tipoDocumento, setTipoDocumento] = useState(null);
@@ -59,25 +59,17 @@ export const FormDocumento = ({
   const handleAddDocument = async () => {
     if (!areFilled) return;
 
-    const data = new FormData();
-    data.append("file", arquivoSelecionado);
-    data.append("nome", arquivoSelecionado.name);
-    data.append("anexoTipo", tipoDocumento);
-    data.append("urlOrigem", "");
-    data.append("pessoaId", pessoaId);
+    const anexo = await handleSaveDocumento(arquivoSelecionado, tipoDocumento);
 
-    const resultado = await api.salvar("pessoa-anexo", data);
-
-    if (resultado.status === 201) {
+    if (!!anexo) {
       setVisible(false);
-      setListDocuments(resultado.data);
-      handleReset()
+      handleReset();
     }
   };
 
   const handleDestroyForm = () => {
     setVisible(false);
-    handleReset()
+    handleReset();
   };
 
   return (
@@ -97,12 +89,8 @@ export const FormDocumento = ({
           <DropDownDM
             title={"Tipo"}
             initialValue={tipoDocumento}
-            handleSaveItem={(descricao) =>
-              api.addItemDM("dm-pessoa-anexo-tipo", { descricao })
-            }
-            handleGetItem={async () =>
-              api.buscarTabelaDM("dm-pessoa-anexo-tipo")
-            }
+            handleSaveItem={(descricao) => handleSaveTipoDM(descricao)}
+            handleGetItem={handleGetTipoDM}
             handleSaveProcessInfo={({ descricao }) =>
               setTipoDocumento(descricao)
             }

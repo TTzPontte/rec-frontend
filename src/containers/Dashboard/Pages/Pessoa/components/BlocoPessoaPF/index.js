@@ -23,7 +23,7 @@ export const BlocoPessoaPF = ({
   envolvido = {},
   handleChangePessoa = () => {},
   documentosProcesso = [],
-  handleAddListDocument = (document) => {},
+  handleAddListDocument,
 }) => {
   const api = new Api();
 
@@ -181,9 +181,11 @@ export const BlocoPessoaPF = ({
       data.append("urlOrigem", "");
       data.append("pessoaId", pessoa.id);
 
-      const { data: anexo } = await api.salvar("pessoa-anexo", data);
+      const { data: documento } = await api.salvar("pessoa-anexo", data);
 
-      return anexo;
+      handleAddListDocument(documento);
+
+      return documento;
     } catch (error) {
       console.log({ error });
       return;
@@ -192,6 +194,12 @@ export const BlocoPessoaPF = ({
 
   const handleDeleteDocumentoPessoa = async (pessoaAnexoId) =>
     api.deletar(`pessoa-anexo/${pessoaAnexoId}`);
+
+  const handleGetTipoPessoaAnexo = () =>
+    api.buscarTabelaDM("dm-pessoa-anexo-tipo");
+
+  const handleSaveTipoPessoaAnexo = (descricao) =>
+    api.addItemDM("dm-pessoa-anexo-tipo", { descricao });
 
   return (
     <>
@@ -430,7 +438,9 @@ export const BlocoPessoaPF = ({
             visible={isVisibleAddDocument}
             setVisible={setIsVisibleAddDocument}
             pessoaId={envolvido.pessoa.id}
-            setListDocuments={handleAddListDocument}
+            handleSaveDocumento={handleSaveDocumentoPessoa}
+            handleGetTipoDM={handleGetTipoPessoaAnexo}
+            handleSaveTipoDM={handleSaveTipoPessoaAnexo}
           />
         </div>
         <div className="addFilePessoa">

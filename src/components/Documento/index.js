@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Api from "@iso/api";
 import { buildFileSelector } from "@iso/utils/BuildFileSelector";
 
@@ -17,6 +17,12 @@ export const Documento = ({
   handleDeleteDocumento,
 }) => {
   const [listFile, setListFile] = useState(files);
+
+  const getListFileCallback = useCallback(() => setListFile(files), [files]);
+
+  useEffect(() => {
+    getListFileCallback();
+  }, [getListFileCallback]);
 
   const api = new Api();
 
