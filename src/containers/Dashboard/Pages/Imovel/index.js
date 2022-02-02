@@ -21,6 +21,18 @@ export default function Imovel({ uuid }) {
   const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
   const [documentos, setDocumentos] = useState([]);
 
+  const handleAddListDocumento = (documentosPatrimonio, patrimonio) => {
+    setDocumentos([
+      ...documentos,
+      ...Object.entries(
+        groupBy(
+          documentosPatrimonio.filter((d) => d.patrimonio.id === patrimonio.id),
+          "anexoTipo"
+        )
+      ),
+    ]);
+  };
+
   const api = new Api();
 
   const getImoveis = async () => {
@@ -30,23 +42,12 @@ export default function Imovel({ uuid }) {
       "/processo/".concat(uuid + "/0/1")
     );
 
-    patrimonios.map(({patrimonio}) => {
+    patrimonios.map(({ patrimonio }) => {
       api
         .buscarProcesso(`/patrimonio-anexo?patrimonio=${patrimonio.id}`)
-        .then(({ data: documentosImoveis }) => {
-          console.log({ patrimonio, documentosImoveis });
-          setDocumentos([
-            ...documentos,
-            ...Object.entries(
-              groupBy(
-                documentosImoveis.filter(
-                  (d) => d.patrimonio.id === patrimonio.id
-                ),
-                "anexoTipo"
-              )
-            ),
-          ]);
-        });
+        .then(({ data: documentosPatrimonio }) =>
+          handleAddListDocumento(documentosPatrimonio, patrimonio)
+        );
 
       console.log({ documentos });
     });
@@ -79,6 +80,43 @@ export default function Imovel({ uuid }) {
       );
       */
   };
+
+  const handleSaveDocumentoPatrimonio = async (
+    patrimonio,
+    arquivo,
+    tipoArquivo
+  ) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("file", arquivo);
+      formData.append("nome", arquivo.name);
+      formData.append("anexoTipo", tipoArquivo);
+      formData.append("urlOrigem", "");
+      formData.append("patrimonioId", patrimonio.id);
+
+      const { data: documento } = await api.salvar(
+        "patrimonio-anexo",
+        formData
+      );
+
+      handleAddListDocumento([documento], patrimonio);
+
+      return documento;
+    } catch (error) {
+      console.log({ error });
+      return;
+    }
+  };
+
+  const handleDeleteDocumentoPatrimonio = async (pessoaAnexoId) =>
+    api.deletar(`patrimonio-anexo/${pessoaAnexoId}`);
+
+  const handleGetTipoPatrimonioAnexo = () =>
+    api.buscarTabelaDM("dm-patrimonio-anexo-tipo");
+
+  const handleSaveTipoPatrimonioAnexo = (descricao) =>
+    api.addItemDM("dm-patrimonio-anexo-tipo", { descricao });
 
   return (
     <Container>
@@ -224,15 +262,25 @@ export default function Imovel({ uuid }) {
               <header>DOCUMENTOS</header>
               {documentos.map(([title, files], index) => (
                 <div className="documentoPessoa" key={`documento_${index}`}>
-                  <Documento title={title} files={files} pessoaId={1} />
+                  <Documento
+                    title={title}
+                    files={files}
+                    handleSaveDocumento={(arq, tipo) =>
+                      handleSaveDocumentoPatrimonio(patrimonio, arq, tipo)
+                    }
+                    handleDeleteDocumento={handleDeleteDocumentoPatrimonio}
+                  />
                 </div>
               ))}
               <div>
                 <FormDocumento
                   visible={isVisibleAddDocument}
                   setVisible={setIsVisibleAddDocument}
-                  pessoaId={1}
-                  setListDocuments={() => {}}
+                  handleSaveDocumento={(arq, tipo) =>
+                    handleSaveDocumentoPatrimonio(patrimonio, arq, tipo)
+                  }
+                  handleGetTipoDM={handleGetTipoPatrimonioAnexo}
+                  handleSaveTipoDM={handleSaveTipoPatrimonioAnexo}
                 />
               </div>
               <div className="addFilePessoa">
