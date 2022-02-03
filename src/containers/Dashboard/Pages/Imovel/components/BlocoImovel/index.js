@@ -68,6 +68,8 @@ export const BlocoImovel = ({
         formData
       );
 
+      handleAddListDocument(documento);
+
       return documento;
     } catch (error) {
       console.log({ error });

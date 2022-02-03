@@ -24,7 +24,7 @@ export const Content = styled.div`
 
   .addFilePessoa {
     grid-column: 1/3;
-    grid-row: 5/5;
+    // grid-row: 5/5;
     position: relative;
 
     button {
