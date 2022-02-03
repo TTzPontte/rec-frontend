@@ -155,6 +155,7 @@ export const BlocoPessoaPF = ({
     const { data } = await api.buscarTabelaDM(
       `dm-cidade?estado[descricao]=${estadoNome}`
     );
+    console.log({cidades: data})
     setCidades(data);
   };
 
@@ -440,7 +441,6 @@ export const BlocoPessoaPF = ({
                   handleOnSaveEndereco(endereco, "estado", descricao);
                 }}
               />
-
               <DropDownDM
                 title={"Cidade"}
                 initialValue={endereco.cidade}

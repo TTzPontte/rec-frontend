@@ -47,10 +47,9 @@ export const DropDownDM = ({
     setLastSaveCallback();
   }, [setLastSaveCallback]);
 
-  const handleGetItemDM = () =>
-    handleGetItem().then(({ data }) => setListItem(data));
+  const handleGetItemDM = () => handleGetItem().then(({ data }) => setListItem(data));
 
-  const handleGetItemDMCallback = useCallback(handleGetItemDM, []);
+  const handleGetItemDMCallback = useCallback(handleGetItemDM, [handleGetItem]);
 
   useEffect(() => {
     handleGetItemDMCallback();
