@@ -152,7 +152,7 @@ export const BlocoImovel = ({
         ...divida,
         [key]: value,
       })
-      .then((novaDivida) => handleAlterarDivida(novaDivida));
+      .then(({ data: dividaAlterada }) => handleAlterarDivida(dividaAlterada));
   };
 
   const handleGetAnexoDivida = (divida) =>
