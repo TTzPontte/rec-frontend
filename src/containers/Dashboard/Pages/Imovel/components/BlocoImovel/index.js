@@ -99,9 +99,7 @@ export const BlocoImovel = ({
           id: patrimonio.id,
         },
       })
-      .then(({ data: novaDivida }) =>
-        setDividas([...dividas, novaDivida])
-      );
+      .then(({ data: novaDivida }) => setDividas([...dividas, novaDivida]));
   };
 
   const handleSaveDocumentoDivida = async (divida, arquivo, tipoArquivo) => {
@@ -174,10 +172,16 @@ export const BlocoImovel = ({
       <Content>
         <header>INFORMAÇÕES GERAIS</header>
 
-        <InputPersonalizado
-          texto={"Tipo do imóvel"}
-          valorCampo={patrimonio.categoria}
-          onSave={(value) => handleOnSaveImovel("categoria", value)}
+        <DropDownDM
+          title={"Tipo do imóvel"}
+          initialValue={patrimonio.categoria}
+          handleGetItem={() => api.buscarTabelaDM(`dm-patrimonio-tipo`)}
+          handleSaveItem={(descricao) =>
+            api.addItemDM(`dm-patrimonio-tipo`, { descricao })
+          }
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSaveImovel("categoria", descricao)
+          }
         />
 
         <InputPersonalizado
