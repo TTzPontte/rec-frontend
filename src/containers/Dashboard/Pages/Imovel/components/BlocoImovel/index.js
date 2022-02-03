@@ -186,8 +186,8 @@ export const BlocoImovel = ({
 
         <InputPersonalizado
           texto={"Logradouro"}
-          valorCampo={patrimonio.logradouro}
-          onSave={(value) => handleOnSaveImovel("logradouro", value)}
+          valorCampo={patrimonio.endereco}
+          onSave={(value) => handleOnSaveImovel("endereco", value)}
         />
 
         <InputPersonalizado
