@@ -138,10 +138,6 @@ export const BlocoPessoaPJ = ({
       );
   };
 
-  const handleDeletarDivida = (id) => {
-    setDividasPessoa(dividasPessoa.filter((divida) => divida.id !== id));
-  };
-
   const handleAlterarDivida = (dividaAlterada) => {
     setDividasPessoa(
       dividasPessoa.map((divida) =>

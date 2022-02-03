@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Api from "../../api";
 import { buildFileSelector } from "@iso/utils/BuildFileSelector";
-import FormData from "form-data";
 
 import { DropDownDM } from "@iso/components/";
 
