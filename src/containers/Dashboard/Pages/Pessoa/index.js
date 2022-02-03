@@ -103,6 +103,12 @@ export default function Pessoa({ uuid }) {
     setDocumentosProcesso([...documentosProcesso, item]);
   };
 
+  const handleRemoveListDocument = (anexoId) => {
+    setDocumentosProcesso((documentos) =>
+      documentos.filter((anexo) => anexo.id !== anexoId)
+    );
+  };
+
   // Modal PF e PJ
   const [isModalNovaPessoaVisible, setIsModalNovaPessoaVisible] =
     useState(false);
@@ -284,14 +290,16 @@ export default function Pessoa({ uuid }) {
                   handleChangePessoa={handleChangePessoa}
                   documentosProcesso={documentosProcesso}
                   handleAddListDocument={handleAddListDocument}
+                  handleRemoveListDocument={handleRemoveListDocument}
                 />
               ) : (
-                <BlocoPessoaPF 
+                <BlocoPessoaPF
                   processo={processo}
                   envolvido={envolvido}
                   handleChangePessoa={handleChangePessoa}
                   documentosProcesso={documentosProcesso}
                   handleAddListDocument={handleAddListDocument}
+                  handleRemoveListDocument={handleRemoveListDocument}
                 />
               )}
             </CollapsePersonalizado>

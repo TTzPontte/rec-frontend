@@ -19,11 +19,12 @@ import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
 import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 export const BlocoPessoaPJ = ({
-  processo = {},
-  envolvido = {},
-  handleChangePessoa = () => {},
-  documentosProcesso = [],
-  handleAddListDocument = (document) => {},
+  processo,
+  envolvido,
+  handleChangePessoa,
+  documentosProcesso,
+  handleAddListDocument,
+  handleRemoveListDocument,
 }) => {
   const api = new Api();
 
@@ -187,7 +188,9 @@ export const BlocoPessoaPJ = ({
   };
 
   const handleDeleteDocumentoPessoa = async (pessoaAnexoId) =>
-    api.deletar(`pessoa-anexo/${pessoaAnexoId}`);
+    api
+      .deletar(`pessoa-anexo/${pessoaAnexoId}`)
+      .then(() => handleRemoveListDocument(pessoaAnexoId));
 
   const handleGetTipoPessoaAnexo = () =>
     api.buscarTabelaDM("dm-pessoa-anexo-tipo");

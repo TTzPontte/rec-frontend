@@ -5,7 +5,6 @@ import { groupBy } from "@iso/utils/GroupBy";
 
 import {
   InputPersonalizado,
-  InputMaskPersonalizado,
   Documento,
   FormDocumento,
   FormDivida,
@@ -20,6 +19,7 @@ export const BlocoImovel = ({
   dividasPatrimonio,
   documentosPatrimonio,
   handleAddListDocument,
+  handleRemoveListDocument
 }) => {
   const api = new Api();
   const [dividas, setDividas] = useState([]);
@@ -77,8 +77,10 @@ export const BlocoImovel = ({
     }
   };
 
-  const handleDeleteDocumentoPatrimonio = async (patrimonioAnexoId) =>
-    api.deletar(`patrimonio-anexo/${patrimonioAnexoId}`);
+  const handleDeleteDocumentoPatrimonio = async (patrimonioAnexoId) => {
+    api.deletar(`patrimonio-anexo/${patrimonioAnexoId}`)
+    .then(() => handleRemoveListDocument(patrimonioAnexoId));
+  };
 
   const handleGetTipoPatrimonioAnexo = () =>
     api.buscarTabelaDM("dm-patrimonio-anexo-tipo");

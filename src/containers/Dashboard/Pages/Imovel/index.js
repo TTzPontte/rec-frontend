@@ -64,6 +64,12 @@ export default function Imovel({ uuid }) {
     setDocumentosProcesso([...documentosProcesso, item]);
   };
 
+  const handleRemoveListDocument = (anexoId) => {
+    setDocumentosProcesso((documentos) =>
+      documentos.filter((anexo) => anexo.id !== anexoId)
+    );
+  };
+
   const handleChangePatrimonio = (patrimonio) => {
     setImoveis(
       imoveis.map((imovel) => {
@@ -95,6 +101,7 @@ export default function Imovel({ uuid }) {
                 (d) => d.patrimonio.id === patrimonio.id
               )}
               handleAddListDocument={handleAddListDocument}
+              handleRemoveListDocument={handleRemoveListDocument}
             />
           </CollapsePersonalizado>
         );

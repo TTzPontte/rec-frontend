@@ -24,6 +24,7 @@ export const BlocoPessoaPF = ({
   handleChangePessoa = () => {},
   documentosProcesso = [],
   handleAddListDocument,
+  handleRemoveListDocument,
 }) => {
   const api = new Api();
 
@@ -178,8 +179,11 @@ export const BlocoPessoaPF = ({
     }
   };
 
-  const handleDeleteDocumentoPessoa = async (pessoaAnexoId) =>
-    api.deletar(`pessoa-anexo/${pessoaAnexoId}`);
+  const handleDeleteDocumentoPessoa = async (pessoaAnexoId) => {
+    api
+      .deletar(`pessoa-anexo/${pessoaAnexoId}`)
+      .then(() => handleRemoveListDocument(pessoaAnexoId));
+  };
 
   const handleGetTipoPessoaAnexo = () =>
     api.buscarTabelaDM("dm-pessoa-anexo-tipo");
