@@ -67,9 +67,9 @@ export default function Imovel({ uuid }) {
   const handleChangePatrimonio = (patrimonio) => {
     setImoveis(
       imoveis.map((imovel) => {
-        console.log(imovel, patrimonio);
-        if (imovel.patrimonio?.id === patrimonio.id) {
-          imovel.patrimonio = patrimonio;
+        if (imovel.id === patrimonio.id) {
+          console.log("entrou", imovel.id);
+          imovel = patrimonio;
         }
         return imovel;
       })
