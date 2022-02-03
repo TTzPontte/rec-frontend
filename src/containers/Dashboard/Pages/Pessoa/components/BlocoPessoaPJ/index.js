@@ -304,18 +304,6 @@ export const BlocoPessoaPJ = ({
           onSave={(value) => handleOnSavePessoa("numeroFuncionarios", value)}
         />
 
-        <InputPersonalizado
-          texto={"Socios *"}
-          valorCampo={pessoa.socios}
-          onSave={(value) => handleOnSavePessoa("socios", value)}
-        />
-
-        <InputPersonalizado
-          texto={"Representantes *"}
-          valorCampo={pessoa.representantes}
-          onSave={(value) => handleOnSavePessoa("representantes", value)}
-        />
-
         <InputMaskPersonalizado
           texto={"Data de Constituição"}
           valorCampo={
