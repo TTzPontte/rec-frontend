@@ -161,7 +161,6 @@ export const BlocoImovel = ({
     );
 
   const handleGetCidadesByStateCallback = async (estadoNome) => {
-    console.log({ estadoNome });
     const { data } = await api.buscarTabelaDM(
       `dm-cidade?estado[descricao]=${estadoNome}`
     );
