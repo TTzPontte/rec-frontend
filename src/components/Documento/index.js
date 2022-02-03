@@ -46,10 +46,8 @@ export const Documento = ({
     fileSelector.addEventListener("change", async (e) => {
       const file = e.target.files[0];
 
-      console.log({ original: file });
-
       const anexo = await handleSaveDocumento(file, anexoTipo);
-
+     
       setListFile([...listFile, anexo]);
     });
 

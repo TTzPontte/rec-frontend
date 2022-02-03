@@ -133,7 +133,13 @@ export const BlocoImovel = ({
     }
   };
 
-  const handleAlterarDivida = () => {};
+  const handleAlterarDivida = (dividaAlterada) => {
+    setDividas(
+      dividas.map((divida) =>
+        divida.id === dividaAlterada.id ? dividaAlterada : divida
+      )
+    );
+  };
 
   const handleExcluirDivida = async (arquivo, divida) => {
     if (!!arquivo) await api.deletar(`/patrimonio-divida-anexo/${arquivo.id}`);
@@ -155,11 +161,13 @@ export const BlocoImovel = ({
         ...divida,
         [key]: value,
       })
-      .then(() => handleAlterarDivida({ ...divida, [key]: value }));
+      .then((novaDivida) => handleAlterarDivida(novaDivida));
   };
 
   const handleGetAnexoDivida = (divida) =>
-    api.buscarProcesso(`/patrimonio-divida-anexo?patrimonioDivida=${divida.id}`);
+    api.buscarProcesso(
+      `/patrimonio-divida-anexo?patrimonioDivida=${divida.id}`
+    );
 
   return (
     <>
@@ -291,9 +299,7 @@ export const BlocoImovel = ({
             <Documento
               title={title}
               files={files}
-              handleSaveDocumento={(arq, tipo) =>
-                handleSaveDocumentoPatrimonio(patrimonio, arq, tipo)
-              }
+              handleSaveDocumento={handleSaveDocumentoPatrimonio}
               handleDeleteDocumento={handleDeleteDocumentoPatrimonio}
             />
           </div>
@@ -302,9 +308,7 @@ export const BlocoImovel = ({
           <FormDocumento
             visible={isVisibleAddDocument}
             setVisible={setIsVisibleAddDocument}
-            handleSaveDocumento={(arq, tipo) =>
-              handleSaveDocumentoPatrimonio(patrimonio, arq, tipo)
-            }
+            handleSaveDocumento={handleSaveDocumentoPatrimonio}
             handleGetTipoDM={handleGetTipoPatrimonioAnexo}
             handleSaveTipoDM={handleSaveTipoPatrimonioAnexo}
           />
