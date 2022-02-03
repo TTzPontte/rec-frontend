@@ -9,6 +9,7 @@ import {
   Documento,
   FormDocumento,
   FormDivida,
+  DropDownDM,
 } from "@iso/components";
 
 import { Content, BtnAdd } from "./styled-components";
@@ -24,6 +25,7 @@ export const BlocoImovel = ({
   const [dividas, setDividas] = useState([]);
   const [isVisibleAddDocument, setIsVisibleAddDocument] = useState(false);
   const [documentos, setDocumentos] = useState([]);
+  const [cidades, setCidades] = useState([]);
 
   const getDocumentoCallback = useCallback(
     () =>
@@ -158,6 +160,14 @@ export const BlocoImovel = ({
       `/patrimonio-divida-anexo?patrimonioDivida=${divida.id}`
     );
 
+  const handleGetCidadesByStateCallback = async (estadoNome) => {
+    console.log({ estadoNome });
+    const { data } = await api.buscarTabelaDM(
+      `dm-cidade?estado[descricao]=${estadoNome}`
+    );
+    setCidades(data);
+  };
+
   return (
     <>
       <Content>
@@ -193,16 +203,28 @@ export const BlocoImovel = ({
           onSave={(value) => handleOnSaveImovel("cep", value)}
         />
 
-        <InputPersonalizado
-          texto={"Estado"}
-          valorCampo={patrimonio.estado}
-          onSave={(value) => handleOnSaveImovel("estado", value)}
+        <DropDownDM
+          title={"Estado"}
+          initialValue={patrimonio.estado}
+          handleGetItem={() => api.buscarTabelaDM("dm-estado")}
+          handleSaveProcessInfo={async ({ descricao }) => {
+            handleGetCidadesByStateCallback(descricao);
+            handleOnSaveImovel("estado", descricao);
+          }}
         />
 
-        <InputPersonalizado
-          texto={"Cidade"}
-          valorCampo={patrimonio.cidade}
-          onSave={(value) => handleOnSaveImovel("cidade", value)}
+        <DropDownDM
+          title={"Cidade"}
+          initialValue={patrimonio.cidade}
+          handleGetItem={() => {
+            if (cidades.length === 0)
+              handleGetCidadesByStateCallback(patrimonio.estado);
+
+            return Promise.resolve({ data: cidades });
+          }}
+          handleSaveProcessInfo={async ({ descricao }) =>
+            handleOnSaveImovel("cidade", descricao)
+          }
         />
 
         <InputPersonalizado
