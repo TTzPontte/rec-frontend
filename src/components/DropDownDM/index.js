@@ -20,7 +20,7 @@ import { ReactComponent as IconDropdown } from "../../assets/icon-dropdown.svg";
 import addAttachmentIcon from "../../assets/add-attachment.svg";
 
 export const DropDownDM = ({
-  handleGetItem ,
+  handleGetItem,
   handleSaveItem,
   handleSaveProcessInfo,
   iconLabel = <IconDropdown />,
@@ -47,9 +47,14 @@ export const DropDownDM = ({
     setLastSaveCallback();
   }, [setLastSaveCallback]);
 
-  useEffect(() => {
+  const handleGetItemDM = () =>
     handleGetItem().then(({ data }) => setListItem(data));
-  }, [handleGetItem]);
+
+  const handleGetItemDMCallback = useCallback(handleGetItemDM, []);
+
+  useEffect(() => {
+    handleGetItemDMCallback();
+  }, [handleGetItemDMCallback]);
 
   const handleAddItem = (item) => {
     if (handleSaveItem) {
