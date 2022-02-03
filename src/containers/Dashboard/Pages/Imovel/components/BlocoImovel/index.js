@@ -98,7 +98,7 @@ export const BlocoImovel = ({
         },
       })
       .then(({ data: novaDivida }) =>
-        setDividas([...dividasPatrimonio, novaDivida])
+        setDividas([...dividas, novaDivida])
       );
   };
 
@@ -139,7 +139,7 @@ export const BlocoImovel = ({
       .deletar(`/patrimonio-divida/${divida.id}`)
       .then(() =>
         setDividas(
-          dividasPatrimonio.filter(
+          dividas.filter(
             (dividaPatrimonio) => dividaPatrimonio.id !== divida.id
           )
         )
