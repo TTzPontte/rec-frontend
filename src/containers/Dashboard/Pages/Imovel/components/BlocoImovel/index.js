@@ -250,11 +250,10 @@ export const BlocoImovel = ({
           onSave={(value) => handleOnSaveImovel("cartorioRegistro", value)}
         />
 
-        <InputMaskPersonalizado
+        <InputPersonalizado
           texto={"Área Informada"}
           valorCampo={patrimonio.areaInformada}
           onSave={(value) => handleOnSaveImovel("areaInformada", value)}
-          mask={"30m²"}
         />
 
         <InputPersonalizado
@@ -266,19 +265,21 @@ export const BlocoImovel = ({
         <InputPersonalizado
           texto={"Valor Informado"}
           valorCampo={patrimonio.valorInformado}
-          onSave={(value) => handleOnSaveImovel("valorInformado", value)}
+          onSave={(value) =>
+            handleOnSaveImovel("valorInformado", Number(value))
+          }
         />
 
         <InputPersonalizado
           texto={"Valor Pontte"}
           valorCampo={patrimonio.valorPontte}
-          onSave={(value) => handleOnSaveImovel("valorPontte", value)}
+          onSave={(value) => handleOnSaveImovel("valorPontte", Number(value))}
         />
 
         <InputPersonalizado
           texto={"Valor da Avaliação"}
           valorCampo={patrimonio.valorAvaliado}
-          onSave={(value) => handleOnSaveImovel("valorAvaliado", value)}
+          onSave={(value) => handleOnSaveImovel("valorAvaliado", Number(value))}
         />
       </Content>
 
