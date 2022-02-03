@@ -233,7 +233,7 @@ export const BlocoImovel = ({
         />
 
         <InputPersonalizado
-          texto={"Bairro"}
+          texto={"Bairro *"}
           valorCampo={patrimonio.bairro}
           onSave={(value) => handleOnSaveImovel("bairro", value)}
         />
@@ -242,12 +242,6 @@ export const BlocoImovel = ({
           texto={"Numero da Matricula"}
           valorCampo={patrimonio.numeroMatricula}
           onSave={(value) => handleOnSaveImovel("numeroMatricula", value)}
-        />
-
-        <InputPersonalizado
-          texto={"Cartório de Registro"}
-          valorCampo={patrimonio.cartorioRegistro}
-          onSave={(value) => handleOnSaveImovel("cartorioRegistro", value)}
         />
 
         <InputPersonalizado
