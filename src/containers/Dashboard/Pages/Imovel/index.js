@@ -14,15 +14,16 @@ export default function Imovel({ uuid }) {
   const api = new Api();
 
   const getImoveis = async () => {
-    const { patrimonios } = await api.buscarProcessoByUuid(
+    const { patrimonios: patrimoniosProcesso } = await api.buscarProcessoByUuid(
       "/processo/".concat(uuid + "/0/1")
     );
 
     const documentos = [];
     const dividas = [];
+    const patrimonios = [];
 
     await Promise.all(
-      patrimonios.map(async ({ patrimonio }) => {
+      patrimoniosProcesso.map(async ({ patrimonio }) => {
         const { data } = await api.buscarProcesso(
           `/patrimonio-anexo?patrimonio=${patrimonio.id}`
         );
@@ -31,11 +32,20 @@ export default function Imovel({ uuid }) {
     );
 
     await Promise.all(
-      patrimonios.map(async ({ patrimonio }) => {
+      patrimoniosProcesso.map(async ({ patrimonio }) => {
         const { data } = await api.buscarProcesso(
           `/patrimonio-divida?patrimonio=${patrimonio.id}`
         );
         dividas.push(...data);
+      })
+    );
+
+    await Promise.all(
+      patrimoniosProcesso.map(async ({ patrimonio }) => {
+        const { data } = await api.buscarProcesso(
+          `/patrimonio?id=${patrimonio.id}`
+        );
+        patrimonios.push(...data);
       })
     );
 
@@ -54,9 +64,21 @@ export default function Imovel({ uuid }) {
     setDocumentosProcesso([...documentosProcesso, item]);
   };
 
+  const handleChangePatrimonio = (patrimonio) => {
+    setImoveis(
+      imoveis.map((imovel) => {
+        console.log(imovel, patrimonio);
+        if (imovel.patrimonio?.id === patrimonio.id) {
+          imovel.patrimonio = patrimonio;
+        }
+        return imovel;
+      })
+    );
+  };
+
   return (
     <Container>
-      {imoveis.map(({ patrimonio }, index) => {
+      {imoveis.map((patrimonio, index) => {
         return (
           <CollapsePersonalizado
             title={`IMÓVEL | ${patrimonio["endereco"]} ${patrimonio["numero"]}`}
@@ -65,6 +87,7 @@ export default function Imovel({ uuid }) {
           >
             <BlocoImovel
               patrimonio={patrimonio}
+              handleChangePatrimonio={handleChangePatrimonio}
               documentosPatrimonio={documentosProcesso.filter(
                 (d) => d.patrimonio.id === patrimonio.id
               )}

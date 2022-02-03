@@ -15,6 +15,7 @@ import { Content, BtnAdd } from "./styled-components";
 
 export const BlocoImovel = ({
   patrimonio,
+  handleChangePatrimonio,
   dividasPatrimonio,
   documentosPatrimonio,
   handleAddListDocument,
@@ -40,24 +41,14 @@ export const BlocoImovel = ({
     getDividasCallback();
   }, [getDividasCallback, getDocumentoCallback]);
 
-  const handleOnSaveImovel = (imovel, key, newValue) => {
-    /*if (!newValue) return;
+  const handleOnSaveImovel = (key, newValue) => {
+    if (!newValue) return;
 
-    const imovelAlterado = { ...imovel, [key]: newValue };
+    const patrimonioAlterado = { ...patrimonio, [key]: newValue };
 
     api
-      .alterarProcesso(`/patrimonio/${imovel.id}`, imovelAlterado)
-      .then((imovel) =>
-        setImoveis(
-          imoveis.map((patrimonio) => {
-            if (patrimonio.id === imovel.id) {
-              patrimonio = imovel;
-            }
-            return patrimonio;
-          })
-        )
-      );
-      */
+      .alterarProcesso(`/patrimonio/${patrimonio.id}`, patrimonioAlterado)
+      .then(() => handleChangePatrimonio(patrimonioAlterado));
   };
 
   const handleSaveDocumentoPatrimonio = async (arquivo, tipoArquivo) => {
@@ -74,8 +65,6 @@ export const BlocoImovel = ({
         "patrimonio-anexo",
         formData
       );
-
-      handleAddListDocument(documento);
 
       return documento;
     } catch (error) {
@@ -177,118 +166,98 @@ export const BlocoImovel = ({
         <InputPersonalizado
           texto={"Tipo do imóvel"}
           valorCampo={patrimonio.categoria}
-          onSave={(value) => handleOnSaveImovel(patrimonio, "categoria", value)}
+          onSave={(value) => handleOnSaveImovel("categoria", value)}
         />
 
         <InputPersonalizado
           texto={"Logradouro"}
           valorCampo={patrimonio.logradouro}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "logradouro", value)
-          }
+          onSave={(value) => handleOnSaveImovel("logradouro", value)}
         />
 
         <InputPersonalizado
           texto={"Numero"}
           valorCampo={patrimonio.numero}
-          onSave={(value) => handleOnSaveImovel(patrimonio, "numero", value)}
+          onSave={(value) => handleOnSaveImovel("numero", value)}
         />
 
         <InputPersonalizado
           texto={"Complemento"}
           valorCampo={patrimonio.complemento}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "complemento", value)
-          }
+          onSave={(value) => handleOnSaveImovel("complemento", value)}
         />
 
         <InputPersonalizado
           texto={"CEP"}
           valorCampo={patrimonio.cep}
-          onSave={(value) => handleOnSaveImovel(patrimonio, "cep", value)}
+          onSave={(value) => handleOnSaveImovel("cep", value)}
         />
 
         <InputPersonalizado
           texto={"Estado"}
           valorCampo={patrimonio.estado}
-          onSave={(value) => handleOnSaveImovel(patrimonio, "estado", value)}
+          onSave={(value) => handleOnSaveImovel("estado", value)}
         />
 
         <InputPersonalizado
           texto={"Cidade"}
           valorCampo={patrimonio.cidade}
-          onSave={(value) => handleOnSaveImovel(patrimonio, "cidade", value)}
+          onSave={(value) => handleOnSaveImovel("cidade", value)}
         />
 
         <InputPersonalizado
           texto={"Bairro"}
           valorCampo={patrimonio.bairro}
-          onSave={(value) => handleOnSaveImovel(patrimonio, "bairro", value)}
+          onSave={(value) => handleOnSaveImovel("bairro", value)}
         />
 
         <InputPersonalizado
           texto={"Numero da Matricula"}
           valorCampo={patrimonio.numeroMatricula}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "numeroMatricula", value)
-          }
+          onSave={(value) => handleOnSaveImovel("numeroMatricula", value)}
         />
 
         <InputPersonalizado
           texto={"Cartório de Registro"}
           valorCampo={patrimonio.cartorioRegistro}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "cartorioRegistro", value)
-          }
+          onSave={(value) => handleOnSaveImovel("cartorioRegistro", value)}
         />
 
         <InputPersonalizado
           texto={"Cartório de Registro"}
           valorCampo={patrimonio.cartorioRegistro}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "cartorioRegistro", value)
-          }
+          onSave={(value) => handleOnSaveImovel("cartorioRegistro", value)}
         />
 
         <InputMaskPersonalizado
           texto={"Área Informada"}
           valorCampo={patrimonio.areaInformada}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "areaInformada", value)
-          }
+          onSave={(value) => handleOnSaveImovel("areaInformada", value)}
           mask={"30m²"}
         />
 
         <InputPersonalizado
           texto={"Área Construida"}
           valorCampo={patrimonio.areaConstruida}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "areaConstruida", value)
-          }
+          onSave={(value) => handleOnSaveImovel("areaConstruida", value)}
         />
 
         <InputPersonalizado
           texto={"Valor Informado"}
           valorCampo={patrimonio.valorInformado}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "valorInformado", value)
-          }
+          onSave={(value) => handleOnSaveImovel("valorInformado", value)}
         />
 
         <InputPersonalizado
           texto={"Valor Pontte"}
           valorCampo={patrimonio.valorPontte}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "valorPontte", value)
-          }
+          onSave={(value) => handleOnSaveImovel("valorPontte", value)}
         />
 
         <InputPersonalizado
           texto={"Valor da Avaliação"}
           valorCampo={patrimonio.valorAvaliado}
-          onSave={(value) =>
-            handleOnSaveImovel(patrimonio, "valorAvaliado", value)
-          }
+          onSave={(value) => handleOnSaveImovel("valorAvaliado", value)}
         />
       </Content>
 
