@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.cabecalho {
+  width: 100%;
+  height: 80px;
+}
+
+h1 {
+  padding-left: 100px;
+  color: #5C3B6B;
+}
+
+.labelInput{
+  color: #3B3349 !important;
+}
+  .ant-collapse-header{
+    color: white !important;
+    background: #9D89A6;
+  }
+
+
+.pontilhado {
+  border: solid 1px #E1DFDF;
+  border-left: solid 5px #5C3B6B;
+  border-radius: 5px;
+}
+.conteudo {
+  margin: 15px;
+}
+
+.data {
+  float: right;
+  text-align: right;
+}
+body {
+  background: black;
+  
+}
+
+/* * {
+  font-family: 'Lato Bold' !important;
+} */
+.label {
+  font-size: 16px;
+  color: #000;
+  line-height: 1.5;
+  font-weight: 400;
+  padding: 0;
+  margin: 0 0 5px;
+}
+
+.modalNovaPessoa_botaoCancelar {
+  margin-top: 30px;
+  margin-left: 80px;
+  width: 200px;
+  height: 48px;
+  border: 2px solid #5C3B6B;
+  border-radius: 24px;
+  opacity: 1;
+}
+
+.modalNovaPessoa_botaoConcluir {
+  margin-top: 10px;
+  margin-left: 35px;
+  width: 200px;
+  height: 48px;
+  border: 2px solid #5C3B6B;
+  border-radius: 24px;
+  opacity: 1;
+}
+
+.modalNovaPessoa_IconInputCpfCnpj {
+  width: 14px;
+  height: 14px;
+  margin-left: 28px;
+  margin-top: 24px;  
+  opacity: 1;
+}
