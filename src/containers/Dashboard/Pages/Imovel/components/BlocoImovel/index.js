@@ -177,9 +177,9 @@ export const BlocoImovel = ({
         <DropDownDM
           title={"Tipo do imóvel"}
           initialValue={patrimonio.categoria}
-          handleGetItem={() => api.buscarTabelaDM(`dm-patrimonio-tipo`)}
+          handleGetItem={() => api.buscarTabelaDM(`dm-patrimonio-categoria`)}
           handleSaveItem={(descricao) =>
-            api.addItemDM(`dm-patrimonio-tipo`, { descricao })
+            api.addItemDM(`dm-patrimonio-categoria`, { descricao })
           }
           handleSaveProcessInfo={async ({ descricao }) =>
             handleOnSaveImovel("categoria", descricao)
