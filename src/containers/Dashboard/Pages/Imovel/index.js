@@ -21,7 +21,7 @@ export default function Imovel({ uuid }) {
     const processoImovel = await api.buscarProcessoByUuid(
       "/processo/".concat(uuid + "/0/1")
     );
-    console.log(processoImovel);
+
     const { patrimonios: patrimoniosProcesso } = processoImovel;
 
     const documentos = [];
