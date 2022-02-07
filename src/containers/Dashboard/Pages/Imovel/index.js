@@ -2,21 +2,27 @@ import React, { useCallback, useEffect, useState } from "react";
 import Api from "@iso/api";
 
 import { CollapsePersonalizado } from "@iso/components";
-import { BlocoImovel } from "./components";
+import { BlocoImovel, ModalFormImovel } from "./components";
 
-import { Container } from "./styled-components";
+import { Container, FloatButtonNovoImovel } from "./styled-components";
+
+import { ReactComponent as IconNovaPessoa } from "@iso/assets/button-add.svg";
 
 export default function Imovel({ uuid }) {
   const [imoveis, setImoveis] = useState([]);
+  const [processo, setProcesso] = useState([]);
   const [documentosProcesso, setDocumentosProcesso] = useState([]);
   const [dividasProcesso, setDividasProcesso] = useState([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const api = new Api();
 
   const getImoveis = async () => {
-    const { patrimonios: patrimoniosProcesso } = await api.buscarProcessoByUuid(
+    const processoImovel = await api.buscarProcessoByUuid(
       "/processo/".concat(uuid + "/0/1")
     );
+    console.log(processoImovel);
+    const { patrimonios: patrimoniosProcesso } = processoImovel;
 
     const documentos = [];
     const dividas = [];
@@ -52,6 +58,7 @@ export default function Imovel({ uuid }) {
     setDividasProcesso(dividas);
     setDocumentosProcesso(documentos);
     setImoveis(patrimonios);
+    setProcesso(processoImovel);
   };
 
   const getImoveisCallback = useCallback(getImoveis, []);
@@ -59,6 +66,10 @@ export default function Imovel({ uuid }) {
   useEffect(() => {
     getImoveisCallback();
   }, [getImoveisCallback]);
+
+  const handleAddListPatrimonio = (imovel) => {
+    setImoveis((imoveis) => [...imoveis, imovel]);
+  };
 
   const handleAddListDocument = (item) => {
     setDocumentosProcesso([...documentosProcesso, item]);
@@ -82,12 +93,16 @@ export default function Imovel({ uuid }) {
     );
   };
 
+  const handleOpenCloseModal = () =>
+    setIsOpenModal((isOpenModal) => !isOpenModal);
+
+
   return (
     <Container>
       {imoveis.map((patrimonio, index) => {
         return (
           <CollapsePersonalizado
-            title={`IMÓVEL | ${patrimonio["endereco"]} ${patrimonio["numero"]}`}
+            title={`IMÓVEL | ${patrimonio["endereco"] || ''} ${patrimonio["numero"]}`}
             key={patrimonio.id}
             startOpen={index === 0 ? true : false}
           >
@@ -106,6 +121,19 @@ export default function Imovel({ uuid }) {
           </CollapsePersonalizado>
         );
       })}
+
+      <FloatButtonNovoImovel>
+        <IconNovaPessoa
+          onClick={handleOpenCloseModal}
+          style={{ cursor: "pointer" }}
+        />
+        <ModalFormImovel
+          isVisible={isOpenModal}
+          handleIsDone={handleOpenCloseModal}
+          processo={processo}
+          handleAddListPatrimonio={handleAddListPatrimonio}
+        />
+      </FloatButtonNovoImovel>
     </Container>
   );
 }

@@ -5,3 +5,9 @@ export const Container = styled.div`
   margin: 10px;
   margin-top: 70px;
 `;
+
+export const FloatButtonNovoImovel = styled.div`
+  position: fixed;
+  right: 0;
+  bottom: 0;
+`
