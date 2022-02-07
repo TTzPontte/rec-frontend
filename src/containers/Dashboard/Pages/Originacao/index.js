@@ -22,9 +22,7 @@ import { ReactComponent as IconEmail } from "@iso/assets/icon-email-14x14.svg";
 
 export default function Originacao({ uuid }) {
   const [tiposOperacao] = useState([1, 2]);
-  const [mesAnoSemPagarLista] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-  ]);
+  const [mesAnoSemPagarLista] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,]);
   const [formulaAmortizacao] = useState(["SAC", "PRICE"]);
   const [values, setValues] = React.useState(null);
   const [valuesSimulacao, setValuesSimulacao] = React.useState(null);
@@ -36,16 +34,12 @@ export default function Originacao({ uuid }) {
 
   useEffect(() => {
     async function findByUuid() {
-      let response = await api.buscarProcessoByUuid(
-        "/processo/".concat(uuid + "/0/1")
-      );
+      let response = await api.buscarProcessoByUuid("/processo/".concat(uuid + "/0/1"));
 
       let valorInformadoImovel = 0;
       if (response.patrimonios) {
-        response.patrimonios.map(
-          (arg) =>
-            (valorInformadoImovel =
-              arg.patrimonio.valorInformado + valorInformadoImovel)
+        response.patrimonios.map( (arg) => (
+          valorInformadoImovel = arg.patrimonio.valorInformado + valorInformadoImovel)
         );
       } else {
         response.patrimonios = {};
@@ -93,14 +87,10 @@ export default function Originacao({ uuid }) {
     const auxValuesSimulacao = { ...valuesSimulacao };
 
     if (auxValues.valorSolicitado)
-      auxValues["valorSolicitado"] = Number(
-        auxValues.valorSolicitado.toString().replace(",", ".")
-      );
+      auxValues["valorSolicitado"] = Number(auxValues.valorSolicitado.toString().replace(",", "."));
 
     if (auxValuesSimulacao.rendaMensal)
-      auxValuesSimulacao["rendaMensal"] = Number(
-        auxValuesSimulacao.rendaMensal.toString().replace(",", ".")
-      );
+      auxValuesSimulacao["rendaMensal"] = Number(auxValuesSimulacao.rendaMensal.toString().replace(",", "."));
 
     const consultor = { ...valuesConsultor, parceiro: valuesConsultorParceiro };
 
@@ -113,10 +103,7 @@ export default function Originacao({ uuid }) {
     console.log(formValues);
     async function submit() {
       try {
-        const response = await api.alterarProcesso(
-          `/processo/${formValues.id}`,
-          formValues
-        );
+        const response = await api.alterarProcesso(`/processo/${formValues.id}`, formValues);
         console.log("response");
         console.log(response);
         if (response.data.returnCode === 200) {
@@ -413,7 +400,7 @@ export default function Originacao({ uuid }) {
                         iconeLabel={<IconTextNumber />}
                         onSave={onSave}
                         handleChange={handleInputChange}
-                        idCampo="texto"
+                        idCampo="processoAnexoInformacoesAdicionais"
                       />
                     </Col>
                   </Row>
