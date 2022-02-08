@@ -31,7 +31,9 @@ export const Documento = ({
 
     const filename = lastElement(url.split("/"));
 
-    api.downloadFile(url, filename);
+    const pathname = new URL(url).pathname.substring(1);
+
+    api.downloadFile(pathname, filename);
   };
 
   const handleDeleteFile = async (id) => {
@@ -47,7 +49,7 @@ export const Documento = ({
       const file = e.target.files[0];
 
       const anexo = await handleSaveDocumento(file, anexoTipo);
-     
+
       setListFile([...listFile, anexo]);
     });
 

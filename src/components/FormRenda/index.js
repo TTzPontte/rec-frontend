@@ -74,11 +74,17 @@ export const FormRenda = ({
   };
 
   const handleDownloadDocument = () => {
+    if(!arquivo) return null;
+   
     const url = arquivo.url;
+
     const lastElement = (arr) => arr[arr.length - 1];
+
     const filename = lastElement(url.split("/"));
 
-    api.downloadFile(url, filename);
+    const pathname = new URL(url).pathname.substring(1);
+    
+    api.downloadFile(pathname, filename);
   };
 
   return (

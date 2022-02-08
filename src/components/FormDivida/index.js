@@ -18,10 +18,10 @@ import addAttachmentIcon from "@iso/assets/add-attachment.svg";
 
 export const FormDivida = ({
   divida = {},
-  handleGetAnexo = () => {},
-  handleSaveDocumentoDivida = () => {},
-  handleOnSaveDivida = () => {},
-  handleExcluirDivida = () => {},
+  handleGetAnexo,
+  handleSaveDocumentoDivida,
+  handleOnSaveDivida,
+  handleExcluirDivida,
 }) => {
   const api = new Api();
 
@@ -41,7 +41,7 @@ export const FormDivida = ({
     fileSelector.addEventListener("change", async (e) => {
       const file = e.target.files[0];
 
-      const anexo = handleSaveDocumentoDivida(file, divida.dividaTipo);
+      const anexo = await handleSaveDocumentoDivida(file, divida.dividaTipo);
 
       if (!!anexo) setArquivo({ ...anexo, fileName: file.name });
     });
@@ -49,13 +49,19 @@ export const FormDivida = ({
     fileSelector.click();
   };
 
-  const handleDownloadDocument = () => {
-    console.log(arquivo);
+
+  const handleDownloadDocument = () => {    
+    if(!arquivo) return null;
+   
     const url = arquivo.url;
+
     const lastElement = (arr) => arr[arr.length - 1];
+
     const filename = lastElement(url.split("/"));
 
-    api.downloadFile(url, filename);
+    const pathname = new URL(url).pathname.substring(1);
+    
+    api.downloadFile(pathname, filename);
   };
 
   return (
